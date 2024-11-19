@@ -1,0 +1,6 @@
+.vs/**
+SpaceInvaders/bin/**
+SpaceInvaders/obj/**
+SpaceInvaders/.config/**
+SpaceInvaders/Content/obj/**
+SpaceInvaders/Content/bin/**
