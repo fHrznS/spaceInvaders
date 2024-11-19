@@ -7,7 +7,7 @@ using SpaceInvaders.Utils;
 namespace SpaceInvaders.Entities {
     internal class Player : BasicObject {
         internal int health = 3;
-        private int maxBullets = 1;
+        internal int maxBullets = 1;
         public Rectangle sourceRect = new(0, 0, 16, 16);
 
         internal void Update() {
