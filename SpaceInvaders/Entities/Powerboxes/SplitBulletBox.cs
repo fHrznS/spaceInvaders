@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvaders.Entities.Powerboxes {
-    internal class HealBox : Powerbox {
-        public HealBox(Vector2 position, Texture2D sprite, int fallTimer, int id) {
+    internal class SplitBulletBox : Powerbox {
+        public SplitBulletBox(Vector2 position, Texture2D sprite, int fallTimer, int id) {
             this.id = id;
             this.position = position;
             fallTimerReset = fallTimer;
@@ -14,7 +14,7 @@ namespace SpaceInvaders.Entities.Powerboxes {
         }
 
         internal override void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(sprite, position, frameSource, Color.White);
+            spriteBatch.Draw(sprite, position, Color.White);
         }
     }
 }

@@ -8,6 +8,8 @@ namespace SpaceInvaders.Entities {
     internal class Player : BasicObject {
         internal int health = 3;
         internal int maxBullets = 1;
+        internal bool splitBullet = false;
+
         public Rectangle sourceRect = new(0, 0, 16, 16);
 
         internal void Update() {
@@ -31,7 +33,13 @@ namespace SpaceInvaders.Entities {
         void canShoot() {
             if (MainGame.input == MainGame.previousInput) { return; }
             if (MainGame.input.IsKeyDown(Keys.Z) && Bullet.bulletCount != maxBullets) {
-                MainGame.newPlayerBullet((int)position.X);
+                if (maxBullets - Bullet.bulletCount >= 2 && splitBullet) {
+                    MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f, -5));
+                    MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f, -5));
+                    Bullet.bulletCount++;
+                } else {
+                    MainGame.newPlayerBullet((int)position.X, new Vector2(0, -5));
+                }
                 Bullet.bulletCount++;
             }
         }

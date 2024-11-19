@@ -9,7 +9,26 @@ namespace SpaceInvaders.Entities.Powerboxes {
             nextFrameTimerReset = 30;
         internal int fallTimer, fallTimerReset;
 
-        abstract internal void Update();
+        internal void Update() {
+            nextFrameTimer--;
+            fallTimer--;
+            hitbox.Location = position.ToPoint();
+
+            if (nextFrameTimer == 0) {
+                nextFrameTimer = nextFrameTimerReset;
+
+                if (frame == 5) {
+                    frame = -1;
+                }
+                frame++;
+                frameSource.Location = new Point(16 * frame, 0);
+            }
+
+            if (fallTimer == 0) {
+                fallTimer = fallTimerReset;
+                position.Y += 8;
+            }
+        }
         abstract internal void Draw(SpriteBatch spriteBatch);
     }
 }

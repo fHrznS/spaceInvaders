@@ -228,9 +228,10 @@ namespace SpaceInvaders.Scenes {
                             player.health++;
                             player.updateSprite();
                         }
-                    }
-                    if (powerbox.GetType() == typeof(BulletBox)) {
+                    } else if (powerbox.GetType() == typeof(BulletBox)) {
                         player.maxBullets++;
+                    } else if (powerbox.GetType() == typeof(SplitBulletBox)) {
+                        player.splitBullet = true;
                     }
 
                     powerboxes.Remove(powerboxes.Find(x => x.id == powerbox.id));
@@ -328,26 +329,31 @@ namespace SpaceInvaders.Scenes {
 
             if (powerboxSummonTimer == 0) {
                 powerboxSummonTimer = rng.Next(5400, 10800); // 1.5 min, 3 min
-                int boxToSummon = rng.Next(1,3);
+                int boxToSummon = rng.Next(1,4);
                 int boxXPos = rng.Next(3, 141);
 
-                switch (boxToSummon) {
-                    case 1:
-                        powerboxes.Add(new HealBox(
-                            new(boxXPos, -16),
-                            Content.Load<Texture2D>("Powerbox/Heal"),
-                            60,
-                            id));
-                        id++;
-                        break;
-                    case 2:
-                        powerboxes.Add(new BulletBox(
-                            new(boxXPos, -16),
-                            Content.Load<Texture2D>("Powerbox/Bullet"),
-                            60,
-                            id));
-                        id++;
-                        break;
+                if (boxToSummon == 1 && player.health != 3) {
+                    powerboxes.Add(new HealBox(
+                        new(boxXPos, -16),
+                        Content.Load<Texture2D>("Powerbox/Heal"),
+                        60,
+                        id));
+                    id++;
+                }
+                else if (boxToSummon == 2 && player.maxBullets < wave / 5) {
+                    powerboxes.Add(new BulletBox(
+                        new(boxXPos, -16),
+                        Content.Load<Texture2D>("Powerbox/Bullet"),
+                        20,
+                        id));
+                    id++;
+                } else if (boxToSummon == 3 && player.maxBullets > 2) {
+                    powerboxes.Add(new SplitBulletBox(
+                        new(boxXPos, -16),
+                        Content.Load<Texture2D>("Powerbox/BulletSplit"),
+                        30,
+                        id));
+                    id++;
                 }
             }
         
@@ -361,8 +367,8 @@ namespace SpaceInvaders.Scenes {
 
 
         // Code to spawn new bullet
-        static internal void newPlayerBullet(int xPosition) {
-            bullets.Add(new(position: new(xPosition, 160), new(2,8), direction: new(0,-5), Content.Load<Texture2D>("Bullet"), id));
+        static internal void newPlayerBullet(int xPosition, Vector2 direction) {
+            bullets.Add(new(position: new(xPosition, 160), new(2,8), direction: direction, Content.Load<Texture2D>("Bullet"), id));
             id++;
         }
         static internal void newEnemyBullet(Vector2 position, Vector2 direction, string type) {
