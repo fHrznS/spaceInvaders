@@ -7,6 +7,7 @@ namespace SpaceInvaders.Entities.Powerboxes {
         internal int frame = 0, // 6 Frames, 0-5
             nextFrameTimer = 30,
             nextFrameTimerReset = 30;
+        internal int fallTimer, fallTimerReset;
 
         abstract internal void Update();
         abstract internal void Draw(SpriteBatch spriteBatch);

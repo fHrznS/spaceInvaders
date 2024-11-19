@@ -39,8 +39,12 @@ namespace SpaceInvaders.Entities {
         internal void registerDamage() {
             health--;
 
+            updateSprite();
+        }
+        internal void updateSprite() {
             sourceRect.Location = new(16 * 3 - 16 * health, 0);
         }
+
         internal void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Draw(sprite, position, sourceRect, Color.White);
         }

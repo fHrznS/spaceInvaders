@@ -15,7 +15,7 @@ namespace SpaceInvaders.Entities.Bosses {
             center = new(position.X + 32, position.Y+24);
             hitbox = new(56,5,48,28);
             
-            maxHealth = 5 * wave;
+            maxHealth = 6 * (wave + 1);
             health = maxHealth;
             attackTimerReset = 60 * 10;
             attackTimer = attackTimerReset;
