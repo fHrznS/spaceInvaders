@@ -17,6 +17,7 @@ namespace SpaceInvaders.Scenes {
         static internal KeyboardState previousInput;
         static ContentManager Content;
 
+        Background background;
         SpriteFont text;
 
         Player player = new();
@@ -58,7 +59,9 @@ namespace SpaceInvaders.Scenes {
             player.sprite = Content.Load<Texture2D>("ShipSprites/normal");
             player.position = new Vector2(72, 160);
             player.hitbox = new(0, 0, 14, 14);
-            
+
+            // Define Background
+            background = new(Content.Load<Texture2D>("Background"), new(-41, -48));
             
             Alien.count = 0;
             Bullet.bulletCount = 0;
@@ -420,6 +423,8 @@ namespace SpaceInvaders.Scenes {
         }
 
         void IScene.Draw(SpriteBatch spriteBatch) {
+            spriteBatch.Draw(background.sprite, background.position, Color.White);
+
             foreach (Alien alien in aliens) {
                 alien.Draw(spriteBatch);
             }
