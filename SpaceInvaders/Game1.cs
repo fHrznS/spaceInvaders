@@ -139,10 +139,9 @@ namespace SpaceInvaders {
 
 
 // TODO:
-// 1. Basic Boss
-// 2. Powerups
 // 3. Free enemies (Not stuck to batch)
 // 4. Moving BG
 // 5. Differently sized (width) batches, and movability.
-// 6. Music and sounds
-// 7. More animations
+// 6. More bosses
+// 7. Music and sounds
+// 8. More animations

@@ -33,6 +33,7 @@ namespace SpaceInvaders.Scenes {
 
         private int finalWave = 20;
         private int highestAlienType = 2;
+        private int freeEnemySpawnTimer, freeEnemySpawnTimerReset;
 
         string[] waves = new string[5];
         int[] waveHeight = new int[5];
@@ -68,13 +69,13 @@ namespace SpaceInvaders.Scenes {
             
             // Declare what each wave has for enemies
             // This is only used for the first 5 waves due to me not wanting to hardcode all the waves.
-            waves[0] = "           11     1111  11111111";
+            waves[0] = "   11     1111   111111 ";
             waves[1] = "111   111  11  11 1  1 1 111111 ";
             waves[2] = "11  2 1111 2  1111  2 1111 2  11";
             waves[3] = "122  221  2112  12121212 2 2 2 2";
             waves[4] = "        21222212";
 
-            waveHeight[0] = 4;
+            waveHeight[0] = 3;
             waveHeight[1] = 4;
             waveHeight[2] = 4;
             waveHeight[3] = 4;
@@ -87,6 +88,8 @@ namespace SpaceInvaders.Scenes {
             newEnemyBatch();
 
             powerboxSummonTimer = rng.Next(1800, 3600*2); // 30 secs, 2 mins
+            freeEnemySpawnTimerReset = 60;
+            freeEnemySpawnTimer = freeEnemySpawnTimerReset;
 
             previousInput = Keyboard.GetState();
         }
@@ -139,7 +142,15 @@ namespace SpaceInvaders.Scenes {
                 highestAlienType = 3;
             }
 
+            if (wave > 15) {
+                freeEnemySpawnTimer--;
 
+                if (freeEnemySpawnTimer == 0) {
+                    //aliens.Add();
+
+                    freeEnemySpawnTimer = freeEnemySpawnTimerReset;
+                }
+            }
         }
         
         void UpdateEntities(GameTime gameTime) {
@@ -232,6 +243,8 @@ namespace SpaceInvaders.Scenes {
                         player.maxBullets++;
                     } else if (powerbox.GetType() == typeof(SplitBulletBox)) {
                         player.splitBullet = true;
+                    } else if (powerbox.GetType() == typeof(BulletSpeedBox)) {
+                        player.bulletSpeed -= 2;
                     }
 
                     powerboxes.Remove(powerboxes.Find(x => x.id == powerbox.id));
@@ -300,21 +313,7 @@ namespace SpaceInvaders.Scenes {
 
                     if (rng.Next(0,chanceOfEmpty) == 1) { continue; }
 
-                    switch (type) {
-                        case 1:
-                        case 2:
-                            aliens.Add(new BasicAlien(type,
-                                new Vector2(16 + 16 * x, -64 + 16 * y),
-                                new Rectangle(2, 2, 11, 11),
-                                id));
-                            break;
-                        case 3:
-                            aliens.Add(new BoltAlien(type,
-                            new Vector2(16 + 16 * x, -64 + 16 * y),
-                            new Rectangle(2, 2, 11, 11),
-                            id));
-                            break;
-                    }
+                    createEnemy(x,y,type,false);
 
                     aliens.Last().sprite = Content.Load<Texture2D>(aliens.Last().getTextureName());
                     Alien.count++;
@@ -323,24 +322,46 @@ namespace SpaceInvaders.Scenes {
             }
         }
 
-        // Powerbox Summon code
+        void createEnemy(int xPos, int yPos, int type, bool free = false) {
+            switch (type) {
+                case 1:
+                case 2:
+                    aliens.Add(new BasicAlien(type,
+                        new Vector2(16 + 16 * xPos, -64 + 16 * yPos),
+                        new Rectangle(2, 2, 11, 11),
+                        id));
+                    break;
+                case 3:
+                    aliens.Add(new BoltAlien(type,
+                    new Vector2(16 + 16 * xPos, -64 + 16 * yPos),
+                    new Rectangle(2, 2, 11, 11),
+                    id));
+                    break;
+            }
+        }
+
+        // Powerbox code
         void CheckPowerbox() {
             powerboxSummonTimer--;
 
             if (powerboxSummonTimer == 0) {
                 powerboxSummonTimer = rng.Next(5400, 10800); // 1.5 min, 3 min
-                int boxToSummon = rng.Next(1,4);
+                int minUpgrade = 1;
+                if (player.health == 3) {
+                    minUpgrade += 1;
+                }
+
+                int boxToSummon = rng.Next(minUpgrade,5);
                 int boxXPos = rng.Next(3, 141);
 
-                if (boxToSummon == 1 && player.health != 3) {
+                if (boxToSummon == 1) {
                     powerboxes.Add(new HealBox(
                         new(boxXPos, -16),
                         Content.Load<Texture2D>("Powerbox/Heal"),
                         60,
                         id));
                     id++;
-                }
-                else if (boxToSummon == 2 && player.maxBullets < wave / 5) {
+                } else if (boxToSummon == 2 && player.maxBullets < wave / 5) {
                     powerboxes.Add(new BulletBox(
                         new(boxXPos, -16),
                         Content.Load<Texture2D>("Powerbox/Bullet"),
@@ -354,9 +375,16 @@ namespace SpaceInvaders.Scenes {
                         30,
                         id));
                     id++;
+                } else {
+                    powerboxes.Add(new BulletSpeedBox(
+                        new(boxXPos, -16),
+                        Content.Load<Texture2D>("Powerbox/BulletSpeed"),
+                        30,
+                        id));
+                    id++;
                 }
-            }
-        
+            } 
+            
             foreach (Powerbox powerbox in powerboxes) {
                 if (powerbox.position.Y > 192) {
                     powerboxes.Remove(powerboxes.Find(x => x.id == powerbox.id));

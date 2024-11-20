@@ -4,8 +4,9 @@ using System;
 
 namespace SpaceInvaders.Entities {
     internal abstract class Alien : BasicObject {
-        private Random rng = new();
+        internal Random rng = new();
         internal int type;
+        internal bool free;
         internal int shootTimer, shootTimerReset;
         internal int timer, timerReset = 60 * 2;
         public int gridPosition = 0;

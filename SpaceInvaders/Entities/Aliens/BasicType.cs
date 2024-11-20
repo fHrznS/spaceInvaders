@@ -1,14 +1,16 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System;
+using SpaceInvaders.Utils;
+using System.Runtime.CompilerServices;
 
 namespace SpaceInvaders.Entities.Aliens {
     internal class BasicAlien : Alien {
         bool canShoot;
-        Random rng = new();
 
-        public BasicAlien(int alienType, Vector2 startPosition, Rectangle hitbox, int id) {
+        public BasicAlien(int alienType, Vector2 startPosition, Rectangle hitbox, int id, bool free=false) {
             type = alienType;
+            this.free = free;
             this.id = id;
 
             shootTimerReset = rng.Next(180 * type, 330 * type);
@@ -32,9 +34,15 @@ namespace SpaceInvaders.Entities.Aliens {
             offscreenBools();
 
             if (timer == 0) {
-                if (gridPosition == 2 || gridPosition == -2) {
-                    direction.X *= -1;
-                    position.Y += 16 * direction.Y;
+                if (free) {
+                    if (position.X == 16 || position.X == Globals.screenWidth - 16) {
+                        direction.X *= 1;
+                    }
+                } else {
+                    if (gridPosition == 2 || gridPosition == -2) {
+                        direction.X *= -1;
+                        position.Y += 16 * direction.Y;
+                    }
                 }
 
                 position.X += 8 * direction.X;

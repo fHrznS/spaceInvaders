@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace SpaceInvaders.Entities.Powerboxes {
-    internal class SplitBulletBox : Powerbox {
-        public SplitBulletBox(Vector2 position, Texture2D sprite, int fallTimer, int id) {
+    internal class BulletSpeedBox : Powerbox {
+        public BulletSpeedBox(Vector2 position, Texture2D sprite, int fallTimer, int id) {
             this.id = id;
             this.position = position;
             fallTimerReset = fallTimer;
@@ -12,7 +12,6 @@ namespace SpaceInvaders.Entities.Powerboxes {
 
             hitbox = new(position.ToPoint(), new(16, 16));
         }
-
         internal override void Draw(SpriteBatch spriteBatch) {
             spriteBatch.Draw(sprite, position, frameSource, Color.White);
         }

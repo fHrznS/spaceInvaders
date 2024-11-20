@@ -15,3 +15,17 @@ namespace SpaceInvaders.Entities.Bosses {
         abstract internal void Draw(SpriteBatch spriteBatch);
     }
 }
+
+// List of possible planned Bosses
+/*
+ Zhyron [DONE]
+
+ Gabriel - More enemies, low health, decent fire rate.
+ Seraphim - One shot bullets, slow bullets.
+ Lilith - Bullet Hell
+ Adam & Eve - 2 Bosses as 1
+ The Mothership - Tons of HP, summons previous bosses.
+ Calamitas - Survival boss
+
+ Secret: Judgement - 1 shot bullet hell, tons of HP, summons old bosses.
+*/
