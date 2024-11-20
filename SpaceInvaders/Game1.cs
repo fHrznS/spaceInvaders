@@ -139,7 +139,7 @@ namespace SpaceInvaders {
 
 
 // TODO:
-// 3. Free enemies (Not stuck to batch)
+// 3. Free enemies (Not stuck to batch) [Maybe?]
 // 4. Moving BG
 // 5. Differently sized (width) batches, and movability.
 // 6. More bosses

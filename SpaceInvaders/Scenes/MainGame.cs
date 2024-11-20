@@ -146,7 +146,10 @@ namespace SpaceInvaders.Scenes {
                 freeEnemySpawnTimer--;
 
                 if (freeEnemySpawnTimer == 0) {
-                    //aliens.Add();
+                    int type = rng.Next(1, highestAlienType + 1);
+                    int xPos = rng.Next(16, Globals.screenWidth - 16);
+
+                    createEnemy(xPos, -16, type, free: true);
 
                     freeEnemySpawnTimer = freeEnemySpawnTimerReset;
                 }
