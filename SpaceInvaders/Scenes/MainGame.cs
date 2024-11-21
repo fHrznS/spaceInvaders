@@ -129,7 +129,7 @@ namespace SpaceInvaders.Scenes {
                     if (wave == 4) {
                         currentBoss = new Zhyron(Content.Load<Texture2D>("BossSprites/Zhyron"), wave);
                     }
-                    if (wave == 1) {
+                    if (wave == 19) {
                         currentBoss = new Seraphim(Content.Load<Texture2D>("BossSprites/Seraphim"), wave);
                     }
 

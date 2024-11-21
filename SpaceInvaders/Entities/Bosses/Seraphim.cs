@@ -36,7 +36,12 @@ namespace SpaceInvaders.Entities.Bosses {
 
             if (attackTimer <= 60*15 && attackTimer >= 60 * 10 && attackTimer % 20 == 0) {
                 MainGame.newEnemyBullet(position: new(80, 68),
-                    direction: new((float)(rng.Next(-3, 3) * rng.NextDouble()), 2.5f), "2", bossBullet: true, damage: 3);
+                    direction: new((float)(rng.Next(-3, 3) * rng.NextDouble()), 1.5f), "2", bossBullet: true, damage: 3);
+            }
+
+            if (attackTimer <= 60 * 5 && attackTimer % 30 == 0) {
+                MainGame.newEnemyBullet(position: new(-8, rng.Next(50,100)),
+                    direction: new(1, rng.Next(1,3)), "2", bossBullet: true, damage: 3);
             }
 
             if (attackTimer == 0) {
