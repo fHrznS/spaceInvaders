@@ -45,9 +45,10 @@ namespace SpaceInvaders.Entities {
             }
         }
 
-        internal void registerDamage() {
-            health--;
+        internal void registerDamage(int damage) {
+            health -= damage;
 
+            if (health < 0) { health = 0; }
             updateSprite();
         }
         internal void updateSprite() {

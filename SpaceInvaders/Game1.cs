@@ -139,8 +139,10 @@ namespace SpaceInvaders {
 
 
 // TODO:
-// 4. Moving BG [Partial]
 // 5. More bosses
 // 6. Music and sounds
-// 7. Differently sized (width) batches, and movability.
-// 8. More animations
+// 7. Particles
+// 8. Differently sized (width) batches, and movability. [*Extra]
+// 9. More animations
+
+// 4. Moving BG [Partial] [To be fixed later]

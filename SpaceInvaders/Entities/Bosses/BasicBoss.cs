@@ -8,6 +8,7 @@ namespace SpaceInvaders.Entities.Bosses {
             attackTimer, attackTimerReset;
         internal Vector2 position;
         internal Rectangle hitbox;
+        internal Point hitboxOffset;
         internal Texture2D sprite;
         internal bool disableEnemySpawning;
 

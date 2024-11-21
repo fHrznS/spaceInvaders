@@ -129,7 +129,10 @@ namespace SpaceInvaders.Scenes {
                     if (wave == 4) {
                         currentBoss = new Zhyron(Content.Load<Texture2D>("BossSprites/Zhyron"), wave);
                     }
-                    
+                    if (wave == 1) {
+                        currentBoss = new Seraphim(Content.Load<Texture2D>("BossSprites/Seraphim"), wave);
+                    }
+
                     // Enemy spawning method
                     if (wave < 5) {
                         newEnemyBatch();
@@ -231,9 +234,9 @@ namespace SpaceInvaders.Scenes {
             // Is enemy bullet colliding with player?
             foreach (Bullet bullet in enemyBullets) {
                 if (bullet.hitbox.Intersects(player.hitbox) && !won) {
+                    player.registerDamage(bullet.damage);
                     enemyBullets.Remove(enemyBullets.Find(x => x.id == bullet.id));
                     // Bullet.bulletCount--;
-                    player.registerDamage();
                     break;
                 }
             }
@@ -403,11 +406,29 @@ namespace SpaceInvaders.Scenes {
 
         // Code to spawn new bullet
         static internal void newPlayerBullet(int xPosition, Vector2 direction) {
-            bullets.Add(new(position: new(xPosition, 160), new(2,8), direction: direction, Content.Load<Texture2D>("Bullet"), id));
+            bullets.Add(new(position: new(xPosition, 160), new(2, 8), direction: direction, Content.Load<Texture2D>("Bullet"), 1, id));
             id++;
         }
-        static internal void newEnemyBullet(Vector2 position, Vector2 direction, string type) {
-            enemyBullets.Add(new(position: position, new(6, 6), direction: direction, Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet"+type), id, evil:true));
+        static internal void newEnemyBullet(Vector2 position, Vector2 direction, string type, bool bossBullet = false, int damage = 1) {
+            if (!bossBullet) {
+                enemyBullets.Add(new(
+                    position: position,
+                    hitboxSize: new(6, 6),
+                    direction: direction,
+                    Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet"+type),
+                    damage,
+                    id,
+                    evil:true));
+            } else {
+                enemyBullets.Add(new(
+                    position: position, 
+                    hitboxSize: new (6, 6),
+                    direction: direction,
+                    Content.Load<Texture2D>("BossBullets/BulletType"+type),
+                    damage,
+                    id,
+                    evil:true));
+            }
             id++;
         }
 
@@ -453,9 +474,6 @@ namespace SpaceInvaders.Scenes {
         }
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
             spriteBatch.DrawString(text, player.health.ToString(), new(0, 0), Color.White);
-            if (aliens.Count != 0 ) {
-                spriteBatch.DrawString(text, aliens.Last().position.X.ToString(), new(0,50), Color.White);
-            }
         }
     }
 }
