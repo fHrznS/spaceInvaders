@@ -40,7 +40,7 @@ namespace SpaceInvaders.Scenes {
         int[] waveHeight = new int[5];
         
         static private int id = 0;
-        private int wave = 0;
+        private int wave = 6;
 
         private int lostTimer = 30, lostTimerReset = 30;
         private bool won = false;
@@ -88,7 +88,7 @@ namespace SpaceInvaders.Scenes {
                 throw new IndexOutOfRangeException("Not enough waves are declared!");
             }
 
-            newEnemyBatch();
+            newRandomEnemyBatch();
 
             powerboxSummonTimer = rng.Next(1800, 3600*2); // 30 secs, 2 mins
             freeEnemySpawnTimerReset = 60 * 60;
@@ -474,6 +474,7 @@ namespace SpaceInvaders.Scenes {
         }
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
             spriteBatch.DrawString(text, player.health.ToString(), new(0, 0), Color.White);
+            spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0, 38), Color.White);
         }
     }
 }

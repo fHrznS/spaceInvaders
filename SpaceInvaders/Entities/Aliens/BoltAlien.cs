@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceInvaders.Utils;
+using System;
 
 namespace SpaceInvaders.Entities.Aliens {
     internal class BoltAlien : Alien {
@@ -22,7 +24,7 @@ namespace SpaceInvaders.Entities.Aliens {
             offscreenBools();
 
             if (timer == 0) {
-                position.Y += 8 * direction.Y;
+                position.Y += 8 * direction.Y / (int)Math.Pow(2, (Globals.instantKillAttack ? 1 : 0)); // Slow down if instant kill attack
                 timer = timerReset;
             }
             hitbox.Location = position.ToPoint() + hitboxOffset;
