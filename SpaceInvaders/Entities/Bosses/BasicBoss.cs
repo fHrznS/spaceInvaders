@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace SpaceInvaders.Entities.Bosses {
     internal abstract class BasicBoss {
@@ -11,6 +12,7 @@ namespace SpaceInvaders.Entities.Bosses {
         internal Point hitboxOffset;
         internal Texture2D sprite;
         internal bool disableEnemySpawning;
+        internal Random rng = new();
 
         abstract internal void Update();
         abstract internal void Draw(SpriteBatch spriteBatch);

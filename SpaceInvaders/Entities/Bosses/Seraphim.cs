@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceInvaders.Scenes;
+using SpaceInvaders.Utils;
+using System.Reflection.Metadata.Ecma335;
 
 namespace SpaceInvaders.Entities.Bosses {
     internal class Seraphim : BasicBoss {
@@ -20,8 +22,21 @@ namespace SpaceInvaders.Entities.Bosses {
         internal override void Update() {
             attackTimer--;
 
-            if (attackTimer == 60 * 25) {
-                MainGame.newEnemyBullet(new(position.X, position.Y), new(0,1), "2", bossBullet: true, damage: 3);
+            if (attackTimer <= 60 * 25 && attackTimer >= 60 * 20 && attackTimer % 120 == 0) {
+                Globals.instantKillAttack = true;
+                int emptySlot = rng.Next(0, 9);
+                
+                for (int i = 0; i < 9; i++) {
+                    if (i == emptySlot) { continue; }
+                    MainGame.newEnemyBullet(new(8+16*i, position.Y), new(0,1), "2", bossBullet: true, damage: 3);
+                }
+            } if (attackTimer < 60 * 20) {
+                Globals.instantKillAttack = false;
+            }
+
+            if (attackTimer <= 60*15 && attackTimer >= 60 * 10 && attackTimer % 20 == 0) {
+                MainGame.newEnemyBullet(position: new(80, 68),
+                    direction: new((float)(rng.Next(-3, 3) * rng.NextDouble()), 2.5f), "2", bossBullet: true, damage: 3);
             }
 
             if (attackTimer == 0) {

@@ -5,7 +5,6 @@ using System;
 
 namespace SpaceInvaders.Entities.Bosses {
     internal class Zhyron : BasicBoss {
-        Random rng = new();
         Vector2 center;
         int fallAttackOffset = 0;
 

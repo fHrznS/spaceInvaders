@@ -416,8 +416,8 @@ namespace SpaceInvaders.Scenes {
                     hitboxSize: new(6, 6),
                     direction: direction,
                     Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet"+type),
-                    damage,
                     id,
+                    damage,
                     evil:true));
             } else {
                 enemyBullets.Add(new(
@@ -425,8 +425,8 @@ namespace SpaceInvaders.Scenes {
                     hitboxSize: new (6, 6),
                     direction: direction,
                     Content.Load<Texture2D>("BossBullets/BulletType"+type),
-                    damage,
                     id,
+                    damage,
                     evil:true));
             }
             id++;
