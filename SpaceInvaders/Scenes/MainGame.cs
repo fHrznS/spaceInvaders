@@ -91,7 +91,7 @@ namespace SpaceInvaders.Scenes {
             newEnemyBatch();
 
             powerboxSummonTimer = rng.Next(1800, 3600*2); // 30 secs, 2 mins
-            freeEnemySpawnTimerReset = 60;
+            freeEnemySpawnTimerReset = 60 * 60;
             freeEnemySpawnTimer = freeEnemySpawnTimerReset;
 
             previousInput = Keyboard.GetState();
@@ -130,6 +130,7 @@ namespace SpaceInvaders.Scenes {
                         currentBoss = new Zhyron(Content.Load<Texture2D>("BossSprites/Zhyron"), wave);
                     }
                     
+                    // Enemy spawning method
                     if (wave < 5) {
                         newEnemyBatch();
                     } else {
@@ -145,14 +146,14 @@ namespace SpaceInvaders.Scenes {
                 highestAlienType = 3;
             }
 
-            if (wave > 15) {
+            if (wave >= 14) { // 15th wave start spawning "free" enemies.
                 freeEnemySpawnTimer--;
 
                 if (freeEnemySpawnTimer == 0) {
                     int type = rng.Next(1, highestAlienType + 1);
-                    int xPos = rng.Next(16, Globals.screenWidth - 16);
+                    int xPos = rng.Next(0, 7);
 
-                    createEnemy(xPos, -16, type, free: true);
+                    createEnemy(xPos, 4, type, free: true);
 
                     freeEnemySpawnTimer = freeEnemySpawnTimerReset;
                 }
@@ -319,11 +320,7 @@ namespace SpaceInvaders.Scenes {
 
                     if (rng.Next(0,chanceOfEmpty) == 1) { continue; }
 
-                    createEnemy(x,y,type,false);
-
-                    aliens.Last().sprite = Content.Load<Texture2D>(aliens.Last().getTextureName());
-                    Alien.count++;
-                    id++;
+                    createEnemy(x,y,type);
                 }
             }
         }
@@ -344,6 +341,10 @@ namespace SpaceInvaders.Scenes {
                     id));
                     break;
             }
+
+            aliens.Last().sprite = Content.Load<Texture2D>(aliens.Last().getTextureName());
+            Alien.count++;
+            id++;
         }
 
         // Powerbox code
@@ -452,6 +453,9 @@ namespace SpaceInvaders.Scenes {
         }
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
             spriteBatch.DrawString(text, player.health.ToString(), new(0, 0), Color.White);
+            if (aliens.Count != 0 ) {
+                spriteBatch.DrawString(text, aliens.Last().position.X.ToString(), new(0,50), Color.White);
+            }
         }
     }
 }

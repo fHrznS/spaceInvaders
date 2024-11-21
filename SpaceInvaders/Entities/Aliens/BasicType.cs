@@ -1,8 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using System;
-using SpaceInvaders.Utils;
-using System.Runtime.CompilerServices;
 
 namespace SpaceInvaders.Entities.Aliens {
     internal class BasicAlien : Alien {
@@ -35,8 +32,9 @@ namespace SpaceInvaders.Entities.Aliens {
 
             if (timer == 0) {
                 if (free) {
-                    if (position.X == 16 || position.X == Globals.screenWidth - 16) {
+                    if (position.X == 0 || position.X == 144) {
                         direction.X *= 1;
+                        position.Y += 16 * direction.Y;
                     }
                 } else {
                     if (gridPosition == 2 || gridPosition == -2) {

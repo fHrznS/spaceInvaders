@@ -20,8 +20,8 @@ namespace SpaceInvaders.Entities.Bosses {
 /*
  Zhyron [DONE]
 
- Gabriel - More enemies, low health, decent fire rate.
  Seraphim - One shot bullets, slow bullets.
+ Gabriel - More enemies, low health, decent fire rate.
  Lilith - Bullet Hell
  Adam & Eve - 2 Bosses as 1
  The Mothership - Tons of HP, summons previous bosses.

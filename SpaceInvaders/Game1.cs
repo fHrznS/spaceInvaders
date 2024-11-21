@@ -111,7 +111,7 @@ namespace SpaceInvaders {
             GraphicsDevice.Clear(Color.Black);
 
             _spriteBatch.Begin();
-
+            
             sceneManager.currentScene().Draw(_spriteBatch);
 
             _spriteBatch.End();
@@ -139,9 +139,8 @@ namespace SpaceInvaders {
 
 
 // TODO:
-// 3. Free enemies (Not stuck to batch) [Maybe?]
-// 4. Moving BG
-// 5. Differently sized (width) batches, and movability.
-// 6. More bosses
-// 7. Music and sounds
+// 4. Moving BG [Partial]
+// 5. More bosses
+// 6. Music and sounds
+// 7. Differently sized (width) batches, and movability.
 // 8. More animations
