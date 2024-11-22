@@ -31,7 +31,7 @@ namespace SpaceInvaders {
         }
 
         protected override void Initialize() {
-            Window.Title = "Space Invaders   |  V0.1.0 Zhyron Appears!";
+            Window.Title = "Space Invaders   |  V0.2.0 Seraphim the Angel";
 
             // Initialize renderTarget to allow for the pixel style.
             renderTarget = new(GraphicsDevice, Globals.screenWidth, Globals.screenHeight);
