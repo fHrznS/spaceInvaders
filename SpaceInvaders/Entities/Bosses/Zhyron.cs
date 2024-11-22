@@ -37,12 +37,12 @@ namespace SpaceInvaders.Entities.Bosses {
             }
 
             if (attackTimer <= 200 && attackTimer >= 80 && attackTimer % 30 == 0) {
-                MainGame.newEnemyBullet(position: new(0 + 4 * fallAttackOffset,-8), new(0,4), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: new(32 + 4 * fallAttackOffset,-8), new(0,4), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: new(64 + 4 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: new(96 + 4 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: new(128 + 4 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: new(160 + 4 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
+                MainGame.newEnemyBullet(position: new(0 + 8 * fallAttackOffset,-8), new(0,4), "1", bossBullet: true);
+                MainGame.newEnemyBullet(position: new(32 + 8 * fallAttackOffset,-8), new(0,4), "1", bossBullet: true);
+                MainGame.newEnemyBullet(position: new(64 + 8 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
+                MainGame.newEnemyBullet(position: new(96 + 8 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
+                MainGame.newEnemyBullet(position: new(128 + 8 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
+                MainGame.newEnemyBullet(position: new(160 + 8 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
                 fallAttackOffset += 1;
             }
 
