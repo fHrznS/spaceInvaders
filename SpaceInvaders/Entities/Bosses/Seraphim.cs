@@ -42,10 +42,12 @@ namespace SpaceInvaders.Entities.Bosses {
             if (attackTimer <= 60 * 5 && attackTimer % 40 == 0) {
                 MainGame.newEnemyBullet(position: new(-8, rng.Next(50,100)),
                     direction: new(1, rng.Next(1,3)), "2", bossBullet: true, damage: 3);
+                Globals.instantKillAttack = true;
             }
 
             if (attackTimer == 0) {
                 attackTimer = attackTimerReset;
+                Globals.instantKillAttack = false;
             }
         }
 

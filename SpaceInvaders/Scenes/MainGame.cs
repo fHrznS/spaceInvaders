@@ -32,7 +32,7 @@ namespace SpaceInvaders.Scenes {
             playerBulletDeleted = false,
             enemyBulletDeleted = false;
 
-        private int finalWave = 20;
+        private int finalWave = 19;
         private int highestAlienType = 2;
         private int freeEnemySpawnTimer, freeEnemySpawnTimerReset;
 
@@ -473,8 +473,10 @@ namespace SpaceInvaders.Scenes {
             }
         }
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
-            spriteBatch.DrawString(text, player.health.ToString(), new(0, 0), Color.White);
-            spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0, 38), Color.White);
+            if (!won) {
+                spriteBatch.DrawString(text, player.health.ToString(), new(0, 0), Color.White);
+                spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0, 38), Color.White);
+            }
         }
     }
 }

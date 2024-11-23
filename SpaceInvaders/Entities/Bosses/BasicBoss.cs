@@ -23,7 +23,7 @@ namespace SpaceInvaders.Entities.Bosses {
 /*
  Zhyron [DONE]
 
- Seraphim - One shot bullets, slow bullets.
+ Seraphim - One shot bullets, slow bullets. [DONE]
  Gabriel - More enemies, low health, decent fire rate.
  Lilith - Bullet Hell
  Adam & Eve - 2 Bosses as 1
