@@ -253,6 +253,7 @@ namespace SpaceInvaders.Scenes {
                 if (removeBullet == false && currentBoss != null) {
                     if (bullet.hitbox.Intersects(currentBoss.hitbox)) {
                         currentBoss.health--;
+                        particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
                         removeBullet = true;
                     }
                 }
