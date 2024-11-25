@@ -57,16 +57,17 @@ namespace SpaceInvaders.Scenes {
                     }
 
                     changeControl = false;
+                    previousInput = input;
                 }
                 return;
             }
 
-            if (input.IsKeyDown(Utils.Controls.shoot) && input != previousInput) {
-                previousInput = input;
-                settingChosen = settingHovered;
-            }
 
             if (settingChosen == Setting.None) {
+                if (input.IsKeyDown(Utils.Controls.shoot) && input != previousInput) {
+                    previousInput = input;
+                    settingChosen = settingHovered;
+                }
                 Main();
             } else if (settingChosen == Setting.Controls) {
                 Controls();
