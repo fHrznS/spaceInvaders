@@ -62,7 +62,7 @@ namespace SpaceInvaders.Scenes {
             player.hitbox = new(0, 0, 14, 14);
 
             // Define Background
-            background = new(Content.Load<Texture2D>("Background"), new(-41, -48));
+            background = new(Content.Load<Texture2D>("Background"));
             
             Alien.count = 0;
             Bullet.bulletCount = 0;
@@ -126,6 +126,8 @@ namespace SpaceInvaders.Scenes {
 
         void IScene.Update(GameTime gameTime) {
             CheckGameCondition();
+            background.Update();
+
             // Has player died?
             if (player.health == 0) {
                 LostUpdate();
