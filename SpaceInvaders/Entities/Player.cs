@@ -22,11 +22,11 @@ namespace SpaceInvaders.Entities {
         }
 
         void playerMovement() {
-            if (MainGame.input.IsKeyDown(Keys.Left) && position.X > 5) {
+            if (MainGame.input.IsKeyDown(Controls.moveLeft) && position.X > 5) {
                 position.X -= 2;
             }
 
-            if (MainGame.input.IsKeyDown(Keys.Right) && position.X < Globals.screenWidth - 21) {
+            if (MainGame.input.IsKeyDown(Controls.moveRight) && position.X < Globals.screenWidth - 21) {
                 position.X += 2;
             }
         }
@@ -35,7 +35,7 @@ namespace SpaceInvaders.Entities {
             if (MainGame.input == MainGame.previousInput) { return; }
 
             // Can the player shoot?
-            if (MainGame.input.IsKeyDown(Keys.Z) && Bullet.bulletCount != maxBullets) {
+            if (MainGame.input.IsKeyDown(Controls.shoot) && Bullet.bulletCount != maxBullets) {
                 if (maxBullets - Bullet.bulletCount >= 2 && splitBullet) {
                     MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed));
                     MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed));

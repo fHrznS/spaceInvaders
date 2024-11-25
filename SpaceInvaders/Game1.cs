@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
 
 namespace SpaceInvaders {
@@ -67,6 +68,9 @@ namespace SpaceInvaders {
                 case GameStates.MainGame:
                     MainGame();
                     break;
+                case GameStates.Settings:
+                    SettingsMenu();
+                    break;
             }
 
             previousInput = input;
@@ -77,9 +81,14 @@ namespace SpaceInvaders {
         void MainMenu() {
             if (input == previousInput) { return; }
 
-            if (input.IsKeyDown(Keys.Z)) {
+            if (input.IsKeyDown(Keys.Z) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
                 sceneManager.AddScene(new Scenes.MainGame(Content));
                 gameState = GameStates.MainGame;
+                LoadContent();
+            }
+            if (input.IsKeyDown(Keys.Z) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Settings) {
+                sceneManager.AddScene(new Scenes.Settings(Content));
+                gameState = GameStates.Settings;
                 LoadContent();
             } else if (input.IsKeyDown(Keys.Escape)) {
                 Exit();
@@ -102,6 +111,15 @@ namespace SpaceInvaders {
                 gameState = GameStates.MainMenu;
             }
 
+        }
+
+        void SettingsMenu() {
+            if (input == previousInput) { return; }
+
+            if (input.IsKeyDown(Keys.Escape)) {
+                sceneManager.RemoveScene();
+                gameState = GameStates.MainMenu;
+            }
         }
 
         protected override void Draw(GameTime gameTime) {

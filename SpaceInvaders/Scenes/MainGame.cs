@@ -135,14 +135,14 @@ namespace SpaceInvaders.Scenes {
             input = Keyboard.GetState();
 
             if (gameState == GameState.Paused) {
-                if (input.IsKeyDown(Keys.S) && previousInput != input) {
+                if (input.IsKeyDown(Controls.pause) && previousInput != input) {
                     gameState = GameState.Running;
                     previousInput = input;
                 }
                 previousInput = input;
                 return;
             } else if (gameState == GameState.Running) {
-                if (input.IsKeyDown(Keys.S) && previousInput != input) {
+                if (input.IsKeyDown(Controls.pause) && previousInput != input) {
                     gameState = GameState.Paused;
                     previousInput = input;
                 }
