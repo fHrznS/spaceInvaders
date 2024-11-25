@@ -95,6 +95,32 @@ namespace SpaceInvaders.Scenes {
             freeEnemySpawnTimerReset = 60 * 60;
             freeEnemySpawnTimer = freeEnemySpawnTimerReset;
 
+            if (Sprites.bullets.Count == 0) {
+                // Load every bullet sprites
+                Sprites.bullets.Add(Content.Load<Texture2D>("Bullet"));
+                Sprites.bullets.Add(Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet1"));
+                Sprites.bullets.Add(Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet2"));
+                Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType1"));
+                Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType2"));
+                
+                // Load every boss sprite
+                Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Zhyron"));
+                Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Seraphim"));
+                // Load every enemy sprite
+                Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type1"));
+                Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type2"));
+                Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type3"));
+
+                // Load every particle sprite
+                Sprites.particles.Add(Content.Load<Texture2D>("Particles/TestParticle"));
+
+                // Load every Powerbox sprite
+                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Heal"));
+                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Bullet"));
+                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSpeed"));
+                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSplit"));
+            }
+
             previousInput = Keyboard.GetState();
         }
 
@@ -132,10 +158,10 @@ namespace SpaceInvaders.Scenes {
                     wave++;
                     // Spawn a boss?
                     if (wave == 4) {
-                        currentBoss = new Zhyron(Content.Load<Texture2D>("BossSprites/Zhyron"), wave);
+                        currentBoss = new Zhyron(Sprites.bosses[0], wave);
                     }
                     if (wave == 19) {
-                        currentBoss = new Seraphim(Content.Load<Texture2D>("BossSprites/Seraphim"), wave);
+                        currentBoss = new Seraphim(Sprites.bosses[1], wave);
                     }
 
                     // Enemy spawning method
@@ -217,7 +243,7 @@ namespace SpaceInvaders.Scenes {
                         aliens.Remove(aliens.Find(x => x.id == alien.id)); // Little black magic here
                         Alien.count--;
                         removeBullet = true;
-                        particleObjects.Add(new(30, 1, 2, 20, 4, bullet.position, new(0, 0), Content.Load<Texture2D>("Particles/TestParticle")));
+                        particleObjects.Add(new(15, 1, 2, 20, 4, bullet.position, new(0, 0), Sprites.particles[0]));
                         break;
                     }
                 }
@@ -313,7 +339,7 @@ namespace SpaceInvaders.Scenes {
                         new Rectangle(2,2,11,11),
                         id));
                     
-                    aliens.Last().sprite = Content.Load<Texture2D>(aliens.Last().getTextureName());
+                    aliens.Last().sprite = Content.Load<Texture2D>(aliens.Last().getTextureName()); // TODO: Make this use new Sprites.enemies
                     Alien.count++;
                     id++;
                 }
@@ -351,7 +377,7 @@ namespace SpaceInvaders.Scenes {
                     break;
             }
 
-            aliens.Last().sprite = Content.Load<Texture2D>(aliens.Last().getTextureName());
+            aliens.Last().sprite = Content.Load<Texture2D>(aliens.Last().getTextureName()); // TODO: Make use of Sprites.Enemy
             Alien.count++;
             id++;
         }
@@ -373,28 +399,28 @@ namespace SpaceInvaders.Scenes {
                 if (boxToSummon == 1) {
                     powerboxes.Add(new HealBox(
                         new(boxXPos, -16),
-                        Content.Load<Texture2D>("Powerbox/Heal"),
+                        Sprites.powerboxes[0],
                         60,
                         id));
                     id++;
                 } else if (boxToSummon == 2 && player.maxBullets < wave / 5) {
                     powerboxes.Add(new BulletBox(
                         new(boxXPos, -16),
-                        Content.Load<Texture2D>("Powerbox/Bullet"),
+                        Sprites.powerboxes[1],
                         20,
                         id));
                     id++;
                 } else if (boxToSummon == 3 && player.maxBullets > 2) {
                     powerboxes.Add(new SplitBulletBox(
                         new(boxXPos, -16),
-                        Content.Load<Texture2D>("Powerbox/BulletSplit"),
+                        Sprites.powerboxes[3],
                         30,
                         id));
                     id++;
                 } else if (player.bulletSpeed > -5 - (wave / 4) ) {
                     powerboxes.Add(new BulletSpeedBox(
                         new(boxXPos, -16),
-                        Content.Load<Texture2D>("Powerbox/BulletSpeed"),
+                        Sprites.powerboxes[2],
                         30,
                         id));
                     id++;
@@ -412,7 +438,7 @@ namespace SpaceInvaders.Scenes {
 
         // Code to spawn new bullet
         static internal void newPlayerBullet(int xPosition, Vector2 direction) {
-            bullets.Add(new(position: new(xPosition, 160), new(2, 8), direction: direction, Content.Load<Texture2D>("Bullet"), 1, id));
+            bullets.Add(new(position: new(xPosition, 160), new(2, 8), direction: direction, Sprites.bullets[0], 1, id));
             id++;
         }
         static internal void newEnemyBullet(Vector2 position, Vector2 direction, string type, bool bossBullet = false, int damage = 1) {
@@ -421,7 +447,7 @@ namespace SpaceInvaders.Scenes {
                     position: position,
                     hitboxSize: new(6, 6),
                     direction: direction,
-                    Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet"+type),
+                    Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet"+type), // TODO: Make use of Sprites.bullet
                     id,
                     damage,
                     evil:true));
