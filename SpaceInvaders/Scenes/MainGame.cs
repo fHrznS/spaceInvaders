@@ -22,6 +22,7 @@ namespace SpaceInvaders.Scenes {
 
         Player player = new();
         List<Alien> aliens = new();
+        private List<ParticleObject> particleObjects = new();
         private BasicBoss currentBoss;
         private List<Powerbox> powerboxes = new();
         private int powerboxSummonTimer = 0;
@@ -111,6 +112,10 @@ namespace SpaceInvaders.Scenes {
             CheckCollision();
 
             CheckPowerbox();
+
+            foreach (ParticleObject particleObject in particleObjects) {
+                particleObject.Update();
+            }
 
             previousInput = input;
 
@@ -212,6 +217,7 @@ namespace SpaceInvaders.Scenes {
                         aliens.Remove(aliens.Find(x => x.id == alien.id)); // Little black magic here
                         Alien.count--;
                         removeBullet = true;
+                        particleObjects.Add(new(30, 1, 2, 20, 4, bullet.position, new(0, 0), Content.Load<Texture2D>("Particles/TestParticle")));
                         break;
                     }
                 }
@@ -471,12 +477,16 @@ namespace SpaceInvaders.Scenes {
             if (won) {
                 spriteBatch.DrawString(text, "YOU WON", new(0,0), Color.White);
             }
+            foreach (ParticleObject particleObject in particleObjects) {
+                particleObject.Draw(spriteBatch);
+            }
         }
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
             if (!won) {
                 spriteBatch.DrawString(text, player.health.ToString(), new(0, 0), Color.White);
                 spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0, 38), Color.White);
             }
+
         }
     }
 }
