@@ -61,11 +61,13 @@ namespace SpaceInvaders.Utils {
     
     internal class Particle : BasicObject {
         internal int lifespan;
+        private int maxLifespan;
         Vector2 velocity, gravity;
 
         public Particle(int life, Vector2 startPos, Vector2 velocity, Vector2 gravityDirection, int id, Texture2D texture) {
             this.id = id;
             lifespan = life < 0 ? life * -1 : life; // Ensure positive lifespan
+            maxLifespan = lifespan;
             position = startPos;
             this.velocity = velocity;
             gravity = gravityDirection;
@@ -83,7 +85,7 @@ namespace SpaceInvaders.Utils {
         }
 
         internal void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(sprite, position, Color.White);
+            spriteBatch.Draw(sprite, position, Color.White * ((float)lifespan / (float)maxLifespan));
         }
     }
 }

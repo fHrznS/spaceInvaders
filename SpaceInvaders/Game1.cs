@@ -141,7 +141,7 @@ namespace SpaceInvaders {
 // TODO:
 // 5. More bosses [Hold]
 // 6. Music and sounds [@Home]
-// 7. Particles
+// 7. Particles [Done]
 // 8. Differently sized (width) batches, and movability. [*Extra]
 // 9. More animations
 
