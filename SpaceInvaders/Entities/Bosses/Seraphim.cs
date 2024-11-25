@@ -13,7 +13,7 @@ namespace SpaceInvaders.Entities.Bosses {
             hitboxOffset = hitbox.Location;
             hitbox.Location = position.ToPoint();
 
-            maxHealth = 7 * (wave + 1);
+            maxHealth = 8 * (wave + 1);
             health = maxHealth;
             attackTimerReset = 60 * 35;
             attackTimer = attackTimerReset;
