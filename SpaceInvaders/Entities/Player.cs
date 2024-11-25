@@ -33,6 +33,8 @@ namespace SpaceInvaders.Entities {
 
         void canShoot() {
             if (MainGame.input == MainGame.previousInput) { return; }
+
+            // Can the player shoot?
             if (MainGame.input.IsKeyDown(Keys.Z) && Bullet.bulletCount != maxBullets) {
                 if (maxBullets - Bullet.bulletCount >= 2 && splitBullet) {
                     MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed));

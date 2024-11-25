@@ -77,9 +77,6 @@ namespace SpaceInvaders.Utils {
         internal void Update() {
             lifespan--;
 
-            if (lifespan == 0) {
-            }
-
             position += velocity;
             velocity -= gravity;
         }
