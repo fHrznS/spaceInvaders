@@ -501,6 +501,7 @@ namespace SpaceInvaders.Scenes {
         }
 
         void IScene.Draw(SpriteBatch spriteBatch) {
+            if (gameState == GameState.Paused) { return; }
             spriteBatch.Draw(background.sprite, background.position, Color.White);
 
             foreach (Alien alien in aliens) {
@@ -532,6 +533,11 @@ namespace SpaceInvaders.Scenes {
             }
         }
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
+            if (gameState == GameState.Paused) {
+                spriteBatch.DrawString(text, "PAUSED", new(3,3), Color.White);
+                return;
+            }
+
             if (!won) {
                 spriteBatch.DrawString(text, player.health.ToString(), new(0, 0), Color.White);
                 spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0, 38), Color.White);
