@@ -12,7 +12,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace SpaceInvaders.Scenes {
+    enum GameState {
+        Running,
+        Paused
+    }
+
     internal class MainGame : IScene {
+        GameState gameState = GameState.Running;
+
         static internal KeyboardState input;
         static internal KeyboardState previousInput;
         static ContentManager Content;
@@ -125,6 +132,22 @@ namespace SpaceInvaders.Scenes {
         }
 
         void IScene.Update(GameTime gameTime) {
+            input = Keyboard.GetState();
+
+            if (gameState == GameState.Paused) {
+                if (input.IsKeyDown(Keys.S) && previousInput != input) {
+                    gameState = GameState.Running;
+                    previousInput = input;
+                }
+                previousInput = input;
+                return;
+            } else if (gameState == GameState.Running) {
+                if (input.IsKeyDown(Keys.S) && previousInput != input) {
+                    gameState = GameState.Paused;
+                    previousInput = input;
+                }
+            }
+
             CheckGameCondition();
             background.Update();
 
@@ -133,8 +156,6 @@ namespace SpaceInvaders.Scenes {
                 LostUpdate();
                 return;
             }
-
-            input = Keyboard.GetState();
 
             UpdateEntities(gameTime);
             CheckCollision();
