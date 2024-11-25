@@ -3,6 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvaders.Entities.Powerboxes {
     internal abstract class Powerbox : BasicObject {
+        /// <summary>
+        /// This class is the base for a "Powerbox".
+        /// Each "Powerbox" has it's own class to allow for unique functionality it needed.
+        /// All the class does is make an animated object.
+        /// </summary>
+
         internal Rectangle frameSource = new(0, 0, 16, 16);
         internal int frame = 0, // 6 Frames, 0-5
             nextFrameTimer = 30,

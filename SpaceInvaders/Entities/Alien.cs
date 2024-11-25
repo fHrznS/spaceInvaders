@@ -3,6 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace SpaceInvaders.Entities {
+    /// <summary>
+    /// This is the ground class for an Alien.
+    /// It contains all variables an alien needs to fully function.
+    /// Additionally it has an Alien count. (to be deleted due to redundancy with <List>.Count)
+    /// </summary>
+
     internal abstract class Alien : BasicObject {
         internal Random rng = new();
         internal int type;

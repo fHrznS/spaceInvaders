@@ -3,14 +3,16 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 
 namespace SpaceInvaders.Entities.Bosses {
-    internal abstract class BasicBoss {
+    /// <summary>
+    /// This makes the grounds for every boss.
+    /// It has all boss-unique variables, such as health and enemy spawning disabling if the attack calls for it.
+    /// </summary>
+   
+    internal abstract class BasicBoss : BasicObject {
         internal int
             health, maxHealth,
             attackTimer, attackTimerReset;
-        internal Vector2 position;
-        internal Rectangle hitbox;
         internal Point hitboxOffset;
-        internal Texture2D sprite;
         internal bool disableEnemySpawning;
         internal Random rng = new();
 

@@ -117,7 +117,7 @@ namespace SpaceInvaders {
             _spriteBatch.End();
 
             // Set Render Target back to main (what the user sees)
-            // And draw renderTarget to the screen scaled up with "PointClamp" to keep pixelated look.
+            // And draw renderTarget to the screen scaled up with "PointClamp" to keep the pixelated look.
             GraphicsDevice.SetRenderTarget(null);
 
 
@@ -139,9 +139,7 @@ namespace SpaceInvaders {
 
 
 // TODO:
-// 5. More bosses [Hold]
-// 6. Music and sounds [@Home]
-// 8. Differently sized (width) batches, and movability. [*Extra]
-// 9. More animations
-
-// 4. Moving BG [Partial] [To be fixed later]
+// 5. More bosses [On Hold]
+// 6. Music and sounds [@ Home]
+// 8. More animations
+// 9. Differently sized (width) batches, and movability. [*Extra]
