@@ -81,12 +81,12 @@ namespace SpaceInvaders {
         void MainMenu() {
             if (input == previousInput) { return; }
 
-            if (input.IsKeyDown(Keys.Z) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
+            if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
                 sceneManager.AddScene(new Scenes.MainGame(Content));
                 gameState = GameStates.MainGame;
                 LoadContent();
             }
-            if (input.IsKeyDown(Keys.Z) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Settings) {
+            if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Settings) {
                 sceneManager.AddScene(new Scenes.Settings(Content));
                 gameState = GameStates.Settings;
                 LoadContent();

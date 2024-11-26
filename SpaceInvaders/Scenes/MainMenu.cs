@@ -60,7 +60,7 @@ namespace SpaceInvaders.Scenes
         }
 
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
-            spriteBatch.DrawString(text,"Press Z to confirm choice", new Vector2(5, 742), Color.White);
+            spriteBatch.DrawString(text,"Press " + Controls.shoot.ToString() + " to confirm choice", new Vector2(5, 742), Color.White);
         }
     }
 }
