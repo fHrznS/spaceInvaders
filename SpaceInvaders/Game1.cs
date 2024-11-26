@@ -21,7 +21,7 @@ namespace SpaceInvaders {
             MainMenu,
             Settings,
             MainGame,
-            Boss
+            HowTo,
         }
         GameStates gameState;
 
@@ -69,7 +69,8 @@ namespace SpaceInvaders {
                     MainGame();
                     break;
                 case GameStates.Settings:
-                    SettingsMenu();
+                case GameStates.HowTo:
+                    SettingsAndHowToMenu();
                     break;
             }
 
@@ -85,10 +86,13 @@ namespace SpaceInvaders {
                 sceneManager.AddScene(new Scenes.MainGame(Content));
                 gameState = GameStates.MainGame;
                 LoadContent();
-            }
-            if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Settings) {
+            } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Settings) {
                 sceneManager.AddScene(new Scenes.Settings(Content));
                 gameState = GameStates.Settings;
+                LoadContent();
+            } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.HowTo) {
+                sceneManager.AddScene(new Scenes.HowTo(Content));
+                gameState = GameStates.HowTo;
                 LoadContent();
             } else if (input.IsKeyDown(Keys.Escape)) {
                 Exit();
@@ -113,7 +117,7 @@ namespace SpaceInvaders {
 
         }
 
-        void SettingsMenu() {
+        void SettingsAndHowToMenu() {
             if (input == previousInput) { return; }
 
             if (input.IsKeyDown(Keys.Escape)) {
@@ -157,7 +161,8 @@ namespace SpaceInvaders {
 
 
 // TODO:
-// 5. More bosses [On Hold]
-// 6. Music and sounds [@ Home]
-// 8. More animations
-// 9. Differently sized (width) batches, and movability. [*Extra]
+// 1. More bosses [On Hold]
+// 2. Music and sounds [@ Home]
+// 3. How to [DONE]
+// 4. More animations (Animated bosses?)
+// 5. Differently sized (width and height) batches, and movability. [*Extra]
