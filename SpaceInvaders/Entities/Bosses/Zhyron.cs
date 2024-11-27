@@ -7,6 +7,9 @@ namespace SpaceInvaders.Entities.Bosses {
     internal class Zhyron : BasicBoss {
         Vector2 center;
         int fallAttackOffset = 0;
+        Rectangle sourceRect = new(0, 0, 80, 32);
+        int nextFrameTimer = 60;
+        int onFrame = 0;
 
         public Zhyron(Texture2D sprite, int wave) {
             this.sprite = sprite;
@@ -22,6 +25,7 @@ namespace SpaceInvaders.Entities.Bosses {
 
         internal override void Update() {
             attackTimer--;
+            nextFrameTimer--;
 
             if (attackTimer < 540 && attackTimer > 480 && attackTimer % 10 == 0) {
                 MainGame.newEnemyBullet(position: center,
@@ -50,11 +54,18 @@ namespace SpaceInvaders.Entities.Bosses {
                 attackTimer = attackTimerReset;
                 fallAttackOffset = 0;
             }
+
+            if (nextFrameTimer == 0) {
+                nextFrameTimer = 60;
+                onFrame++;
+                if (onFrame == 4) { onFrame = 0; }
+                sourceRect.Location = new Point(80 * onFrame, 0);
+            }
         }
 
 
         internal override void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(sprite, position, Color.White);
+            spriteBatch.Draw(sprite, position, sourceRect, Color.White);
         }
     }
 }

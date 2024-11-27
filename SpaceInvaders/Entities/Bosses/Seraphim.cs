@@ -2,10 +2,13 @@
 using Microsoft.Xna.Framework.Graphics;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
-using System.Reflection.Metadata.Ecma335;
 
 namespace SpaceInvaders.Entities.Bosses {
     internal class Seraphim : BasicBoss {
+        Rectangle sourceRect = new(0,0,40,60);
+        int nextFrameTimer = 25;
+        int onFrame = 0;
+
         public Seraphim(Texture2D sprite, int wave) {
             this.sprite = sprite;
             position = new(60,8);
@@ -48,6 +51,13 @@ namespace SpaceInvaders.Entities.Bosses {
             if (attackTimer == 0) {
                 attackTimer = attackTimerReset;
                 Globals.instantKillAttack = false;
+            }
+
+            if (nextFrameTimer == 0) {
+                nextFrameTimer = 25;
+                onFrame++;
+                if (onFrame == 8) { onFrame = 0; }
+                sourceRect.Location = new(40*onFrame,0);
             }
         }
 
