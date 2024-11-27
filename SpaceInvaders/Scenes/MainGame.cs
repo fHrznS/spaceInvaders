@@ -175,7 +175,7 @@ namespace SpaceInvaders.Scenes {
         void CheckGameCondition() {
             // Have all aliens been killed?
             if (Alien.count == 0) {
-                if (wave == finalWave && currentBoss == null) {
+                if (wave >= finalWave && currentBoss == null) {
                     won = true;
                 } else {
                     wave++;
@@ -246,6 +246,7 @@ namespace SpaceInvaders.Scenes {
                 currentBoss.Update();
                 if (currentBoss.health == 0) {
                     currentBoss = null;
+                    Globals.instantKillAttack = false;
                 }
             }
 
