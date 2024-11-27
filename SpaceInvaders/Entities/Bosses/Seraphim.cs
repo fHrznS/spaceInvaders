@@ -24,6 +24,7 @@ namespace SpaceInvaders.Entities.Bosses {
 
         internal override void Update() {
             attackTimer--;
+            nextFrameTimer--;
 
             if (attackTimer <= 60 * 30 && attackTimer >= 60 * 25 && attackTimer % 120 == 0) {
                 Globals.instantKillAttack = true;
@@ -62,7 +63,7 @@ namespace SpaceInvaders.Entities.Bosses {
         }
 
         internal override void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(sprite, position, Color.White);
+            spriteBatch.Draw(sprite, position, sourceRect, Color.White);
         }
 
     }
