@@ -21,7 +21,7 @@ namespace SpaceInvaders.Entities.Bosses {
     }
 }
 
-// List of possible planned Bosses
+// List of planned Bosses
 /*
  Zhyron [DONE]
 

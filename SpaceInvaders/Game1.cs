@@ -163,5 +163,4 @@ namespace SpaceInvaders {
 // TODO:
 // 1. More bosses [On Hold]
 // 2. Music and sounds [@ Home]
-// 3. More animations (Animated bosses?)
 // 4. Differently sized (width and height) batches, and movability. [*Extra]

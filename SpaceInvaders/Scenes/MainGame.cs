@@ -96,7 +96,6 @@ namespace SpaceInvaders.Scenes {
                 throw new IndexOutOfRangeException("Not enough waves are declared!");
             }
 
-            newEnemyBatch();
 
             powerboxSummonTimer = rng.Next(1800, 3600*2); // 30 secs, 2 mins
             freeEnemySpawnTimerReset = 60 * 60;
@@ -128,6 +127,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSplit"));
             }
 
+            newEnemyBatch();
             previousInput = Keyboard.GetState();
         }
 
@@ -364,7 +364,7 @@ namespace SpaceInvaders.Scenes {
                         new Rectangle(2,2,11,11),
                         id));
                     
-                    aliens.Last().sprite = Content.Load<Texture2D>(aliens.Last().getTextureName()); // TODO: Make this use new Sprites.enemies
+                    aliens.Last().sprite = Sprites.enemies[aliens.Last().type-1];
                     Alien.count++;
                     id++;
                 }
@@ -402,7 +402,7 @@ namespace SpaceInvaders.Scenes {
                     break;
             }
 
-            aliens.Last().sprite = Content.Load<Texture2D>(aliens.Last().getTextureName()); // TODO: Make use of Sprites.Enemy
+            aliens.Last().sprite = Sprites.enemies[aliens.Last().type - 1];
             Alien.count++;
             id++;
         }
@@ -466,13 +466,13 @@ namespace SpaceInvaders.Scenes {
             bullets.Add(new(position: new(xPosition, 160), new(2, 8), direction: direction, Sprites.bullets[0], 1, id));
             id++;
         }
-        static internal void newEnemyBullet(Vector2 position, Vector2 direction, string type, bool bossBullet = false, int damage = 1) {
+        static internal void newEnemyBullet(Vector2 position, Vector2 direction, int type, bool bossBullet = false, int damage = 1) {
             if (!bossBullet) {
                 enemyBullets.Add(new(
                     position: position,
                     hitboxSize: new(6, 6),
                     direction: direction,
-                    Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet"+type), // TODO: Make use of Sprites.bullet
+                    Sprites.bullets[type],
                     id,
                     damage,
                     evil:true));
@@ -481,7 +481,7 @@ namespace SpaceInvaders.Scenes {
                     position: position, 
                     hitboxSize: new (6, 6),
                     direction: direction,
-                    Content.Load<Texture2D>("BossBullets/BulletType"+type),
+                    Sprites.bossBullets[type],
                     id,
                     damage,
                     evil:true));

@@ -29,24 +29,24 @@ namespace SpaceInvaders.Entities.Bosses {
 
             if (attackTimer < 540 && attackTimer > 480 && attackTimer % 10 == 0) {
                 MainGame.newEnemyBullet(position: center,
-                    direction: new((float)(rng.Next(-3,3)*rng.NextDouble()),2.5f), "1", bossBullet: true);
+                    direction: new((float)(rng.Next(-3,3)*rng.NextDouble()),2.5f), 1, bossBullet: true);
             }
 
             if (attackTimer == 350) {
-                MainGame.newEnemyBullet(position: center, new(-1.75f,3), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: center, new(-1,    3), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: center, new(0,     3), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: center, new(1,     3), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: center, new(1.75f, 3), "1", bossBullet: true);
+                MainGame.newEnemyBullet(position: center, new(-1.75f,3), 1, bossBullet: true);
+                MainGame.newEnemyBullet(position: center, new(-1,    3), 1, bossBullet: true);
+                MainGame.newEnemyBullet(position: center, new(0,     3), 1, bossBullet: true);
+                MainGame.newEnemyBullet(position: center, new(1,     3), 1, bossBullet: true);
+                MainGame.newEnemyBullet(position: center, new(1.75f, 3), 1, bossBullet: true);
             }
 
             if (attackTimer <= 200 && attackTimer >= 80 && attackTimer % 30 == 0) {
-                MainGame.newEnemyBullet(position: new(0 + 8 * fallAttackOffset,-8), new(0,4), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: new(32 + 8 * fallAttackOffset,-8), new(0,4), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: new(64 + 8 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: new(96 + 8 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: new(128 + 8 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
-                MainGame.newEnemyBullet(position: new(160 + 8 * fallAttackOffset, -8), new(0, 4), "1", bossBullet: true);
+                MainGame.newEnemyBullet(position: new(0 + 8 * fallAttackOffset,-8), new(0,4), 1, bossBullet: true);
+                MainGame.newEnemyBullet(position: new(32 + 8 * fallAttackOffset,-8), new(0,4), 1, bossBullet: true);
+                MainGame.newEnemyBullet(position: new(64 + 8 * fallAttackOffset, -8), new(0, 4), 1, bossBullet: true);
+                MainGame.newEnemyBullet(position: new(96 + 8 * fallAttackOffset, -8), new(0, 4), 1, bossBullet: true);
+                MainGame.newEnemyBullet(position: new(128 + 8 * fallAttackOffset, -8), new(0, 4), 1, bossBullet: true);
+                MainGame.newEnemyBullet(position: new(160 + 8 * fallAttackOffset, -8), new(0, 4), 1, bossBullet: true);
                 fallAttackOffset += 1;
             }
 
