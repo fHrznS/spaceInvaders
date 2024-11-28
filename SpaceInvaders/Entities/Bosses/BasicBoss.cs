@@ -15,6 +15,9 @@ namespace SpaceInvaders.Entities.Bosses {
         internal Point hitboxOffset;
         internal bool disableEnemySpawning;
         internal Random rng = new();
+        internal Rectangle sourceRect = new(0, 0, 80, 32);
+        internal int nextFrameTimer = 60;
+        internal int onFrame = 0;
 
         abstract internal void Update();
         abstract internal void Draw(SpriteBatch spriteBatch);

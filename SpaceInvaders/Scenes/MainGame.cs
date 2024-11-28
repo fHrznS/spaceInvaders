@@ -108,10 +108,12 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bullets.Add(Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet2"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType1"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType2"));
+                Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType3"));
                 
                 // Load every boss sprite
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Zhyron"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Seraphim"));
+                Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Gabriel"));
                 // Load every enemy sprite
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type1"));
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type2"));
@@ -180,11 +182,15 @@ namespace SpaceInvaders.Scenes {
                 } else {
                     wave++;
                     // Spawn a boss?
+
                     if (wave == 4) {
                         currentBoss = new Zhyron(Sprites.bosses[0], wave);
                     }
                     if (wave == 19) {
                         currentBoss = new Seraphim(Sprites.bosses[1], wave);
+                    }
+                    if (wave == 39) {
+                        currentBoss = new Gabriel(Sprites.bosses[2], wave); // Untested
                     }
 
                     // Enemy spawning method
@@ -247,6 +253,7 @@ namespace SpaceInvaders.Scenes {
                 if (currentBoss.health == 0) {
                     currentBoss = null;
                     Globals.instantKillAttack = false;
+                    Globals.invasionMode = false;
                 }
             }
 
@@ -371,11 +378,11 @@ namespace SpaceInvaders.Scenes {
             }
         }
 
-        void newRandomEnemyBatch() {
+        void newRandomEnemyBatch(int height = 4) {
             Random rng = new();
-            for (int y = 0; y < 4; y++) {
+            for (int y = 0; y < height * (Globals.invasionMode ? 2 : 1); y++) {
                 for (int x = 0; x < 8; x++) {
-                    int chanceOfEmpty = 2 + wave/finalWave;
+                    int chanceOfEmpty = 2 + wave/finalWave + 30 * (Globals.invasionMode ? 1 : 0);
                     int type = rng.Next(1, highestAlienType+1);
 
                     if (rng.Next(0,chanceOfEmpty) == 1) { continue; }
@@ -390,7 +397,7 @@ namespace SpaceInvaders.Scenes {
                 case 1:
                 case 2:
                     aliens.Add(new BasicAlien(type,
-                        new Vector2(16 + 16 * xPos, -64 + 16 * yPos),
+                        new Vector2(16 + 16 * xPos, -16 - 16 * yPos ),//-64 + 16 * yPos),
                         new Rectangle(2, 2, 11, 11),
                         id));
                     break;
@@ -481,7 +488,7 @@ namespace SpaceInvaders.Scenes {
                     position: position, 
                     hitboxSize: new (6, 6),
                     direction: direction,
-                    Sprites.bossBullets[type],
+                    Sprites.bossBullets[type], // Black magic here
                     id,
                     damage,
                     evil:true));
