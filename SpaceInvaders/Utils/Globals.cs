@@ -6,7 +6,7 @@
         internal static bool invasionMode = false;
 
         internal static bool debug = false;
-        internal static int dbWave = 38;
+        internal static int dbWave = 22;
         internal static int dbBSpeed = -13; // -5 base
         internal static int dbBCount = 5; // 1 base
     }

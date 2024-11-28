@@ -29,8 +29,8 @@ namespace SpaceInvaders.Entities.Bosses {
  Zhyron [DONE]
 
  Seraphim - One shot bullets, slow bullets. [DONE]
- Gabriel - More enemies, low health, decent fire rate. [Untested]
- Lilith - Bullet Hell
+ Gabriel - More enemies, low health, decent fire rate. [DONE]
+ Lilith - Bullet Hell [Gulp]
  Adam & Eve - 2 Bosses as 1
  The Mothership - Tons of HP, summons previous bosses.
  Calamitas - Survival boss

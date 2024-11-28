@@ -10,7 +10,7 @@ namespace SpaceInvaders.Entities.Bosses {
         public Gabriel(Texture2D sprite, int wave) {
             this.sprite = sprite;
             position = new(56, 8);
-            hitbox = new(11, 0, 26, 51);
+            hitbox = new(11, 2, 26, 51);
             hitboxOffset = hitbox.Location;
             hitbox.Location = position.ToPoint() + hitboxOffset;
             center = position + hitbox.Size.ToVector2() * new Vector2(0.5f,1);
