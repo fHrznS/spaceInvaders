@@ -13,6 +13,13 @@ namespace SpaceInvaders.Entities {
 
         public Rectangle sourceRect = new(0, 0, 16, 16);
 
+        public Player() {
+            if (Globals.debug) {
+                bulletSpeed = Globals.dbBSpeed;
+                maxBullets = Globals.dbBCount;
+            }
+        }
+
         internal void Update() {
             playerMovement();
             Point posAsPoint = position.ToPoint();

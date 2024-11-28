@@ -32,7 +32,7 @@ namespace SpaceInvaders {
         }
 
         protected override void Initialize() {
-            Window.Title = "Space Invaders   |  V0.2.0 Seraphim the Angel";
+            Window.Title = "Space Invaders   |  V0.3.0 Gabriel the Sentinel";
 
             // Initialize renderTarget to allow for the pixel style.
             renderTarget = new(GraphicsDevice, Globals.screenWidth, Globals.screenHeight);

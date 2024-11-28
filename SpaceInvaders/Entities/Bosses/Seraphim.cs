@@ -16,6 +16,7 @@ namespace SpaceInvaders.Entities.Bosses {
             health = maxHealth;
             attackTimerReset = 60 * 35;
             attackTimer = attackTimerReset;
+            sourceRect = new(0, 0, 40, 60);
         }
 
         internal override void Update() {

@@ -13,11 +13,11 @@ namespace SpaceInvaders.Entities.Bosses {
             hitbox = new(11, 0, 26, 51);
             hitboxOffset = hitbox.Location;
             hitbox.Location = position.ToPoint() + hitboxOffset;
-            center = position - hitbox.Size.ToVector2() * new Vector2(0.5f,0);
+            center = position + hitbox.Size.ToVector2() * new Vector2(0.5f,1);
 
-            maxHealth = 7 * (wave + 1);
+            maxHealth = 6 * (wave + 1);
             health = maxHealth;
-            attackTimerReset = 60 * 15;
+            attackTimerReset = 60 * 19;
             attackTimer = attackTimerReset;
             sourceRect = new(0, 0, 48, 64);
 
@@ -27,19 +27,17 @@ namespace SpaceInvaders.Entities.Bosses {
         internal override void Update() {
             attackTimer--;
 
-            if (attackTimer <= 60 * 13 && attackTimer >= 60 * 10 && attackTimer % 20 == 0) {
+            if (attackTimer <= 60 * 17 && attackTimer >= 60 * 14 && attackTimer % 20 == 0) {
                 MainGame.newEnemyBullet(center, new Vector2(rng.Next(-2,2)*((float)rng.NextDouble()), 1), 2, bossBullet:true);
             }
 
-            if (attackTimer <= 60 * 7 && attackTimer >= 60 * 5 && attackTimer % 20 == 0) {
-                MainGame.newEnemyBullet(center, new Vector2(-0.5f  * ((float)rng.NextDouble()), 1.5f), 2, bossBullet: true);
-                MainGame.newEnemyBullet(center, new Vector2(-0.75f * ((float)rng.NextDouble()), 1), 2, bossBullet: true);
-                MainGame.newEnemyBullet(center, new Vector2(0.5f   * ((float)rng.NextDouble()), 1.5f), 2, bossBullet: true);
-                MainGame.newEnemyBullet(center, new Vector2(0.75f  * ((float)rng.NextDouble()), 1), 2, bossBullet: true);
+            if (attackTimer <= 60 * 9 && attackTimer >= 60 * 6 && attackTimer % 60 == 0) {
+                MainGame.newEnemyBullet(center, new Vector2(-0.5f  * ((float)rng.NextDouble() + 0.2f), 1.5f), 2, bossBullet: true);
+                MainGame.newEnemyBullet(center, new Vector2(0.5f   * ((float)rng.NextDouble() + 0.2f), 1.5f), 2, bossBullet: true);
             }
 
-            if (attackTimer <= 60 * 3 && attackTimer % 10 == 0) {
-                MainGame.newEnemyBullet(center, new Vector2(rng.Next(-2, 2) * ((float)rng.NextDouble()), 0.5f), 2, bossBullet: true);
+            if (attackTimer <= 60 * 3 && attackTimer % 30 == 0) {
+                MainGame.newEnemyBullet(center, new Vector2(rng.Next(-2, 2) * ((float)rng.NextDouble()), 2.5f), 2, bossBullet: true);
             }
 
             if (attackTimer == 0) {

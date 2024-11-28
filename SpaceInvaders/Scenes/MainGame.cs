@@ -53,6 +53,10 @@ namespace SpaceInvaders.Scenes {
         private int lostTimer = 30, lostTimerReset = 30;
         private bool won = false;
 
+        private int maxWaveHeight = 4;
+        private int minimumEnemy = 1;
+        private int baseEmpty = 2;
+
         Random rng = new();
 
         public MainGame(ContentManager contentManager) {
@@ -100,12 +104,16 @@ namespace SpaceInvaders.Scenes {
             powerboxSummonTimer = rng.Next(1800, 3600*2); // 30 secs, 2 mins
             freeEnemySpawnTimerReset = 60 * 60;
             freeEnemySpawnTimer = freeEnemySpawnTimerReset;
+            Globals.instantKillAttack = false;
+            Globals.invasionMode = false;
 
             if (Sprites.bullets.Count == 0) {
                 // Load every bullet sprites
                 Sprites.bullets.Add(Content.Load<Texture2D>("Bullet"));
                 Sprites.bullets.Add(Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet1"));
                 Sprites.bullets.Add(Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet2"));
+                Sprites.bullets.Add(null);
+                Sprites.bullets.Add(Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet3"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType1"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType2"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType3"));
@@ -118,6 +126,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type1"));
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type2"));
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type3"));
+                Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type4"));
 
                 // Load every particle sprite
                 Sprites.particles.Add(Content.Load<Texture2D>("Particles/TestParticle"));
@@ -129,7 +138,12 @@ namespace SpaceInvaders.Scenes {
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSplit"));
             }
 
-            newEnemyBatch();
+            if (Globals.debug) {
+                wave = Globals.dbWave;
+                CheckGameCondition();
+            } else {
+                newEnemyBatch();
+            }
             previousInput = Keyboard.GetState();
         }
 
@@ -175,6 +189,13 @@ namespace SpaceInvaders.Scenes {
         }
 
         void CheckGameCondition() {
+            if (wave >= 9) {
+                highestAlienType = 3;
+            }
+            if (wave > 19) {
+                highestAlienType = 4;
+            }
+            
             // Have all aliens been killed?
             if (Alien.count == 0) {
                 if (wave >= finalWave && currentBoss == null) {
@@ -190,7 +211,7 @@ namespace SpaceInvaders.Scenes {
                         currentBoss = new Seraphim(Sprites.bosses[1], wave);
                     }
                     if (wave == 39) {
-                        currentBoss = new Gabriel(Sprites.bosses[2], wave); // Untested
+                        currentBoss = new Gabriel(Sprites.bosses[2], wave); // Untested, partial.
                     }
 
                     // Enemy spawning method
@@ -198,16 +219,13 @@ namespace SpaceInvaders.Scenes {
                         newEnemyBatch();
                     } else {
                         while (Alien.count == 0) {
-                            newRandomEnemyBatch();
+                            newRandomEnemyBatch(maxWaveHeight);
                         }
                     }
                 }
 
             }
 
-            if (wave == 8) {
-                highestAlienType = 3;
-            }
 
             if (wave >= 14) { // 15th wave start spawning "free" enemies.
                 freeEnemySpawnTimer--;
@@ -251,6 +269,12 @@ namespace SpaceInvaders.Scenes {
             if (currentBoss != null) {
                 currentBoss.Update();
                 if (currentBoss.health == 0) {
+                    if (currentBoss.GetType() == typeof(Gabriel)) {
+                        maxWaveHeight += 1;
+                        minimumEnemy += 1;
+                        baseEmpty += 2;
+                    }
+
                     currentBoss = null;
                     Globals.instantKillAttack = false;
                     Globals.invasionMode = false;
@@ -382,8 +406,8 @@ namespace SpaceInvaders.Scenes {
             Random rng = new();
             for (int y = 0; y < height * (Globals.invasionMode ? 2 : 1); y++) {
                 for (int x = 0; x < 8; x++) {
-                    int chanceOfEmpty = 2 + wave/finalWave + 30 * (Globals.invasionMode ? 1 : 0);
-                    int type = rng.Next(1, highestAlienType+1);
+                    int chanceOfEmpty = baseEmpty + wave/finalWave + 20 * (Globals.invasionMode ? 1 : 0);
+                    int type = rng.Next(minimumEnemy, highestAlienType+1 - (Globals.invasionMode ? 1 : 0) );
 
                     if (rng.Next(0,chanceOfEmpty) == 1) { continue; }
 
@@ -393,17 +417,24 @@ namespace SpaceInvaders.Scenes {
         }
 
         void createEnemy(int xPos, int yPos, int type, bool free = false) {
+            Vector2 spawnPos = new(16 + 16 * xPos, -16 - 16 * yPos);
             switch (type) {
                 case 1:
                 case 2:
                     aliens.Add(new BasicAlien(type,
-                        new Vector2(16 + 16 * xPos, -16 - 16 * yPos ),//-64 + 16 * yPos),
+                        spawnPos,//-64 + 16 * yPos),
                         new Rectangle(2, 2, 11, 11),
                         id));
                     break;
                 case 3:
                     aliens.Add(new BoltAlien(type,
-                    new Vector2(16 + 16 * xPos, -64 + 16 * yPos),
+                    spawnPos, // new Vector2(16 + 16 * xPos, -64 + 16 * yPos),
+                    new Rectangle(2, 2, 11, 11),
+                    id));
+                    break;
+                case 4:
+                    aliens.Add(new ShellShock(type,
+                    spawnPos,
                     new Rectangle(2, 2, 11, 11),
                     id));
                     break;
@@ -442,7 +473,7 @@ namespace SpaceInvaders.Scenes {
                         20,
                         id));
                     id++;
-                } else if (boxToSummon == 3 && player.maxBullets > 2) {
+                } else if (boxToSummon == 3 && player.maxBullets > 2 && !player.splitBullet) {
                     powerboxes.Add(new SplitBulletBox(
                         new(boxXPos, -16),
                         Sprites.powerboxes[3],
