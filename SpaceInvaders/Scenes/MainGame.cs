@@ -40,7 +40,7 @@ namespace SpaceInvaders.Scenes {
             playerBulletDeleted = false,
             enemyBulletDeleted = false;
 
-        private int finalWave = 19;
+        private int finalWave = 44;
         private int highestAlienType = 2;
         private int freeEnemySpawnTimer, freeEnemySpawnTimerReset;
 
