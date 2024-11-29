@@ -52,9 +52,9 @@ namespace SpaceInvaders.Entities.Aliens {
 
             if (shootTimer == 0) {
                 if (canShoot && !Globals.instantKillAttack) {
-                    Scenes.MainGame.newEnemyBullet(position, new(0, 2), type, damage: 1);
-                    Scenes.MainGame.newEnemyBullet(position, new(0.3f, 2), type, damage: 1);
-                    Scenes.MainGame.newEnemyBullet(position, new(-0.3f, 2), type, damage: 1);
+                    Scenes.MainGame.newEnemyBullet(position, new(0, 2f), type, damage: 1);
+                    Scenes.MainGame.newEnemyBullet(position, new(0.5f, 1.9f), type, damage: 1);
+                    Scenes.MainGame.newEnemyBullet(position, new(-0.5f, 1.9f), type, damage: 1);
                 }
                 shootTimer = shootTimerReset;
             }

@@ -193,13 +193,6 @@ namespace SpaceInvaders.Scenes {
         }
 
         void CheckGameCondition() {
-            if (wave >= 9) {
-                highestAlienType = 3;
-            }
-            if (wave > 19) {
-                highestAlienType = 4;
-            }
-            
             // Have all aliens been killed?
             if (Alien.count == 0 && !Globals.stopSpawn) {
                 if (wave >= finalWave && currentBoss == null) {
@@ -220,6 +213,14 @@ namespace SpaceInvaders.Scenes {
                         currentBoss = new Gabriel(Sprites.bosses[2], wave);
                     } else if (wave == 64) {
                         currentBoss = new Lilith(Sprites.bosses[3], wave);
+                    }
+
+                    // Most difficult enemy to spawn?
+                    if (wave >= 9) {
+                        highestAlienType = 3;
+                    }
+                    if (wave > 19) {
+                        highestAlienType = 4;
                     }
 
                     // Enemy spawning method
