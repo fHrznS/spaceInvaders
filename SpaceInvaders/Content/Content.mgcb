@@ -61,18 +61,6 @@
 /processorParam:TextureFormat=Color
 /build:AlienSprites/Type4.png
 
-#begin AlienSprites/Type4.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:AlienSprites/Type4.png
-
 #begin Background.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -132,6 +120,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:BossSprites/Gabriel.png
+
+#begin BossSprites/Lilith.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BossSprites/Lilith.png
 
 #begin BossSprites/Seraphim.png
 /importer:TextureImporter

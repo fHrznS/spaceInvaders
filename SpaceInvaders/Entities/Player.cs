@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
+using System;
 
 namespace SpaceInvaders.Entities {
     internal class Player : BasicObject {
@@ -23,9 +24,13 @@ namespace SpaceInvaders.Entities {
         internal void Update() {
             playerMovement();
             Point posAsPoint = position.ToPoint();
-            hitbox.Location = new(posAsPoint.X + 1, posAsPoint.Y + 1);
+            hitbox.Location = new(posAsPoint.X + 1, posAsPoint.Y + 5);
 
             canShoot();
+
+            if (MainGame.input.IsKeyDown(Keys.G) && MainGame.input != MainGame.previousInput && Globals.debug) {
+                Globals.god = !Globals.god;
+            }
         }
 
         void playerMovement() {
@@ -55,7 +60,9 @@ namespace SpaceInvaders.Entities {
         }
 
         internal void registerDamage(int damage) {
-            health -= damage;
+            if (!Globals.god) {
+                health -= damage;
+            }
 
             if (health < 0) { health = 0; }
             updateSprite();

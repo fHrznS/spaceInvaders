@@ -5,7 +5,6 @@ using System;
 
 namespace SpaceInvaders.Entities.Bosses {
     internal class Zhyron : BasicBoss {
-        Vector2 center;
         int fallAttackOffset = 0;
 
         public Zhyron(Texture2D sprite, int wave) {

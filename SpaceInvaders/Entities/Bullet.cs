@@ -21,14 +21,13 @@ namespace SpaceInvaders.Entities {
         }
 
         public void Update() {
-            position.Y += direction.Y;
-            position.X += direction.X;
+            position += direction;
             hitbox.Location = position.ToPoint();
 
             // Do we delete?
             if (position.Y < -10 && !isEvil) {
                 MainGame.deleteBullet(id, evil: false);
-            } else if (position.Y > 200 && isEvil) {
+            } else if ((position.Y > 230 || position.Y < -32) && isEvil) {
                 MainGame.deleteBullet(id, evil: true);
             }
         }

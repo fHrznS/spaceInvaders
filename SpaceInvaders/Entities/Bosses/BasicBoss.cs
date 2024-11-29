@@ -18,6 +18,7 @@ namespace SpaceInvaders.Entities.Bosses {
         internal Rectangle sourceRect = new(0, 0, 80, 32);
         internal int nextFrameTimer = 60;
         internal int onFrame = 0;
+        internal Vector2 center;
 
         abstract internal void Update();
         abstract internal void Draw(SpriteBatch spriteBatch);
@@ -30,7 +31,7 @@ namespace SpaceInvaders.Entities.Bosses {
 
  Seraphim - One shot bullets, slow bullets. [DONE]
  Gabriel - More enemies, low health, decent fire rate. [DONE]
- Lilith - Bullet Hell [Gulp]
+ Lilith - Bullet Hell [DONE]
  Adam & Eve - 2 Bosses as 1
  The Mothership - Tons of HP, summons previous bosses.
  Calamitas - Survival boss

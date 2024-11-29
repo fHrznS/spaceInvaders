@@ -5,8 +5,6 @@ using SpaceInvaders.Utils;
 
 namespace SpaceInvaders.Entities.Bosses {
     internal class Gabriel : BasicBoss {
-        Vector2 center;
-
         public Gabriel(Texture2D sprite, int wave) {
             this.sprite = sprite;
             position = new(56, 8);

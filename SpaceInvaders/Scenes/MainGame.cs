@@ -40,7 +40,7 @@ namespace SpaceInvaders.Scenes {
             playerBulletDeleted = false,
             enemyBulletDeleted = false;
 
-        private int finalWave = 44;
+        private int finalWave = 80;
         private int highestAlienType = 2;
         private int freeEnemySpawnTimer, freeEnemySpawnTimerReset;
 
@@ -70,7 +70,7 @@ namespace SpaceInvaders.Scenes {
             // Set all variables to default
             player.sprite = Content.Load<Texture2D>("ShipSprites/normal");
             player.position = new Vector2(72, 160);
-            player.hitbox = new(0, 0, 14, 14);
+            player.hitbox = new(0, 4, 14, 10);
 
             // Define Background
             background = new(Content.Load<Texture2D>("Background"));
@@ -104,8 +104,10 @@ namespace SpaceInvaders.Scenes {
             powerboxSummonTimer = rng.Next(1800, 3600*2); // 30 secs, 2 mins
             freeEnemySpawnTimerReset = 60 * 60;
             freeEnemySpawnTimer = freeEnemySpawnTimerReset;
+
             Globals.instantKillAttack = false;
             Globals.invasionMode = false;
+            Globals.stopSpawn = false;
 
             if (Sprites.bullets.Count == 0) {
                 // Load every bullet sprites
@@ -114,6 +116,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bullets.Add(Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet2"));
                 Sprites.bullets.Add(null);
                 Sprites.bullets.Add(Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet3"));
+
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType1"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType2"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType3"));
@@ -122,6 +125,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Zhyron"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Seraphim"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Gabriel"));
+                Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Lilith"));
                 // Load every enemy sprite
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type1"));
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type2"));
@@ -197,28 +201,32 @@ namespace SpaceInvaders.Scenes {
             }
             
             // Have all aliens been killed?
-            if (Alien.count == 0) {
+            if (Alien.count == 0 && !Globals.stopSpawn) {
                 if (wave >= finalWave && currentBoss == null) {
                     won = true;
                 } else {
                     wave++;
                     // Spawn a boss?
 
+                    /*if (wave == 5) {
+                        currentBoss = new Lilith(Sprites.bosses[3], wave);
+                    }*/
+
                     if (wave == 4) {
                         currentBoss = new Zhyron(Sprites.bosses[0], wave);
-                    }
-                    if (wave == 19) {
+                    } else if (wave == 19) {
                         currentBoss = new Seraphim(Sprites.bosses[1], wave);
-                    }
-                    if (wave == 39) {
-                        currentBoss = new Gabriel(Sprites.bosses[2], wave); // Untested, partial.
+                    } else if (wave == 39) {
+                        currentBoss = new Gabriel(Sprites.bosses[2], wave);
+                    } else if (wave == 64) {
+                        currentBoss = new Lilith(Sprites.bosses[3], wave);
                     }
 
                     // Enemy spawning method
                     if (wave < 5) {
                         newEnemyBatch();
                     } else {
-                        while (Alien.count == 0) {
+                        while (Alien.count == 0 && !Globals.stopSpawn) {
                             newRandomEnemyBatch(maxWaveHeight);
                         }
                     }
@@ -278,6 +286,7 @@ namespace SpaceInvaders.Scenes {
                     currentBoss = null;
                     Globals.instantKillAttack = false;
                     Globals.invasionMode = false;
+                    Globals.stopSpawn = false;
                 }
             }
 
