@@ -43,7 +43,7 @@ namespace SpaceInvaders {
             _graphics.ApplyChanges();
 
             // Set initial scene to Main Menu passing in Content to allow it to load files.
-            sceneManager.AddScene(new Scenes.MainMenu(Content));
+            sceneManager.AddScene(new MainMenu(Content));
             gameState = GameStates.MainMenu;
 
             base.Initialize();
@@ -83,15 +83,15 @@ namespace SpaceInvaders {
             if (input == previousInput) { return; }
 
             if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
-                sceneManager.AddScene(new Scenes.MainGame(Content));
+                sceneManager.AddScene(new MainGame(Content));
                 gameState = GameStates.MainGame;
                 LoadContent();
             } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Settings) {
-                sceneManager.AddScene(new Scenes.Settings(Content));
+                sceneManager.AddScene(new Settings(Content));
                 gameState = GameStates.Settings;
                 LoadContent();
             } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.HowTo) {
-                sceneManager.AddScene(new Scenes.HowTo(Content));
+                sceneManager.AddScene(new HowTo(Content));
                 gameState = GameStates.HowTo;
                 LoadContent();
             } else if (input.IsKeyDown(Keys.Escape)) {

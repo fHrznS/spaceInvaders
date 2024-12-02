@@ -40,7 +40,7 @@ namespace SpaceInvaders.Scenes {
             playerBulletDeleted = false,
             enemyBulletDeleted = false;
 
-        private int finalWave = 80;
+        private int finalWave = 199;
         private int highestAlienType = 2;
         private int freeEnemySpawnTimer, freeEnemySpawnTimerReset;
 
@@ -210,10 +210,6 @@ namespace SpaceInvaders.Scenes {
                         currentBoss = new Lilith(Sprites.bosses[3], wave);
                     }*/
 
-                    if (wave == 5) {
-                        currentBoss = new AdamAndEve(Sprites.bosses[4], wave);
-                    }
-
                     if (wave == 4) {
                         currentBoss = new Zhyron(Sprites.bosses[0], wave);
                     } else if (wave == 19) {
@@ -222,6 +218,30 @@ namespace SpaceInvaders.Scenes {
                         currentBoss = new Gabriel(Sprites.bosses[2], wave);
                     } else if (wave == 64) {
                         currentBoss = new Lilith(Sprites.bosses[3], wave);
+                    } else if (wave == 99) {
+                        currentBoss = new AdamAndEve(Sprites.bosses[4], wave);
+                    } else if (wave == 119) {
+                        int boss = rng.Next(0,4);
+                        if (boss == 0) {
+                            currentBoss = new Zhyron(Sprites.bosses[0], wave);
+                        } else if (boss == 1) {
+                            currentBoss = new Seraphim(Sprites.bosses[0], wave);
+                        } else if (boss == 2) {
+                            currentBoss = new Gabriel(Sprites.bosses[0], wave);
+                        } else if (boss == 3) {
+                            currentBoss = new Lilith(Sprites.bosses[0], wave);
+                        }
+                    } else if (wave == 159) {
+                        int boss = rng.Next(0, 3);
+                        if (boss == 0) {
+                            currentBoss = new Gabriel(Sprites.bosses[0], wave);
+                        } else if (boss == 1) {
+                            currentBoss = new Lilith(Sprites.bosses[0], wave);
+                        } else if (boss == 2) {
+                            currentBoss = new AdamAndEve(Sprites.bosses[0], wave);
+                        }
+                    } else if (wave == 199) {
+                        // Ye
                     }
 
                     // Most difficult enemy to spawn?
