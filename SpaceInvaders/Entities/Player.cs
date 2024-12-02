@@ -11,6 +11,7 @@ namespace SpaceInvaders.Entities {
         internal int maxBullets = 1;
         internal bool splitBullet = false;
         internal int bulletSpeed = -5;
+        int invincibility = 0;
 
         public Rectangle sourceRect = new(0, 0, 16, 16);
 
@@ -30,6 +31,10 @@ namespace SpaceInvaders.Entities {
 
             if (MainGame.input.IsKeyDown(Keys.G) && MainGame.input != MainGame.previousInput && Globals.debug) {
                 Globals.god = !Globals.god;
+            }
+
+            if (invincibility > 0) {
+                invincibility--;
             }
         }
 
@@ -60,8 +65,11 @@ namespace SpaceInvaders.Entities {
         }
 
         internal void registerDamage(int damage) {
+            if (invincibility != 0) { return; }
+
             if (!Globals.god) {
                 health -= damage;
+                invincibility = 60 * 2;
             }
 
             if (health < 0) { health = 0; }
@@ -72,7 +80,7 @@ namespace SpaceInvaders.Entities {
         }
 
         internal void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(sprite, position, sourceRect, Color.White);
+            spriteBatch.Draw(sprite, position, sourceRect, Color.White * ( 0 + 1 / (invincibility % 20 + 1f) + 0.3f) );
         }
     }
 }
