@@ -7,7 +7,7 @@ namespace SpaceInvaders.Entities.Bosses {
     internal class Lilith : BasicBoss {
         bool firstMove = true;
         int offsetBulltet = 0;
-        int bulletType = 0;
+        int bulletType = 3;
         Vector2 velocity = new(0.1f, 0);
 
         public Lilith(Texture2D sprite, int wave) {

@@ -6,8 +6,8 @@
         internal static bool instantKillAttack = false;
         internal static bool invasionMode = false;
 
-        internal static bool debug = false;
-        internal static int dbWave = 19;
+        internal static bool debug = true;
+        internal static int dbWave = 4;
         internal static int dbBSpeed = -5; // -5 base
         internal static int dbBCount = 1; // 1 base
         internal static bool god = false;

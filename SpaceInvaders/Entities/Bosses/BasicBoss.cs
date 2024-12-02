@@ -20,6 +20,10 @@ namespace SpaceInvaders.Entities.Bosses {
         internal int onFrame = 0;
         internal Vector2 center;
 
+        // To make my life simple, Adam and Eve have their own data.
+        internal Rectangle adamHitbox, eveHitbox;
+        internal int adamHealth, eveHealth;
+
         abstract internal void Update();
         abstract internal void Draw(SpriteBatch spriteBatch);
     }

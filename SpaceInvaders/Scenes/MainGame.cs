@@ -120,12 +120,16 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType1"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType2"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType3"));
-                
+                Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType4"));
+                Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType5"));
+                Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType6"));
+
                 // Load every boss sprite
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Zhyron"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Seraphim"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Gabriel"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Lilith"));
+                Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/AdamAndEve"));
                 // Load every enemy sprite
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type1"));
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type2"));
@@ -205,6 +209,10 @@ namespace SpaceInvaders.Scenes {
                     /*if (wave == 5) {
                         currentBoss = new Lilith(Sprites.bosses[3], wave);
                     }*/
+
+                    if (wave == 5) {
+                        currentBoss = new AdamAndEve(Sprites.bosses[4], wave);
+                    }
 
                     if (wave == 4) {
                         currentBoss = new Zhyron(Sprites.bosses[0], wave);
@@ -321,12 +329,26 @@ namespace SpaceInvaders.Scenes {
                         break;
                     }
                 }
+
                 // If not colliding with Alien, boss collision?
                 if (removeBullet == false && currentBoss != null) {
-                    if (bullet.hitbox.Intersects(currentBoss.hitbox)) {
-                        currentBoss.health--;
-                        particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
-                        removeBullet = true;
+                    if (currentBoss.GetType() == typeof(AdamAndEve)) {
+                        if (bullet.hitbox.Intersects(currentBoss.adamHitbox)) {
+                            currentBoss.adamHealth--;
+                            particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
+                            removeBullet = true;
+                        } else if (bullet.hitbox.Intersects(currentBoss.eveHitbox)) {
+                            currentBoss.eveHealth--;
+                            particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
+                            removeBullet = true;
+                        }
+                    }
+                    else {
+                        if (bullet.hitbox.Intersects(currentBoss.hitbox)) {
+                            currentBoss.health--;
+                            particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
+                            removeBullet = true;
+                        }
                     }
                 }
 

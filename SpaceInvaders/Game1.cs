@@ -32,7 +32,7 @@ namespace SpaceInvaders {
         }
 
         protected override void Initialize() {
-            Window.Title = "Space Invaders   |  V0.4.0 Lilith the Demon Mother";
+            Window.Title = "Space Invaders   |  V0.5.0 The Everloving Adam and Eve";
 
             // Initialize renderTarget to allow for the pixel style.
             renderTarget = new(GraphicsDevice, Globals.screenWidth, Globals.screenHeight);
