@@ -25,7 +25,7 @@ namespace SpaceInvaders.Scenes {
         static ContentManager Content;
 
         Background background;
-        SpriteFont text;
+        public static SpriteFont text;
 
         Player player = new();
         List<Alien> aliens = new();
@@ -140,6 +140,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Bullet"));
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSpeed"));
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSplit"));
+                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Resistance"));
             }
 
             if (Globals.debug) {
@@ -239,13 +240,23 @@ namespace SpaceInvaders.Scenes {
             if (wave >= 14) { // 15th wave start spawning "free" enemies.
                 freeEnemySpawnTimer--;
 
+                if (wave > 25) {
+                    freeEnemySpawnTimer = 60 * 40;
+                } else if (wave > 40) {
+                    freeEnemySpawnTimer = 60 * 25;
+                } else if (wave > 60) {
+                    freeEnemySpawnTimer = 60 * 15;
+                } else if (wave > 100) {
+                    freeEnemySpawnTimer = 60 * 10;
+                }
+
                 if (freeEnemySpawnTimer == 0) {
                     int type = rng.Next(1, highestAlienType + 1);
                     int xPos = rng.Next(0, 7);
 
-                    createEnemy(xPos, 4, type, free: true);
+                    createEnemy(xPos, 0, type, free: true);
 
-                    freeEnemySpawnTimer = freeEnemySpawnTimerReset;
+                    freeEnemySpawnTimer = 60 * 40;
                 }
             }
         }
@@ -353,6 +364,9 @@ namespace SpaceInvaders.Scenes {
                         player.splitBullet = true;
                     } else if (powerbox.GetType() == typeof(BulletSpeedBox)) {
                         player.bulletSpeed -= 2;
+                    } else if (powerbox.GetType() == typeof(ResistanceBox)) {
+                        player.sheild += 1;
+                        player.updateSprite();
                     }
 
                     powerboxes.Remove(powerboxes.Find(x => x.id == powerbox.id));
@@ -460,14 +474,20 @@ namespace SpaceInvaders.Scenes {
             powerboxSummonTimer--;
 
             if (powerboxSummonTimer == 0) {
-                powerboxSummonTimer = rng.Next(5400, 10800); // 1.5 min, 3 min
+                powerboxSummonTimer = rng.Next(5400, 10800); // 1.5 min, 3 min. I should make a util to make this readable.
                 int minUpgrade = 1;
                 if (player.health == 3) {
                     minUpgrade += 1;
                 }
 
-                int boxToSummon = rng.Next(minUpgrade,5);
+                int boxToSummon = rng.Next(minUpgrade,6);
                 int boxXPos = rng.Next(3, 141);
+
+                powerboxes.Add(new ResistanceBox(
+                    new(boxXPos, -16),
+                    Sprites.powerboxes[4],
+                    45,
+                    id));
 
                 if (boxToSummon == 1) {
                     powerboxes.Add(new HealBox(
@@ -475,29 +495,32 @@ namespace SpaceInvaders.Scenes {
                         Sprites.powerboxes[0],
                         60,
                         id));
-                    id++;
                 } else if (boxToSummon == 2 && player.maxBullets < wave / 5) {
                     powerboxes.Add(new BulletBox(
                         new(boxXPos, -16),
                         Sprites.powerboxes[1],
                         20,
                         id));
-                    id++;
                 } else if (boxToSummon == 3 && player.maxBullets > 2 && !player.splitBullet) {
                     powerboxes.Add(new SplitBulletBox(
                         new(boxXPos, -16),
                         Sprites.powerboxes[3],
                         30,
                         id));
-                    id++;
+                } else if (boxToSummon == 6 && player.health > 1) {
+                    powerboxes.Add(new ResistanceBox(
+                        new(boxXPos, -16),
+                        Sprites.powerboxes[4],
+                        45,
+                        id));
                 } else if (player.bulletSpeed > -5 - (wave / 4) ) {
                     powerboxes.Add(new BulletSpeedBox(
                         new(boxXPos, -16),
                         Sprites.powerboxes[2],
                         30,
                         id));
-                    id++;
                 }
+                id++;
             } 
             
             foreach (Powerbox powerbox in powerboxes) {

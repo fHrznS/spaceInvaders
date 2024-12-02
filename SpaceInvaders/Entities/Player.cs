@@ -11,7 +11,9 @@ namespace SpaceInvaders.Entities {
         internal int maxBullets = 1;
         internal bool splitBullet = false;
         internal int bulletSpeed = -5;
+        internal int sheild = 0;
         int invincibility = 0;
+
 
         public Rectangle sourceRect = new(0, 0, 16, 16);
 
@@ -66,6 +68,11 @@ namespace SpaceInvaders.Entities {
 
         internal void registerDamage(int damage) {
             if (invincibility != 0) { return; }
+            if (sheild != 0) {
+                sheild--;
+                updateSprite();
+                return;
+            }
 
             if (!Globals.god) {
                 health -= damage;
@@ -76,7 +83,11 @@ namespace SpaceInvaders.Entities {
             updateSprite();
         }
         internal void updateSprite() {
-            sourceRect.Location = new(16 * 3 - 16 * health, 0);
+            if (sheild == 0) {
+                sourceRect.Location = new(16 * 3 - 16 * health, 0);
+            } else {
+                sourceRect.Location = new(0, 16);
+            }
         }
 
         internal void Draw(SpriteBatch spriteBatch) {
