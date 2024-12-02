@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceInvaders.Utils;
 using System;
 
 namespace SpaceInvaders.Entities {
@@ -14,7 +15,7 @@ namespace SpaceInvaders.Entities {
         internal int type;
         internal bool free;
         internal int shootTimer, shootTimerReset;
-        internal int timer, timerReset = 60 * 2;
+        internal int timer, timerReset = Time.ToFrames(seconds: 2);
         public int gridPosition = 0;
 
         internal bool isImmune = false;

@@ -306,8 +306,6 @@ namespace SpaceInvaders.Scenes {
             foreach (Powerbox powerbox in powerboxes) {
                 powerbox.Update();
             }
-
-            CheckPowerbox();
         }
         
         void CheckCollision() {
@@ -474,7 +472,15 @@ namespace SpaceInvaders.Scenes {
             powerboxSummonTimer--;
 
             if (powerboxSummonTimer == 0) {
-                powerboxSummonTimer = rng.Next(5400, 10800); // 1.5 min, 3 min. I should make a util to make this readable.
+                powerboxSummonTimer = rng.Next(
+                    Time.ToFrames(
+                        seconds: 0,
+                        minutes: 1),
+                    Time.ToFrames(
+                        seconds: 30,
+                        minutes: 2)
+                );
+
                 int minUpgrade = 1;
                 if (player.health == 3) {
                     minUpgrade += 1;

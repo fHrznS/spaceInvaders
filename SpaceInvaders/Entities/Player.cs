@@ -76,7 +76,7 @@ namespace SpaceInvaders.Entities {
 
             if (!Globals.god) {
                 health -= damage;
-                invincibility = 60 * 2;
+                invincibility = Time.ToFrames(seconds: 2);
             }
 
             if (health < 0) { health = 0; }

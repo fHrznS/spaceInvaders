@@ -11,7 +11,7 @@ namespace SpaceInvaders.Entities.Aliens {
             this.free = free;
             this.id = id;
 
-            shootTimerReset = rng.Next(180 * type, 330 * type);
+            shootTimerReset = rng.Next(Time.ToFrames(seconds: 3) * type, Time.ToFrames(seconds: 30, minutes: 5) * type);
             shootTimer = shootTimerReset;
 
             direction = new Vector2(1, 1);

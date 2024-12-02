@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceInvaders.Scenes;
-using System;
+using SpaceInvaders.Utils;
 
 namespace SpaceInvaders.Entities.Bosses {
     internal class Zhyron : BasicBoss {
@@ -15,7 +15,7 @@ namespace SpaceInvaders.Entities.Bosses {
             
             maxHealth = 6 * (wave + 1);
             health = maxHealth;
-            attackTimerReset = 60 * 10;
+            attackTimerReset = Time.ToFrames(seconds: 10);
             attackTimer = attackTimerReset;
         }
 
@@ -23,7 +23,7 @@ namespace SpaceInvaders.Entities.Bosses {
             attackTimer--;
             nextFrameTimer--;
 
-            if (attackTimer < 540 && attackTimer > 480 && attackTimer % 10 == 0) {
+            if (attackTimer < Time.ToFrames(seconds: 9) && attackTimer > Time.ToFrames(seconds: 8) && attackTimer % 10 == 0) {
                 MainGame.newEnemyBullet(position: center,
                     direction: new((float)(rng.Next(-3,3)*rng.NextDouble()),2.5f), 0, bossBullet: true);
             }
