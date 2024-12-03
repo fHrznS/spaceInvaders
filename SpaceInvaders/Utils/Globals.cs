@@ -7,7 +7,7 @@
         internal static bool invasionMode = false;
         internal static bool disableEnemySpawning = false;
 
-        internal static bool debug = true;
+        internal static bool debug = false;
         internal static int dbWave = 198;
         internal static int dbBSpeed = -16; // -5 base
         internal static int dbBCount = 10; // 1 base
