@@ -7,11 +7,11 @@
         internal static bool invasionMode = false;
         internal static bool disableEnemySpawning = false;
 
-        internal static bool debug = false;
+        internal static bool debug = true;
         internal static int dbWave = 198;
         internal static int dbBSpeed = -16; // -5 base
         internal static int dbBCount = 10; // 1 base
-        internal static int dbDamage = 50; // 0 base
+        internal static int dbDamage = 3; // 0 base
         internal static bool god = false;
         internal static bool summonSecondBoss = false;
     }

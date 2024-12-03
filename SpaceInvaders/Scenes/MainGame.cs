@@ -147,6 +147,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSpeed"));
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSplit"));
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Resistance"));
+                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/SheildBreaker"));
             }
 
             if (Globals.debug) {
@@ -428,6 +429,8 @@ namespace SpaceInvaders.Scenes {
                     } else if (powerbox.GetType() == typeof(ResistanceBox)) {
                         player.sheild += 1;
                         player.updateSprite();
+                    } else if (powerbox.GetType() == typeof(SheildBreakerBox)) {
+                        player.bulletArmour += 1;
                     }
 
                     powerboxes.Remove(powerboxes.Find(x => x.id == powerbox.id));
@@ -547,6 +550,8 @@ namespace SpaceInvaders.Scenes {
                 int minUpgrade = 1;
                 if (player.health == 3) {
                     minUpgrade += 1;
+                } if (player.maxBullets > wave / 6) {
+                    minUpgrade += 1;
                 }
 
                 int boxToSummon = rng.Next(minUpgrade,6);
@@ -570,13 +575,19 @@ namespace SpaceInvaders.Scenes {
                         Sprites.powerboxes[3],
                         30,
                         id));
-                } else if (boxToSummon == 6 && player.health > 1) {
+                } else if (boxToSummon == 4 && player.health > 1) {
                     powerboxes.Add(new ResistanceBox(
                         new(boxXPos, -16),
                         Sprites.powerboxes[4],
                         45,
                         id));
-                } else if (player.bulletSpeed > -5 - (wave / 4) ) {
+                } else if (boxToSummon == 5 && player.bulletArmour < wave / 50) {
+                    powerboxes.Add(new SheildBreakerBox(
+                        new(boxXPos, -24),
+                        Sprites.powerboxes[5],
+                        45,
+                        id));
+                } else if (player.bulletSpeed > - 5 - (wave / 4) && player.bulletSpeed > -16 ) {
                     powerboxes.Add(new BulletSpeedBox(
                         new(boxXPos, -16),
                         Sprites.powerboxes[2],
