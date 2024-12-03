@@ -13,7 +13,6 @@ namespace SpaceInvaders.Entities.Bosses {
             health, maxHealth,
             attackTimer, attackTimerReset;
         internal Point hitboxOffset;
-        internal bool disableEnemySpawning;
         internal Random rng = new();
         internal Rectangle sourceRect = new(0, 0, 80, 32);
         internal int nextFrameTimer = 60;
@@ -24,7 +23,7 @@ namespace SpaceInvaders.Entities.Bosses {
         internal Rectangle adamHitbox, eveHitbox;
         internal int adamHealth, eveHealth;
 
-        abstract internal void Update();
+        abstract internal void Update(Vector2 playerPos);
         abstract internal void Draw(SpriteBatch spriteBatch);
     }
 }
@@ -36,7 +35,7 @@ namespace SpaceInvaders.Entities.Bosses {
  Seraphim - One shot bullets, slow bullets. [DONE]
  Gabriel - More enemies, low health, decent fire rate. [DONE]
  Lilith - Bullet Hell [DONE]
- Adam & Eve - 2 Bosses as 1
+ Adam & Eve - 2 Bosses as 1 [DONE]
  The Mothership - Tons of HP, summons previous bosses.
  Calamitas - Survival boss
 

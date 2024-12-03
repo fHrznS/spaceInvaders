@@ -18,7 +18,7 @@ namespace SpaceInvaders.Entities.Bosses {
             hitbox.Location = position.ToPoint() + hitboxOffset;
             center = position + hitbox.Size.ToVector2() * new Vector2(0.5f, 1);
             
-            maxHealth = 2 * (wave + 1);
+            maxHealth = 5 * (wave + 1);
             health = maxHealth;
             attackTimerReset = 60 * 60;
             attackTimer = attackTimerReset;
@@ -29,7 +29,7 @@ namespace SpaceInvaders.Entities.Bosses {
             Globals.stopSpawn = true;
         }
 
-        internal override void Update() {
+        internal override void Update(Vector2 playerPos) {
             // Attack
             attackTimer--;
             if (attackTimer <= Time.ToFrames(seconds: 58) && attackTimer >= Time.ToFrames(seconds: 51) && attackTimer % 80 == 0) {

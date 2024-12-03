@@ -30,7 +30,7 @@ namespace SpaceInvaders.Scenes {
         Player player = new();
         List<Alien> aliens = new();
         private List<ParticleObject> particleObjects = new();
-        private BasicBoss currentBoss;
+        private List<BasicBoss> currentBoss = new();
         private List<Powerbox> powerboxes = new();
         private int powerboxSummonTimer = 0;
 
@@ -40,7 +40,7 @@ namespace SpaceInvaders.Scenes {
             playerBulletDeleted = false,
             enemyBulletDeleted = false;
 
-        private int finalWave = 199;
+        private int finalWave = 399;
         private int highestAlienType = 2;
         private int freeEnemySpawnTimer, freeEnemySpawnTimerReset;
 
@@ -70,7 +70,7 @@ namespace SpaceInvaders.Scenes {
             // Set all variables to default
             player.sprite = Content.Load<Texture2D>("ShipSprites/normal");
             player.position = new Vector2(72, 160);
-            player.hitbox = new(0, 4, 14, 10);
+            player.hitbox = new(1, 4, 14, 10);
 
             // Define Background
             background = new(Content.Load<Texture2D>("Background"));
@@ -123,6 +123,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType4"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType5"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType6"));
+                Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType7"));
 
                 // Load every boss sprite
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Zhyron"));
@@ -130,6 +131,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Gabriel"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Lilith"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/AdamAndEve"));
+                Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/TheMothership"));
                 // Load every enemy sprite
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type1"));
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type2"));
@@ -198,9 +200,12 @@ namespace SpaceInvaders.Scenes {
         }
 
         void CheckGameCondition() {
+            if (Globals.summonSecondBoss) {
+                aliens.Clear(); Alien.count = 0;
+            }
             // Have all aliens been killed?
             if (Alien.count == 0 && !Globals.stopSpawn) {
-                if (wave >= finalWave && currentBoss == null) {
+                if (wave >= finalWave && currentBoss.Count == 0) {
                     won = true;
                 } else {
                     wave++;
@@ -211,37 +216,37 @@ namespace SpaceInvaders.Scenes {
                     }*/
 
                     if (wave == 4) {
-                        currentBoss = new Zhyron(Sprites.bosses[0], wave);
+                        currentBoss.Add(new Zhyron(Sprites.bosses[0], wave));
                     } else if (wave == 19) {
-                        currentBoss = new Seraphim(Sprites.bosses[1], wave);
+                        currentBoss.Add(new Seraphim(Sprites.bosses[1], wave));
                     } else if (wave == 39) {
-                        currentBoss = new Gabriel(Sprites.bosses[2], wave);
+                        currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
                     } else if (wave == 64) {
-                        currentBoss = new Lilith(Sprites.bosses[3], wave);
+                        currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
                     } else if (wave == 99) {
-                        currentBoss = new AdamAndEve(Sprites.bosses[4], wave);
+                        currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave));
                     } else if (wave == 119) {
                         int boss = rng.Next(0,4);
                         if (boss == 0) {
-                            currentBoss = new Zhyron(Sprites.bosses[0], wave);
+                            currentBoss.Add(new Zhyron(Sprites.bosses[0], wave));
                         } else if (boss == 1) {
-                            currentBoss = new Seraphim(Sprites.bosses[0], wave);
+                            currentBoss.Add(new Seraphim(Sprites.bosses[1], wave));
                         } else if (boss == 2) {
-                            currentBoss = new Gabriel(Sprites.bosses[0], wave);
+                            currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
                         } else if (boss == 3) {
-                            currentBoss = new Lilith(Sprites.bosses[0], wave);
+                            currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
                         }
                     } else if (wave == 159) {
                         int boss = rng.Next(0, 3);
                         if (boss == 0) {
-                            currentBoss = new Gabriel(Sprites.bosses[0], wave);
+                            currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
                         } else if (boss == 1) {
-                            currentBoss = new Lilith(Sprites.bosses[0], wave);
+                            currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
                         } else if (boss == 2) {
-                            currentBoss = new AdamAndEve(Sprites.bosses[0], wave);
+                            currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave));
                         }
                     } else if (wave == 199) {
-                        // Ye
+                        currentBoss.Add(new TheMothership(Sprites.bosses[5], wave));
                     }
 
                     // Most difficult enemy to spawn?
@@ -250,6 +255,22 @@ namespace SpaceInvaders.Scenes {
                     }
                     if (wave > 19) {
                         highestAlienType = 4;
+                    }
+
+                    if (Globals.summonSecondBoss) {
+                        int boss = rng.Next(0, 5);
+                        if (boss == 0) {
+                            currentBoss.Add(new Zhyron(Sprites.bosses[0], wave));
+                        } else if (boss == 1) {
+                            currentBoss.Add(new Seraphim(Sprites.bosses[1], wave));
+                        } else if (boss == 2) {
+                            currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
+                        } else if (boss == 3) {
+                            currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
+                        } else if (boss == 4) {
+                            currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave));
+                        }
+                        Globals.summonSecondBoss = false;
                     }
 
                     // Enemy spawning method
@@ -314,16 +335,16 @@ namespace SpaceInvaders.Scenes {
                 if (enemyBulletDeleted) { break; }
             }
             // Boss
-            if (currentBoss != null) {
-                currentBoss.Update();
-                if (currentBoss.health == 0) {
+            if (currentBoss.Count != 0) {
+                currentBoss.Last().Update(player.position);
+                if (currentBoss.Last().health <= 0) {
                     if (currentBoss.GetType() == typeof(Gabriel)) {
                         maxWaveHeight += 1;
                         minimumEnemy += 1;
                         baseEmpty += 2;
                     }
 
-                    currentBoss = null;
+                    currentBoss.RemoveAt(currentBoss.Count - 1);
                     Globals.instantKillAttack = false;
                     Globals.invasionMode = false;
                     Globals.stopSpawn = false;
@@ -351,21 +372,21 @@ namespace SpaceInvaders.Scenes {
                 }
 
                 // If not colliding with Alien, boss collision?
-                if (removeBullet == false && currentBoss != null) {
-                    if (currentBoss.GetType() == typeof(AdamAndEve)) {
-                        if (bullet.hitbox.Intersects(currentBoss.adamHitbox)) {
-                            currentBoss.adamHealth--;
+                if (removeBullet == false && currentBoss.Count != 0) {
+                    if (currentBoss.Last().GetType() == typeof(AdamAndEve)) {
+                        if (bullet.hitbox.Intersects(currentBoss.Last().adamHitbox)) {
+                            currentBoss.Last().adamHealth -= bullet.damage;
                             particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
                             removeBullet = true;
-                        } else if (bullet.hitbox.Intersects(currentBoss.eveHitbox)) {
-                            currentBoss.eveHealth--;
+                        } else if (bullet.hitbox.Intersects(currentBoss.Last().eveHitbox)) {
+                            currentBoss.Last().eveHealth -= bullet.damage;
                             particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
                             removeBullet = true;
                         }
                     }
                     else {
-                        if (bullet.hitbox.Intersects(currentBoss.hitbox)) {
-                            currentBoss.health--;
+                        if (bullet.hitbox.Intersects(currentBoss.Last().hitbox)) {
+                            currentBoss.Last().health -= bullet.damage;
                             particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
                             removeBullet = true;
                         }
@@ -531,12 +552,6 @@ namespace SpaceInvaders.Scenes {
                 int boxToSummon = rng.Next(minUpgrade,6);
                 int boxXPos = rng.Next(3, 141);
 
-                powerboxes.Add(new ResistanceBox(
-                    new(boxXPos, -16),
-                    Sprites.powerboxes[4],
-                    45,
-                    id));
-
                 if (boxToSummon == 1) {
                     powerboxes.Add(new HealBox(
                         new(boxXPos, -16),
@@ -581,8 +596,8 @@ namespace SpaceInvaders.Scenes {
 
 
         // Code to spawn new bullet
-        static internal void newPlayerBullet(int xPosition, Vector2 direction) {
-            bullets.Add(new(position: new(xPosition, 160), new(2, 8), direction: direction, Sprites.bullets[0], 1, id));
+        static internal void newPlayerBullet(int xPosition, Vector2 direction, int damage) {
+            bullets.Add(new(position: new(xPosition, 160), new(2, 8), direction: direction, Sprites.bullets[0], id, damage));
             id++;
         }
         static internal void newEnemyBullet(Vector2 position, Vector2 direction, int type, bool bossBullet = false, int damage = 1) {
@@ -639,8 +654,8 @@ namespace SpaceInvaders.Scenes {
                 powerbox.Draw(spriteBatch);
             }
 
-            if (currentBoss != null) {
-                currentBoss.Draw(spriteBatch);
+            if (currentBoss.Count != 0) {
+                currentBoss.Last().Draw(spriteBatch);
             }
 
             player.Draw(spriteBatch);
@@ -657,7 +672,6 @@ namespace SpaceInvaders.Scenes {
                 spriteBatch.DrawString(text, "PAUSED", new(3,3), Color.White);
                 return;
             }
-
             if (!won) {
                 spriteBatch.DrawString(text, player.health.ToString(), new(0, 0), Color.White);
                 spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0, 38), Color.White);

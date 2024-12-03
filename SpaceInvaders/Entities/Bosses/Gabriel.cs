@@ -22,7 +22,7 @@ namespace SpaceInvaders.Entities.Bosses {
             Globals.invasionMode = true;
         }
 
-        internal override void Update() {
+        internal override void Update(Vector2 playerPos) {
             attackTimer--;
 
             if (attackTimer <= Time.ToFrames(seconds: 17) && attackTimer >= Time.ToFrames(seconds: 14) && attackTimer % 20 == 0) {

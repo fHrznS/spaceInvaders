@@ -42,7 +42,7 @@ namespace SpaceInvaders.Entities.Bosses {
         }
 
 
-        internal override void Update() {
+        internal override void Update(Vector2 playerPos) {
             health = adamHealth + eveHealth;
 
             if (eveHealth > 0) {

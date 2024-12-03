@@ -19,7 +19,7 @@ namespace SpaceInvaders.Entities.Bosses {
             attackTimer = attackTimerReset;
         }
 
-        internal override void Update() {
+        internal override void Update(Vector2 playerPos) {
             attackTimer--;
             nextFrameTimer--;
 

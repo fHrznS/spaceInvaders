@@ -9,7 +9,8 @@ namespace SpaceInvaders.Entities {
     internal class Player : BasicObject {
         internal int health = 3;
         internal int maxBullets = 1;
-        internal bool splitBullet = false;
+        internal int bulletArmour = 0;
+        internal bool splitBullet = true;
         internal int bulletSpeed = -5;
         internal int sheild = 0;
         int invincibility = 0;
@@ -21,6 +22,7 @@ namespace SpaceInvaders.Entities {
             if (Globals.debug) {
                 bulletSpeed = Globals.dbBSpeed;
                 maxBullets = Globals.dbBCount;
+                bulletArmour = Globals.dbDamage;
             }
         }
 
@@ -56,11 +58,11 @@ namespace SpaceInvaders.Entities {
             // Can the player shoot?
             if (MainGame.input.IsKeyDown(Controls.shoot) && Bullet.bulletCount != maxBullets) {
                 if (maxBullets - Bullet.bulletCount >= 2 && splitBullet) {
-                    MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed));
-                    MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed));
+                    MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour);
+                    MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour);
                     Bullet.bulletCount++;
                 } else {
-                    MainGame.newPlayerBullet((int)position.X, new Vector2(0, bulletSpeed));
+                    MainGame.newPlayerBullet((int)position.X, new Vector2(0, bulletSpeed), 1 + bulletArmour);
                 }
                 Bullet.bulletCount++;
             }

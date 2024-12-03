@@ -145,6 +145,18 @@
 /processorParam:TextureFormat=Color
 /build:BossBullets/BulletType6.png
 
+#begin BossBullets/BulletType7.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BossBullets/BulletType7.png
+
 #begin BossSprites/AdamAndEve.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -192,6 +204,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:BossSprites/Seraphim.png
+
+#begin BossSprites/TheMothership.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BossSprites/TheMothership.png
 
 #begin BossSprites/Zhyron.png
 /importer:TextureImporter
