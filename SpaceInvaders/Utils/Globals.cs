@@ -1,4 +1,6 @@
-﻿namespace SpaceInvaders.Utils {
+﻿using System.Collections.Generic;
+
+namespace SpaceInvaders.Utils {
     public static class Globals {
         internal static int screenWidth = 160, screenHeight = 192; // 640x768
         internal static bool gameLost;
@@ -14,5 +16,8 @@
         internal static int dbDamage = 3; // 0 base
         internal static bool god = false;
         internal static bool summonSecondBoss = false;
+
+        internal static bool easyDifficulty = false;
+        internal static Dictionary<string, int> SaveData = new Dictionary<string, int>();
     }
 }

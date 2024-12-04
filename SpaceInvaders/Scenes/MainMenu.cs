@@ -10,6 +10,7 @@ namespace SpaceInvaders.Scenes
     {
         public enum Options {
             Start,
+            Easy,
             Settings,
             HowTo
         }
@@ -50,11 +51,20 @@ namespace SpaceInvaders.Scenes
                 }
             }
 
+            if (input.IsKeyDown(Controls.moveRight)) {
+                selectedOption = Options.Easy;
+            }
+            else if (input.IsKeyDown(Controls.moveLeft)) {
+                selectedOption = Options.Start;
+            }
+
             previousInput = input;
         }
 
         void IScene.Draw(SpriteBatch spriteBatch) {
-            spriteBatch.DrawString(text, selectedOption == Options.Start ? "* Play" : "Play", new Vector2(2,0), Color.White);
+            spriteBatch.DrawString(text, 
+                selectedOption == Options.Easy ? "* Easy" : (selectedOption == Options.Start ? "* Play" : "Play"), // My least favorite line in the program
+                new Vector2(2,0), Color.White);
             spriteBatch.DrawString(text, selectedOption == Options.Settings ? "* Settings" : "Settings", new Vector2(2,24), Color.White);
             spriteBatch.DrawString(text, selectedOption == Options.HowTo ? "* Help" : "Help", new Vector2(2,48), Color.White);
         }

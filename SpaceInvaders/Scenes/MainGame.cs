@@ -151,10 +151,32 @@ namespace SpaceInvaders.Scenes {
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Resistance"));
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/SheildBreaker"));
             }
+
+            if (Globals.SaveData.Count == 0) {
+                Globals.SaveData.Add("Wave", 0);
+                Globals.SaveData.Add("BulletCount", 1);
+                Globals.SaveData.Add("BulletSpeed", -5);
+                Globals.SaveData.Add("BulletDamage", 0);
+                Globals.SaveData.Add("Armour", 0);
+                Globals.SaveData.Add("SplitBullet", 0);
+            }
+
+            if (Globals.easyDifficulty && Globals.SaveData.Count != 0) {
+                wave = Globals.SaveData["Wave"];
+                player.bulletArmour = Globals.SaveData["BulletDamage"];
+                player.bulletSpeed = Globals.SaveData["BulletSpeed"];
+                player.maxBullets = Globals.SaveData["BulletCount"];
+                player.splitBullet = Globals.SaveData["SplitBullet"] == 1 ? true : false;
+                player.sheild = Globals.SaveData["Armour"];
+            }
+
             finishedLoading = true;
 
             if (Globals.debug) {
                 wave = Globals.dbWave;
+                CheckGameCondition();
+            } else if (Globals.easyDifficulty) {
+                wave--;
                 CheckGameCondition();
             } else {
                 newEnemyBatch();
@@ -211,6 +233,16 @@ namespace SpaceInvaders.Scenes {
             if (Globals.summonSecondBoss) {
                 aliens.Clear(); Alien.count = 0;
             }
+
+            if (Globals.easyDifficulty && (wave + 1) % 25 == 0) {
+                Globals.SaveData["Wave"] = wave;
+                Globals.SaveData["BulletCount"] = player.maxBullets;
+                Globals.SaveData["BulletSpeed"] = player.bulletSpeed;
+                Globals.SaveData["BulletDamage"] = player.bulletArmour;
+                Globals.SaveData["Armour"] = player.sheild;
+                Globals.SaveData["SplitBullet"] = player.splitBullet ? 1 : 0;
+            }
+
             // Have all aliens been killed?
             if (Alien.count == 0 && !Globals.stopSpawn) {
                 if (wave >= finalWave && currentBoss.Count == 0) {
