@@ -57,6 +57,8 @@ namespace SpaceInvaders.Scenes {
         private int minimumEnemy = 1;
         private int baseEmpty = 2;
 
+        private bool finishedLoading = false;
+
         Random rng = new();
 
         public MainGame(ContentManager contentManager) {
@@ -149,6 +151,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Resistance"));
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/SheildBreaker"));
             }
+            finishedLoading = true;
 
             if (Globals.debug) {
                 wave = Globals.dbWave;
@@ -161,6 +164,10 @@ namespace SpaceInvaders.Scenes {
 
         void IScene.Update(GameTime gameTime) {
             input = Keyboard.GetState();
+
+            if (!finishedLoading) {
+                return;
+            }
 
             if (gameState == GameState.Paused) {
                 if (input.IsKeyDown(Controls.pause) && previousInput != input) {
