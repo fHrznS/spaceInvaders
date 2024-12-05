@@ -5,7 +5,7 @@ namespace SpaceInvaders.Utils {
         internal static int screenWidth = 160, screenHeight = 192; // 640x768
         internal static bool gameLost;
         internal static bool stopSpawn = true;
-        internal static bool instantKillAttack = false;
+        internal static bool disableEnemyShooting = false;
         internal static bool invasionMode = false;
         internal static bool disableEnemySpawning = false;
 

@@ -24,7 +24,7 @@ namespace SpaceInvaders.Entities.Bosses {
             nextFrameTimer--;
 
             if (attackTimer <= Time.ToFrames(seconds: 30) && attackTimer >= Time.ToFrames(seconds: 25) && attackTimer % 120 == 0) {
-                Globals.instantKillAttack = true;
+                Globals.disableEnemyShooting = true;
                 int emptySlot = rng.Next(0, 9);
                 
                 for (int i = 0; i < 9; i++) {
@@ -32,7 +32,7 @@ namespace SpaceInvaders.Entities.Bosses {
                     MainGame.newEnemyBullet(new(8+16*i, position.Y), new(0,1), 1, bossBullet: true, damage: 3);
                 }
             } if (attackTimer < Time.ToFrames(seconds: 22)) {
-                Globals.instantKillAttack = false;
+                Globals.disableEnemyShooting = false;
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 15) && attackTimer >= Time.ToFrames(seconds: 10) && attackTimer % 25 == 0) {
@@ -41,7 +41,7 @@ namespace SpaceInvaders.Entities.Bosses {
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 6)) {
-                Globals.instantKillAttack = true;
+                Globals.disableEnemyShooting = true;
             }
             if (attackTimer <= Time.ToFrames(seconds: 5) && attackTimer % 40 == 0) {
                 MainGame.newEnemyBullet(position: new(-8, rng.Next(50,100)),
@@ -50,7 +50,7 @@ namespace SpaceInvaders.Entities.Bosses {
 
             if (attackTimer == 0) {
                 attackTimer = attackTimerReset;
-                Globals.instantKillAttack = false;
+                Globals.disableEnemyShooting = false;
             }
 
             if (nextFrameTimer == 0) {

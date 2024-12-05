@@ -72,6 +72,7 @@ namespace SpaceInvaders.Entities {
             if (invincibility != 0) { return; }
             if (sheild != 0) {
                 sheild--;
+                invincibility = Time.ToFrames(seconds: 1);
                 updateSprite();
                 return;
             }

@@ -24,7 +24,7 @@ namespace SpaceInvaders.Entities.Aliens {
             offscreenBools();
 
             if (timer == 0) {
-                position.Y += 8 * direction.Y / (1 * (Globals.instantKillAttack ? 3 : 1)); // Slow down if instant kill attack
+                position.Y += 8 * direction.Y / (1 * (Globals.disableEnemyShooting ? 3 : 1)); // Slow down if instant kill attack
                 timer = timerReset;
             }
             hitbox.Location = position.ToPoint() + hitboxOffset;

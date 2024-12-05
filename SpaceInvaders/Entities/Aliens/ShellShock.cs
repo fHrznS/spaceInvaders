@@ -51,7 +51,7 @@ namespace SpaceInvaders.Entities.Aliens {
             hitbox.Location = position.ToPoint() + hitboxOffset;
 
             if (shootTimer == 0) {
-                if (canShoot && !Globals.instantKillAttack) {
+                if (canShoot && !Globals.disableEnemyShooting) {
                     Scenes.MainGame.newEnemyBullet(position, new(0, 2f), type, damage: 1);
                     Scenes.MainGame.newEnemyBullet(position, new(0.5f, 1.9f), type, damage: 1);
                     Scenes.MainGame.newEnemyBullet(position, new(-0.5f, 1.9f), type, damage: 1);

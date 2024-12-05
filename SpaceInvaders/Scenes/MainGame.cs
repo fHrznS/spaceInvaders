@@ -60,8 +60,9 @@ namespace SpaceInvaders.Scenes {
 
         private bool finishedLoading = false;
 
-        private int worthyText;
+        private int worthyText = 0;
         private string[] worthyMessages = { "Well done", "You're interesting", "It deems you worthy", "It wants to see you", "Edge of universes"};
+        private int worthyMessageNumber = 0;
 
         Random rng = new();
 
@@ -111,7 +112,7 @@ namespace SpaceInvaders.Scenes {
             freeEnemySpawnTimerReset = 60 * 60;
             freeEnemySpawnTimer = freeEnemySpawnTimerReset;
 
-            Globals.instantKillAttack = false;
+            Globals.disableEnemyShooting = false;
             Globals.invasionMode = false;
             Globals.stopSpawn = false;
 
@@ -138,6 +139,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Lilith"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/AdamAndEve"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/TheMothership"));
+                Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Saigai"));
                 // Load every enemy sprite
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type1"));
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type2"));
@@ -191,6 +193,8 @@ namespace SpaceInvaders.Scenes {
         void IScene.Update(GameTime gameTime) {
             input = Keyboard.GetState();
 
+            worthyText--;
+
             if (!finishedLoading) {
                 return;
             }
@@ -239,41 +243,53 @@ namespace SpaceInvaders.Scenes {
             }
 
             if (!Globals.easyDifficulty && Globals.isWorthy && previousWave != wave) {
-                if (wave == 25) {
+                if (wave == 24) {
                     player.health = 3;
                     player.bulletSpeed = -9;
                     player.maxBullets = 1;
+                    worthyText = 150;
+                    worthyMessageNumber = 0;
                 }
-                if (wave == 50) {
+                if (wave == 49) {
                     player.health = 3;
                     player.bulletSpeed = -13;
                     player.maxBullets = 3;
+                    worthyText = 150;
+                    worthyMessageNumber = 1;
                 }
-                if (wave == 100) {
+                if (wave == 99) {
                     player.health = 3;
                     player.sheild = 1;
                     player.bulletSpeed = -13;
                     player.maxBullets = 3;
                     player.bulletArmour = 1;
+                    worthyText = 150;
+                    worthyMessageNumber = 2;
                 }
-                if (wave == 150) {
+                if (wave == 149) {
                     player.health = 3;
                     player.sheild = 1;
                     player.bulletSpeed = -17;
                     player.maxBullets = 5;
                     player.bulletArmour = 2;
+                    worthyText = 150;
+                    worthyMessageNumber = 3;
                 }
-                if (wave == 200) {
+                if (wave == 199) {
                     player.health = 3;
                     player.sheild = 2;
                     player.bulletArmour = 3;
+                    worthyText = 150;
+                    worthyMessageNumber = 4;
                 }
-                if (wave == 300) {
+                if (wave == 299) {
                     player.health = 3;
                     player.sheild = 5;
                     player.maxBullets = 5;
                     player.bulletArmour = 5;
+                    worthyText = 150;
                 }
+                player.updateSprite();
             }
             previousWave = wave;
 
@@ -331,7 +347,7 @@ namespace SpaceInvaders.Scenes {
                     } else if (wave == 199) {
                         currentBoss.Add(new TheMothership(Sprites.bosses[5], wave));
                     } else if (wave == 299) {
-                        currentBoss.Add(new Saigai(Sprites.bosses[5], wave));
+                        currentBoss.Add(new Saigai(Sprites.bosses[6], wave));
                     } else if (wave == 399) {
                         currentBoss.Add(new Zhyron(Sprites.bosses[5], wave + 1000));
                     }
@@ -432,7 +448,8 @@ namespace SpaceInvaders.Scenes {
                     }
 
                     currentBoss.RemoveAt(currentBoss.Count - 1);
-                    Globals.instantKillAttack = false;
+
+                    Globals.disableEnemyShooting = false;
                     Globals.invasionMode = false;
                     Globals.stopSpawn = false;
                 }
@@ -773,6 +790,7 @@ namespace SpaceInvaders.Scenes {
             if (!won) {
                 spriteBatch.DrawString(text, (player.health + player.sheild).ToString(), new(0, 0), Color.White);
                 spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0, 38), Color.White);
+                spriteBatch.DrawString(text, worthyMessages[worthyMessageNumber], new(5, 192*4-51), Color.White * worthyText);
             }
 
         }

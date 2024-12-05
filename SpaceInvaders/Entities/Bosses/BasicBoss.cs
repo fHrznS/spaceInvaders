@@ -37,8 +37,8 @@ namespace SpaceInvaders.Entities.Bosses {
  Gabriel - More enemies, low health, decent fire rate. [DONE]
  Lilith - Bullet Hell [DONE]
  Adam & Eve - 2 Bosses as 1 [DONE]
- The Mothership - Tons of HP, summons previous bosses.
- Calamitas - Survival boss
+ The Mothership - Tons of HP, summons previous bosses. [DONE]
+ Saigai - Just hard [WORKING]
 
  Secret: Judgement - 1 shot bullet hell, tons of HP, summons old bosses.
 */
