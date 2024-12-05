@@ -8,6 +8,7 @@ namespace SpaceInvaders.Entities.Bosses {
         int bulletType = 1;
         bool firstMove = true;
         Vector2 velocity = new(0.05f, 0);
+        int emptySlot;
 
         public Saigai(Texture2D sprite, int wave) {
             this.sprite = sprite;
@@ -23,6 +24,8 @@ namespace SpaceInvaders.Entities.Bosses {
             attackTimerReset = Time.ToFrames(0, minutes: 5);
             attackTimer = attackTimerReset;
             direction.X = rng.Next(0,2) == 1 ? 1 : -1;
+            
+            emptySlot = rng.Next(0, 9);
         }
 
         internal override void Update(Vector2 playerPos) {
@@ -47,6 +50,26 @@ namespace SpaceInvaders.Entities.Bosses {
             }
             if (attackTimer <= Time.ToFrames(seconds: 45, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 35, minutes: 4) && attackTimer % 30 == 0) {
                 MainGame.newEnemyBullet(center, new(rng.Next(-2,3) * (float)rng.NextDouble() , 2), bulletType, bossBullet: true);
+            }
+            
+            if (attackTimer <= Time.ToFrames(seconds: 35, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 0, minutes: 4) && attackTimer % 20 == 0) {
+                MainGame.newEnemyBullet(center, new(rng.Next(-2, 3) * (float)rng.NextDouble(), 2), bulletType, bossBullet: true);
+            }
+
+            ///////////////
+            // Attack #2 // Hole in wall (Aka Seraphim hardmode)
+            ///////////////
+            if (attackTimer <= Time.ToFrames(seconds: 50, minutes: 3) && attackTimer >= Time.ToFrames(seconds: 0, minutes: 3) && attackTimer % 40 == 0) {
+                Globals.disableEnemyShooting = true;
+                emptySlot += rng.Next(-2, 3);
+                if (emptySlot < 0) { emptySlot = 0; }
+                if (emptySlot > 8) { emptySlot = 8; }
+                for (int i = 0; i < 9; i++) {
+                    if (i == emptySlot) { continue; }
+                    MainGame.newEnemyBullet(new(8 + 16 * i, position.Y), new(0, 1.5f), bulletType, bossBullet: true, damage: 2);
+                }
+            } if (attackTimer == Time.ToFrames(3, minutes: 3)) {
+                Globals.disableEnemyShooting = false;
             }
 
             if (spawnTimer > 1) { return; }
