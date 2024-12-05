@@ -18,6 +18,7 @@ namespace SpaceInvaders.Entities.Bosses {
         internal int nextFrameTimer = 60;
         internal int onFrame = 0;
         internal Vector2 center;
+        internal float spawnTimer = 60;
 
         // To make my life simple, Adam and Eve have their own data.
         internal Rectangle adamHitbox, eveHitbox;

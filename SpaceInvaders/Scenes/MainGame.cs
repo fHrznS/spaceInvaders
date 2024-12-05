@@ -40,15 +40,16 @@ namespace SpaceInvaders.Scenes {
             playerBulletDeleted = false,
             enemyBulletDeleted = false;
 
-        private int finalWave = 399;
+        private int finalWave = 349;
         private int highestAlienType = 2;
         private int freeEnemySpawnTimer, freeEnemySpawnTimerReset;
 
         string[] waves = new string[5];
         int[] waveHeight = new int[5];
-        
+
         static private int id = 0;
         private int wave = 0;
+        private int previousWave = 0; // Used for the secret boss as to not reset player stats every frame.
 
         private int lostTimer = 30, lostTimerReset = 30;
         private bool won = false;
@@ -58,6 +59,9 @@ namespace SpaceInvaders.Scenes {
         private int baseEmpty = 2;
 
         private bool finishedLoading = false;
+
+        private int worthyText;
+        private string[] worthyMessages = { "Well done", "You're interesting", "It deems you worthy", "It wants to see you", "Edge of universes"};
 
         Random rng = new();
 
@@ -234,6 +238,45 @@ namespace SpaceInvaders.Scenes {
                 aliens.Clear(); Alien.count = 0;
             }
 
+            if (!Globals.easyDifficulty && Globals.isWorthy && previousWave != wave) {
+                if (wave == 25) {
+                    player.health = 3;
+                    player.bulletSpeed = -9;
+                    player.maxBullets = 1;
+                }
+                if (wave == 50) {
+                    player.health = 3;
+                    player.bulletSpeed = -13;
+                    player.maxBullets = 3;
+                }
+                if (wave == 100) {
+                    player.health = 3;
+                    player.sheild = 1;
+                    player.bulletSpeed = -13;
+                    player.maxBullets = 3;
+                    player.bulletArmour = 1;
+                }
+                if (wave == 150) {
+                    player.health = 3;
+                    player.sheild = 1;
+                    player.bulletSpeed = -17;
+                    player.maxBullets = 5;
+                    player.bulletArmour = 2;
+                }
+                if (wave == 200) {
+                    player.health = 3;
+                    player.sheild = 2;
+                    player.bulletArmour = 3;
+                }
+                if (wave == 300) {
+                    player.health = 3;
+                    player.sheild = 5;
+                    player.maxBullets = 5;
+                    player.bulletArmour = 5;
+                }
+            }
+            previousWave = wave;
+
             if (Globals.easyDifficulty && (wave + 1) % 25 == 0) {
                 Globals.SaveData["Wave"] = wave;
                 Globals.SaveData["BulletCount"] = player.maxBullets;
@@ -245,7 +288,7 @@ namespace SpaceInvaders.Scenes {
 
             // Have all aliens been killed?
             if (Alien.count == 0 && !Globals.stopSpawn) {
-                if (wave >= finalWave && currentBoss.Count == 0) {
+                if (wave >= finalWave + (Globals.isWorthy ? 100 : 0) && currentBoss.Count == 0) {
                     won = true;
                 } else {
                     wave++;
@@ -287,6 +330,10 @@ namespace SpaceInvaders.Scenes {
                         }
                     } else if (wave == 199) {
                         currentBoss.Add(new TheMothership(Sprites.bosses[5], wave));
+                    } else if (wave == 299) {
+                        currentBoss.Add(new Saigai(Sprites.bosses[5], wave));
+                    } else if (wave == 399) {
+                        currentBoss.Add(new Zhyron(Sprites.bosses[5], wave + 1000));
                     }
 
                     // Most difficult enemy to spawn?
@@ -473,6 +520,7 @@ namespace SpaceInvaders.Scenes {
                     }
 
                     powerboxes.Remove(powerboxes.Find(x => x.id == powerbox.id));
+                    Globals.isWorthy = false;
                     break;
                 }
             }
@@ -723,7 +771,7 @@ namespace SpaceInvaders.Scenes {
                 return;
             }
             if (!won) {
-                spriteBatch.DrawString(text, player.health.ToString(), new(0, 0), Color.White);
+                spriteBatch.DrawString(text, (player.health + player.sheild).ToString(), new(0, 0), Color.White);
                 spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0, 38), Color.White);
             }
 

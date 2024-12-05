@@ -85,11 +85,13 @@ namespace SpaceInvaders {
             if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
                 sceneManager.AddScene(new MainGame(Content));
                 gameState = GameStates.MainGame;
+                Globals.isWorthy = true;
                 Globals.easyDifficulty = false;
                 LoadContent();
             } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Easy) {
                 sceneManager.AddScene(new MainGame(Content));
                 gameState = GameStates.MainGame;
+                Globals.isWorthy = true;
                 Globals.easyDifficulty = true;
                 LoadContent();
             } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Settings) {

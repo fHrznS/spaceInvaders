@@ -9,15 +9,16 @@ namespace SpaceInvaders.Utils {
         internal static bool invasionMode = false;
         internal static bool disableEnemySpawning = false;
 
-        internal static bool debug = false;
-        internal static int dbWave = 198;
-        internal static int dbBSpeed = -16; // -5 base
-        internal static int dbBCount = 10; // 1 base
+        internal static bool debug = true;
+        internal static int dbWave = 298;
+        internal static int dbBSpeed = -17; // -5 base
+        internal static int dbBCount = 5; // 1 base
         internal static int dbDamage = 3; // 0 base
         internal static bool god = false;
         internal static bool summonSecondBoss = false;
 
         internal static bool easyDifficulty = false;
+        internal static bool isWorthy = true;
         internal static Dictionary<string, int> SaveData = new Dictionary<string, int>();
     }
 }
