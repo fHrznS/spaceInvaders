@@ -423,6 +423,54 @@
 /processorParam:TextureFormat=Color
 /build:ShipSprites/normal.png
 
+#begin Sounds/Music/Fighting Spirit.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/Fighting Spirit.mp3
+
+#begin Sounds/Music/Gates of Order.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/Gates of Order.mp3
+
+#begin Sounds/Music/Intolerance.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/Intolerance.mp3
+
+#begin Sounds/Music/Karma.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/Karma.mp3
+
+#begin Sounds/Music/Reel Em' In.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/Reel Em' In.mp3
+
+#begin Sounds/Music/Shake the Earth.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/Shake the Earth.mp3
+
+#begin Sounds/Music/State of Mind.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/State of Mind.mp3
+
+#begin Sounds/Music/System Failure.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/System Failure.mp3
+
 #begin Sounds/SFX/Death.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

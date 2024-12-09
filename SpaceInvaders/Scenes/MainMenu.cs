@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using SpaceInvaders.Utils;
 
 namespace SpaceInvaders.Scenes
@@ -28,6 +29,7 @@ namespace SpaceInvaders.Scenes
 
         void IScene.LoadContent() {
             text = Content.Load<SpriteFont>("Font");
+            MediaPlayer.Stop();
         }
 
         void IScene.Update(GameTime gameTime) {

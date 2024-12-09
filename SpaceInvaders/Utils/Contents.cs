@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using System.Collections.Generic;
 
 namespace SpaceInvaders.Utils {
@@ -17,5 +18,10 @@ namespace SpaceInvaders.Utils {
         static public List<SoundEffect> hitSounds = new(); // All hit sounds
         static public List<SoundEffect> shootSounds = new(); // All shooting sounds
         static public List<SoundEffect> deathSounds = new(); // All death sounds
+    }
+
+    internal static class Songs {
+        static public List<Song> bossSongs = new(); // All boss songs
+        static public List<Song> otherSongs = new(); // All other songs
     }
 }

@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace SpaceInvaders.Scenes {
     enum GameState {
@@ -164,6 +165,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bossbar.Add(Content.Load<Texture2D>("Healthbar/Fill"));
                 Sprites.bossbar.Add(Content.Load<Texture2D>("Healthbar/Overlay"));
 
+                
                 // SFXs
                 // Die
                 SFX.deathSounds.Add(Content.Load<SoundEffect>("Sounds/SFX/Death"));
@@ -173,6 +175,18 @@ namespace SpaceInvaders.Scenes {
                 
                 // Hit
                 SFX.hitSounds.Add(Content.Load<SoundEffect>("Sounds/SFX/Hit"));
+
+
+                // Music
+                Songs.bossSongs.Add(Content.Load<Song>("Sounds/Music/Intolerance")); // Zhyron the Rook
+                Songs.bossSongs.Add(Content.Load<Song>("Sounds/Music/Shake The Earth")); // Seraphim the Angel
+                Songs.bossSongs.Add(Content.Load<Song>("Sounds/Music/Gates of Order")); // Gabriel the Sentinel
+                Songs.bossSongs.Add(Content.Load<Song>("Sounds/Music/State of Mind")); // Lilith the Demon Mother
+                Songs.bossSongs.Add(Content.Load<Song>("Sounds/Music/Fighting Spirit")); // Adam and Eve
+                Songs.bossSongs.Add(Content.Load<Song>("Sounds/Music/System Failure")); // The Mothership
+                Songs.bossSongs.Add(Content.Load<Song>("Sounds/Music/Karma")); // Saigai
+                Songs.bossSongs.Add(Content.Load<Song>("Sounds/Music/Reel Em' In")); // Judgement
+                MediaPlayer.IsRepeating = true;
             }
 
             if (Globals.SaveData.Count == 0) {
@@ -236,6 +250,7 @@ namespace SpaceInvaders.Scenes {
             // Has player died?
             if (player.health == 0) {
                 LostUpdate();
+                MediaPlayer.Stop();
                 return;
             }
 
@@ -330,43 +345,57 @@ namespace SpaceInvaders.Scenes {
                     /*if (wave == 5) {
                         currentBoss = new Lilith(Sprites.bosses[3], wave);
                     }*/
-
+                    
                     if (wave == 4) {
                         currentBoss.Add(new Zhyron(Sprites.bosses[0], wave));
+                        MediaPlayer.Play(Songs.bossSongs[0]);
                     } else if (wave == 19) {
                         currentBoss.Add(new Seraphim(Sprites.bosses[1], wave));
+                        MediaPlayer.Play(Songs.bossSongs[1]);
                     } else if (wave == 39) {
                         currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
+                        MediaPlayer.Play(Songs.bossSongs[2]);
                     } else if (wave == 64) {
                         currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
+                        MediaPlayer.Play(Songs.bossSongs[3]);
                     } else if (wave == 99) {
                         currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave));
+                        MediaPlayer.Play(Songs.bossSongs[4]);
                     } else if (wave == 119) {
                         int boss = rng.Next(0,4);
                         if (boss == 0) {
                             currentBoss.Add(new Zhyron(Sprites.bosses[0], wave));
+                            MediaPlayer.Play(Songs.bossSongs[0]);
                         } else if (boss == 1) {
                             currentBoss.Add(new Seraphim(Sprites.bosses[1], wave));
+                            MediaPlayer.Play(Songs.bossSongs[1]);
                         } else if (boss == 2) {
                             currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
+                            MediaPlayer.Play(Songs.bossSongs[2]);
                         } else if (boss == 3) {
                             currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
+                            MediaPlayer.Play(Songs.bossSongs[3]);
                         }
                     } else if (wave == 159) {
                         int boss = rng.Next(0, 3);
                         if (boss == 0) {
                             currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
+                            MediaPlayer.Play(Songs.bossSongs[2]);
                         } else if (boss == 1) {
                             currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
+                            MediaPlayer.Play(Songs.bossSongs[3]);
                         } else if (boss == 2) {
                             currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave));
+                            MediaPlayer.Play(Songs.bossSongs[4]);
                         }
                     } else if (wave == 199) {
                         currentBoss.Add(new TheMothership(Sprites.bosses[5], wave));
+                        MediaPlayer.Play(Songs.bossSongs[5]);
                     } else if (wave == 299) {
                         currentBoss.Add(new Saigai(Sprites.bosses[6], wave));
+                        MediaPlayer.Play(Songs.bossSongs[6]);
                     } else if (wave == 399) {
-                        currentBoss.Add(new Zhyron(Sprites.bosses[5], wave + 1000));
+                        currentBoss.Add(new Zhyron(Sprites.bosses[0], wave + 1000));
                     }
 
                     // Most difficult enemy to spawn?
@@ -473,6 +502,10 @@ namespace SpaceInvaders.Scenes {
                     Globals.disableEnemyShooting = false;
                     Globals.invasionMode = false;
                     Globals.stopSpawn = false;
+
+                    if (currentBoss.Count == 0) {
+                        MediaPlayer.Stop();
+                    }
                 }
             }
 
