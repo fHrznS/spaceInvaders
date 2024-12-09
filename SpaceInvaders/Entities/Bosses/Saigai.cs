@@ -52,25 +52,39 @@ namespace SpaceInvaders.Entities.Bosses {
                 MainGame.newEnemyBullet(center, new(rng.Next(-2,3) * (float)rng.NextDouble() , 2), bulletType, bossBullet: true);
             }
             
-            if (attackTimer <= Time.ToFrames(seconds: 35, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 25, minutes: 4) && attackTimer % 20 == 0) {
+            if (attackTimer <= Time.ToFrames(seconds: 35, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 30, minutes: 4) && attackTimer % 20 == 0) {
                 MainGame.newEnemyBullet(center, new(rng.Next(-2, 3) * (float)rng.NextDouble(), 2), bulletType, bossBullet: true);
             }
 
             ///////////////
             // Attack #2 // Hole in wall (Aka Seraphim hardmode)
             ///////////////
-            if (attackTimer <= Time.ToFrames(seconds: 30, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 45, minutes: 3) && attackTimer % 40 == 0) {
+            if (attackTimer <= Time.ToFrames(seconds: 30, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 0, minutes: 3) && attackTimer % 40 == 0 && attackTimer % (40 * 6) != 0) {
                 Globals.disableEnemyShooting = true;
-                emptySlot += rng.Next(
-                    emptySlot == 0 ? 0 : -2,
+                
+                if (emptySlot <= 3) {
+                    emptySlot += rng.Next(
+                    emptySlot == 0 ? 0 : -1,
                     emptySlot == 8 ? 0 : 3);
+                }
+                else if (emptySlot >= 5) {
+                    emptySlot += rng.Next(
+                    emptySlot == 0 ? 0 : -2,
+                    emptySlot == 8 ? 0 : 2);
+                } else {
+                    emptySlot += rng.Next(
+                        emptySlot == 0 ? 0 : -2,
+                        emptySlot == 8 ? 0 : 3);
+                }
+                
+                
                 if (emptySlot < 0) { emptySlot = 0; }
                 if (emptySlot > 8) { emptySlot = 8; }
                 for (int i = 0; i < 9; i++) {
                     if (i == emptySlot) { continue; }
                     MainGame.newEnemyBullet(new(8 + 16 * i, -8), new(0, 1.75f), bulletType, bossBullet: true, damage: 2);
                 }
-            } if (attackTimer == Time.ToFrames(3, minutes: 40)) {
+            } if (attackTimer == Time.ToFrames(5, minutes: 3)) {
                 Globals.disableEnemyShooting = false;
             }
 

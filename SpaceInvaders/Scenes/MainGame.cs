@@ -446,9 +446,13 @@ namespace SpaceInvaders.Scenes {
             }
 
             // Enemy Bullets
-            foreach (Bullet bullet in enemyBullets) {
-                bullet.Update();
-                if (enemyBulletDeleted) { break; }
+            int removedBullets = 0;
+            for (int i = 0; i < enemyBullets.Count - removedBullets; i++) {
+                enemyBullets[i].Update();
+                if (enemyBulletDeleted) { 
+                    enemyBulletDeleted = false;
+                    i--;
+                }
             }
             // Boss
             if (currentBoss.Count != 0) {
@@ -519,12 +523,23 @@ namespace SpaceInvaders.Scenes {
             }
 
             // Is enemy bullet colliding with player?
-            foreach (Bullet bullet in enemyBullets) {
+            /*foreach (Bullet bullet in enemyBullets) {
                 if (bullet.hitbox.Intersects(player.hitbox) && !won) {
                     player.registerDamage(bullet.damage);
                     enemyBullets.Remove(enemyBullets.Find(x => x.id == bullet.id));
                     // Bullet.bulletCount--;
                     break;
+                }
+            }*/
+
+            int removedBullets = 0;
+            for (int i = 0; i < enemyBullets.Count - removedBullets; i++) {
+                if (enemyBullets[i].hitbox.Intersects(player.hitbox) && !won) {
+                    player.registerDamage(enemyBullets[i].damage);
+                    enemyBullets.RemoveAt(i);
+                    i--;
+                    removedBullets++;
+                    // Bullet.bulletCount--;
                 }
             }
 
@@ -788,11 +803,15 @@ namespace SpaceInvaders.Scenes {
 
             player.Draw(spriteBatch);
 
+            foreach (ParticleObject particleObject in particleObjects) {
+                particleObject.Draw(spriteBatch);
+            }
+            
             if (won) {
                 spriteBatch.DrawString(text, "YOU WON", new(0,0), Color.White);
             }
-            foreach (ParticleObject particleObject in particleObjects) {
-                particleObject.Draw(spriteBatch);
+            if (player.health == 0) {
+                spriteBatch.DrawString(text, "LOST!", new(30, 3), Color.White);
             }
         }
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
@@ -800,12 +819,11 @@ namespace SpaceInvaders.Scenes {
                 spriteBatch.DrawString(text, "PAUSED", new(3,3), Color.White);
                 return;
             }
-            if (!won) {
+            if (!won && !(player.health == 0)) {
                 spriteBatch.DrawString(text, (player.health + player.sheild).ToString(), new(0, 0), Color.White);
                 spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0, 38), Color.White);
                 spriteBatch.DrawString(text, worthyMessages[worthyMessageNumber], new(5, 192*4-51), Color.White * worthyText);
             }
-
         }
     }
 }
