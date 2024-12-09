@@ -777,7 +777,7 @@ namespace SpaceInvaders.Scenes {
             bullets.Add(new(position: new(xPosition, 160), new(2, 8), direction: direction, Sprites.bullets[0], id, damage));
             id++;
         }
-        static internal void newEnemyBullet(Vector2 position, Vector2 direction, int type, bool bossBullet = false, int damage = 1) {
+        static internal void newEnemyBullet(Vector2 position, Vector2 direction, int type, bool bossBullet = false, bool healBoss = false, int damage = 1) {
             if (!bossBullet) {
                 enemyBullets.Add(new(
                     position: position,
@@ -795,7 +795,7 @@ namespace SpaceInvaders.Scenes {
                     Sprites.bossBullets[type], // Black magic here
                     id,
                     damage,
-                    healBoss: true,
+                    healBoss: healBoss,
                     evil: true));
             }
             id++;
