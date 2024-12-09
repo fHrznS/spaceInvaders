@@ -160,6 +160,10 @@ namespace SpaceInvaders.Scenes {
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Resistance"));
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/SheildBreaker"));
 
+                // Load every Bossbar sprite
+                Sprites.bossbar.Add(Content.Load<Texture2D>("Healthbar/Fill"));
+                Sprites.bossbar.Add(Content.Load<Texture2D>("Healthbar/Overlay"));
+
                 // SFXs
                 // Die
                 SFX.deathSounds.Add(Content.Load<SoundEffect>("Sounds/SFX/Death"));
@@ -812,6 +816,18 @@ namespace SpaceInvaders.Scenes {
             }
             if (player.health == 0) {
                 spriteBatch.DrawString(text, "LOST!", new(30, 3), Color.White);
+            }
+
+            if (currentBoss.Count > 0) {
+                spriteBatch.Draw(
+                    Sprites.bossbar[0],
+                    new Vector2(0,192-18),
+                    new Rectangle(
+                        0,0,
+                        (int)(160 * ((float)currentBoss.Last().health / currentBoss.Last().maxHealth)), 12
+                    ),
+                    Color.White * 0.6f);
+                spriteBatch.Draw(Sprites.bossbar[1], new Vector2(0, 192 - 18), Color.White * 0.6f);
             }
         }
         void IScene.HighResDraw(SpriteBatch spriteBatch) {

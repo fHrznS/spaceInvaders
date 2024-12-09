@@ -19,7 +19,7 @@ namespace SpaceInvaders.Entities.Bosses {
             hitbox.Location = position.ToPoint() + hitboxOffset;
             center = position + hitbox.Size.ToVector2() * new Vector2(0.5f, 1);
 
-            maxHealth = 300 * (wave + 1);
+            maxHealth = 200 * (wave + 1);
             health = maxHealth;
             attackTimerReset = Time.ToFrames(0, minutes: 5);
             attackTimer = attackTimerReset;
@@ -59,7 +59,7 @@ namespace SpaceInvaders.Entities.Bosses {
             ///////////////
             // Attack #2 // Hole in wall (Aka Seraphim hardmode)
             ///////////////
-            if (attackTimer <= Time.ToFrames(seconds: 30, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 0, minutes: 3) && attackTimer % 40 == 0 && attackTimer % (40 * 6) != 0) {
+            if (attackTimer <= Time.ToFrames(seconds: 30, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 15, minutes: 3) && attackTimer % 40 == 0 && attackTimer % (40 * 6) != 0) {
                 Globals.disableEnemyShooting = true;
                 
                 if (emptySlot <= 3) {
@@ -84,7 +84,7 @@ namespace SpaceInvaders.Entities.Bosses {
                     if (i == emptySlot) { continue; }
                     MainGame.newEnemyBullet(new(8 + 16 * i, -8), new(0, 1.75f), bulletType, bossBullet: true, damage: 2);
                 }
-            } if (attackTimer == Time.ToFrames(5, minutes: 3)) {
+            } if (attackTimer == Time.ToFrames(20, minutes: 3)) {
                 Globals.disableEnemyShooting = false;
             }
 
