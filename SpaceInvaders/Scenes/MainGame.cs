@@ -79,7 +79,7 @@ namespace SpaceInvaders.Scenes {
             // Set all variables to default
             player.sprite = Content.Load<Texture2D>("ShipSprites/normal");
             player.position = new Vector2(72, 160);
-            player.hitbox = new(1, 4, 14, 10);
+            player.hitbox = new(1, 4, 14, 8);
 
             // Define Background
             background = new(Content.Load<Texture2D>("Background"));
@@ -560,23 +560,20 @@ namespace SpaceInvaders.Scenes {
             }
 
             // Is enemy bullet colliding with player?
-            /*foreach (Bullet bullet in enemyBullets) {
-                if (bullet.hitbox.Intersects(player.hitbox) && !won) {
-                    player.registerDamage(bullet.damage);
-                    enemyBullets.Remove(enemyBullets.Find(x => x.id == bullet.id));
-                    // Bullet.bulletCount--;
-                    break;
-                }
-            }*/
-
             int removedBullets = 0;
             for (int i = 0; i < enemyBullets.Count - removedBullets; i++) {
                 if (enemyBullets[i].hitbox.Intersects(player.hitbox) && !won) {
                     player.registerDamage(enemyBullets[i].damage);
+                    if (enemyBullets[i].healBoss == true && player.invincibility == 0) {
+                        currentBoss.Last().health += 200;
+                        if (currentBoss.Last().health > currentBoss.Last().maxHealth) {
+                            currentBoss.Last().health = currentBoss.Last().maxHealth;
+                        }
+                    }
+
                     enemyBullets.RemoveAt(i);
                     i--;
                     removedBullets++;
-                    // Bullet.bulletCount--;
                 }
             }
 
@@ -686,7 +683,7 @@ namespace SpaceInvaders.Scenes {
                 case 3:
                     aliens.Add(new BoltAlien(type,
                     spawnPos, // new Vector2(16 + 16 * xPos, -64 + 16 * yPos),
-                    new Rectangle(2, 2, 11, 11),
+                    new Rectangle(2, 2, 31, 31),
                     id));
                     break;
                 case 4:
@@ -792,13 +789,14 @@ namespace SpaceInvaders.Scenes {
                     evil:true));
             } else {
                 enemyBullets.Add(new(
-                    position: position, 
-                    hitboxSize: new (6, 6),
+                    position: position,
+                    hitboxSize: new(6, 6),
                     direction: direction,
                     Sprites.bossBullets[type], // Black magic here
                     id,
                     damage,
-                    evil:true));
+                    healBoss: true,
+                    evil: true));
             }
             id++;
         }

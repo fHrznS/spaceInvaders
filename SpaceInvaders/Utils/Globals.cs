@@ -10,7 +10,7 @@ namespace SpaceInvaders.Utils {
         internal static bool disableEnemySpawning = false;
 
         internal static bool debug = true;
-        internal static int dbWave = 298;
+        internal static int dbWave = 298; // 298
         internal static int dbBSpeed = -17; // -5 base
         internal static int dbBCount = 5; // 1 base
         internal static int dbDamage = 3; // 0 base

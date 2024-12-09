@@ -10,6 +10,12 @@ namespace SpaceInvaders.Entities.Bosses {
         Vector2 velocity = new(0.05f, 0);
         int emptySlot;
 
+        int bulletOffset = 0;
+        int waveBulletOffsetRight = 0;
+        int waveBulletOffsetLeft = 0;
+
+        Vector2 rightHand = new(132, -8), leftHand = new(10, -8);
+
         public Saigai(Texture2D sprite, int wave) {
             this.sprite = sprite;
             sourceRect = new(0, 0, 32, 64);
@@ -19,7 +25,7 @@ namespace SpaceInvaders.Entities.Bosses {
             hitbox.Location = position.ToPoint() + hitboxOffset;
             center = position + hitbox.Size.ToVector2() * new Vector2(0.5f, 1);
 
-            maxHealth = 200 * (wave + 1);
+            maxHealth = 50 * (wave + 1);
             health = maxHealth;
             attackTimerReset = Time.ToFrames(0, minutes: 5);
             attackTimer = attackTimerReset;
@@ -59,7 +65,7 @@ namespace SpaceInvaders.Entities.Bosses {
             ///////////////
             // Attack #2 // Hole in wall (Aka Seraphim hardmode)
             ///////////////
-            if (attackTimer <= Time.ToFrames(seconds: 30, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 15, minutes: 3) && attackTimer % 40 == 0 && attackTimer % (40 * 6) != 0) {
+            if (attackTimer <= Time.ToFrames(seconds: 30, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 10, minutes: 4) && attackTimer % 40 == 0 && attackTimer % (40 * 6) != 0) {
                 Globals.disableEnemyShooting = true;
                 
                 if (emptySlot <= 3) {
@@ -84,9 +90,46 @@ namespace SpaceInvaders.Entities.Bosses {
                     if (i == emptySlot) { continue; }
                     MainGame.newEnemyBullet(new(8 + 16 * i, -8), new(0, 1.75f), bulletType, bossBullet: true, damage: 2);
                 }
-            } if (attackTimer == Time.ToFrames(20, minutes: 3)) {
+            } if (attackTimer == Time.ToFrames(20, minutes: 4)) {
                 Globals.disableEnemyShooting = false;
             }
+
+            ///////////////
+            // Attack #3 // Mothership PTSD
+            ///////////////
+            if (attackTimer < Time.ToFrames(5, minutes: 4) && attackTimer > Time.ToFrames(40, minutes: 3) && attackTimer % 30 == 0) {
+                MainGame.newEnemyBullet(rightHand, new(0 - 1 * waveBulletOffsetRight, 3.3f), bulletType, damage: 3, bossBullet: true);
+
+                waveBulletOffsetRight++;
+                if (waveBulletOffsetRight == 5) {
+                    waveBulletOffsetRight = 0;
+                }
+            }
+
+            if (attackTimer < Time.ToFrames(10, minutes: 4) && attackTimer > Time.ToFrames(40, minutes: 3) && attackTimer % 30 == 0) {
+                MainGame.newEnemyBullet(leftHand, new(0 + 0.5f * waveBulletOffsetLeft, 2.3f), bulletType, damage: 3, bossBullet: true);
+
+                waveBulletOffsetLeft++;
+                if (waveBulletOffsetLeft == 7) {
+                    waveBulletOffsetLeft = 0;
+                }
+            }
+
+            if (attackTimer <= Time.ToFrames(0, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 40, minutes: 3) && attackTimer % 60 == 0) {
+                MainGame.newEnemyBullet(
+                    position: leftHand,
+                    direction: new Vector2((playerPos.X - leftHand.X) / 55, (playerPos.Y + 8 - leftHand.Y) / 55),
+                    bulletType,
+                    damage: 3,
+                    bossBullet: true);
+                MainGame.newEnemyBullet(
+                    position: rightHand,
+                    direction: new((playerPos.X - rightHand.X) / 55, (playerPos.Y + 8 - rightHand.Y) / 55),
+                    bulletType,
+                    damage: 3,
+                    bossBullet: true);
+            }
+
 
             if (spawnTimer > 1) { return; }
             position += velocity * direction;

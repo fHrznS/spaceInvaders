@@ -14,7 +14,7 @@ namespace SpaceInvaders.Entities {
         internal bool splitBullet = true;
         internal int bulletSpeed = -5;
         internal int sheild = 0;
-        int invincibility = 0;
+        internal int invincibility = 0;
 
 
         public Rectangle sourceRect = new(0, 0, 16, 16);

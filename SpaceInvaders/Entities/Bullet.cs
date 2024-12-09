@@ -7,8 +7,9 @@ namespace SpaceInvaders.Entities {
         public static int bulletCount = 0;
         internal int damage;
         internal bool isEvil;
+        internal bool healBoss;
 
-        public Bullet(Vector2 position, Point hitboxSize, Vector2 direction, Texture2D sprite, int id, int damage, bool evil = false) {
+        public Bullet(Vector2 position, Point hitboxSize, Vector2 direction, Texture2D sprite, int id, int damage, bool healBoss = false, bool evil = false) {
             this.sprite = sprite;
             this.position = new(position.X + 7, position.Y);
             
@@ -18,6 +19,7 @@ namespace SpaceInvaders.Entities {
             this.id = id;
             
             isEvil = evil;
+            this.healBoss = healBoss;
         }
 
         public void Update() {
