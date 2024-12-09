@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 
 namespace SpaceInvaders.Utils {
@@ -9,5 +10,11 @@ namespace SpaceInvaders.Utils {
         static public List<Texture2D> bosses = new(); // Every boss sprite
         static public List<Texture2D> particles = new(); // Particle Sprite
         static public List<Texture2D> powerboxes = new(); // Every enemy sprite
+    }
+
+    internal static class SFX {
+        static public List<SoundEffect> hitSounds = new(); // All hit sounds
+        static public List<SoundEffect> shootSounds = new(); // All shooting sounds
+        static public List<SoundEffect> deathSounds = new(); // All death sounds
     }
 }

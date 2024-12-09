@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
 using System;
@@ -61,14 +62,17 @@ namespace SpaceInvaders.Entities {
                     MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour);
                     MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour);
                     Bullet.bulletCount++;
+                    SFX.shootSounds[0].Play();
                 } else {
                     MainGame.newPlayerBullet((int)position.X, new Vector2(0, bulletSpeed), 1 + bulletArmour);
+                    SFX.shootSounds[0].Play();
                 }
                 Bullet.bulletCount++;
             }
         }
 
         internal void registerDamage(int damage) {
+            SFX.hitSounds[0].Play();
             if (invincibility != 0) { return; }
             if (sheild != 0) {
                 sheild--;
@@ -82,7 +86,10 @@ namespace SpaceInvaders.Entities {
                 invincibility = Time.ToFrames(seconds: 2);
             }
 
-            if (health < 0) { health = 0; }
+            if (health <= 0) {
+                health = 0;
+                SFX.deathSounds[0].Play();
+            }
             updateSprite();
         }
         internal void updateSprite() {

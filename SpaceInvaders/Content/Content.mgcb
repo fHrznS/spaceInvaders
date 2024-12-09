@@ -399,3 +399,21 @@
 /processorParam:TextureFormat=Color
 /build:ShipSprites/normal.png
 
+#begin Sounds/SFX/Death.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/SFX/Death.wav
+
+#begin Sounds/SFX/Hit.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/SFX/Hit.wav
+
+#begin Sounds/SFX/Shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/SFX/Shoot.wav
+

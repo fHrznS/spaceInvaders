@@ -10,6 +10,7 @@ using SpaceInvaders.Entities.Powerboxes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework.Audio;
 
 namespace SpaceInvaders.Scenes {
     enum GameState {
@@ -115,8 +116,10 @@ namespace SpaceInvaders.Scenes {
             Globals.disableEnemyShooting = false;
             Globals.invasionMode = false;
             Globals.stopSpawn = false;
-
+            
+            // Load all content
             if (Sprites.bullets.Count == 0) {
+                // TEXTURES
                 // Load every bullet sprites
                 Sprites.bullets.Add(Content.Load<Texture2D>("Bullet"));
                 Sprites.bullets.Add(Content.Load<Texture2D>("EnemyBulletSprites/EnemyBullet1"));
@@ -156,6 +159,16 @@ namespace SpaceInvaders.Scenes {
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSplit"));
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Resistance"));
                 Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/SheildBreaker"));
+
+                // SFXs
+                // Die
+                SFX.deathSounds.Add(Content.Load<SoundEffect>("Sounds/SFX/Death"));
+                
+                // Shoot
+                SFX.shootSounds.Add(Content.Load<SoundEffect>("Sounds/SFX/Shoot"));
+                
+                // Hit
+                SFX.hitSounds.Add(Content.Load<SoundEffect>("Sounds/SFX/Hit"));
             }
 
             if (Globals.SaveData.Count == 0) {
