@@ -208,6 +208,7 @@ namespace SpaceInvaders.Scenes {
             }
 
             finishedLoading = true;
+            Globals.isLoading = false;
 
             if (Globals.debug) {
                 wave = Globals.dbWave;

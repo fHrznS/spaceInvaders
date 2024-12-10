@@ -17,6 +17,8 @@ namespace SpaceInvaders.Utils {
         internal static bool god = false;
         internal static bool summonSecondBoss = false;
 
+        public static bool isLoading = false;
+
         internal static bool easyDifficulty = false;
         internal static bool isWorthy = true;
         internal static Dictionary<string, int> SaveData = new Dictionary<string, int>();

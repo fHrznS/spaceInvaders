@@ -64,6 +64,11 @@ namespace SpaceInvaders.Scenes
         }
 
         void IScene.Draw(SpriteBatch spriteBatch) {
+            if (Globals.isLoading) {
+                spriteBatch.DrawString(text, "Loading...", new(3, 1), Color.White);
+                return;
+            }
+
             spriteBatch.DrawString(text, 
                 selectedOption == Options.Easy ? "* Easy" : (selectedOption == Options.Start ? "* Play" : "Play"), // My least favorite line in the program
                 new Vector2(2,0), Color.White);
@@ -72,7 +77,9 @@ namespace SpaceInvaders.Scenes
         }
 
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
-            spriteBatch.DrawString(text,"Press " + Controls.shoot.ToString() + " to confirm choice", new Vector2(5, 742), Color.White);
+            if (!Globals.isLoading) {
+                spriteBatch.DrawString(text,"Press " + Controls.shoot.ToString() + " to confirm choice", new Vector2(5, 742), Color.White);
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ namespace SpaceInvaders {
         private KeyboardState input;
         private KeyboardState previousInput;
 
+        private bool loadGame = false;
+
         enum GameStates {
             MainMenu,
             Settings,
@@ -78,22 +80,34 @@ namespace SpaceInvaders {
             base.Update(gameTime);
         }
 
+        void loadMainGame() {
+            sceneManager.AddScene(new MainGame(Content));
+            gameState = GameStates.MainGame;
+            Globals.isLoading = true;
+            LoadContent();
+        }
+
         // Scene Control: Main Menu
         void MainMenu() {
             if (input == previousInput) { return; }
 
+            if (Globals.isLoading) {
+                loadMainGame();
+            }
+
             if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
-                sceneManager.AddScene(new MainGame(Content));
-                gameState = GameStates.MainGame;
+                Globals.isLoading = true;
+                Draw(new GameTime());
+                
                 Globals.isWorthy = true;
                 Globals.easyDifficulty = false;
-                LoadContent();
+
             } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Easy) {
-                sceneManager.AddScene(new MainGame(Content));
-                gameState = GameStates.MainGame;
-                Globals.isWorthy = true;
+                Globals.isLoading = true;
+                Draw(new GameTime());
+
+                Globals.isWorthy = false;
                 Globals.easyDifficulty = true;
-                LoadContent();
             } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Settings) {
                 sceneManager.AddScene(new Settings(Content));
                 gameState = GameStates.Settings;
@@ -135,7 +149,7 @@ namespace SpaceInvaders {
         }
 
         protected override void Draw(GameTime gameTime) {
-            // Set the Render Target to out renderTarget which is small.
+            // Set the Render Target to our renderTarget which is small.
             GraphicsDevice.SetRenderTarget(renderTarget);
 
             GraphicsDevice.Clear(Color.Black);
