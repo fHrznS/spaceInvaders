@@ -11,7 +11,7 @@ namespace SpaceInvaders.Entities.Aliens {
             position = startPosition;
             hitboxOffset = hitbox.Location;
 
-            this.hitbox = new Rectangle(startPosition.ToPoint() + hitboxOffset, hitbox.Size);
+            this.hitbox = new Rectangle(position.ToPoint() + hitboxOffset, hitbox.Size);
             direction = new(0, 1);
 
             timerReset = 30;
@@ -24,7 +24,7 @@ namespace SpaceInvaders.Entities.Aliens {
             offscreenBools();
 
             if (timer == 0) {
-                position.Y += 8 * direction.Y / (1 * (Globals.disableEnemyShooting ? 3 : 1)); // Slow down if instant kill attack
+                position.Y += 8 * direction.Y / (1 * (Globals.disableEnemyShooting ? 3 : 1)); // Slow down if boss says so
                 timer = timerReset;
             }
             hitbox.Location = position.ToPoint() + hitboxOffset;

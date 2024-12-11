@@ -566,7 +566,7 @@ namespace SpaceInvaders.Scenes {
                 if (enemyBullets[i].hitbox.Intersects(player.hitbox) && !won) {
                     player.registerDamage(enemyBullets[i].damage);
                     if (enemyBullets[i].healBoss == true && player.invincibility == 0) {
-                        currentBoss.Last().health += 200;
+                        currentBoss.Last().health += 150;
                         if (currentBoss.Last().health > currentBoss.Last().maxHealth) {
                             currentBoss.Last().health = currentBoss.Last().maxHealth;
                         }
@@ -684,7 +684,7 @@ namespace SpaceInvaders.Scenes {
                 case 3:
                     aliens.Add(new BoltAlien(type,
                     spawnPos, // new Vector2(16 + 16 * xPos, -64 + 16 * yPos),
-                    new Rectangle(2, 2, 31, 31),
+                    new Rectangle(2, 2, 14, 15),
                     id));
                     break;
                 case 4:

@@ -75,7 +75,9 @@ namespace SpaceInvaders.Entities {
             SFX.hitSounds[0].Play();
             if (invincibility != 0) { return; }
             if (sheild != 0) {
-                sheild--;
+                if (damage != 0) {
+                    sheild--;
+                }
                 invincibility = Time.ToFrames(seconds: 1);
                 updateSprite();
                 return;

@@ -28,7 +28,7 @@ namespace SpaceInvaders.Entities.Bosses {
 
             maxHealth = 50 * (wave + 1);
             health = maxHealth;
-            attackTimerReset = Time.ToFrames(0, minutes: 5);
+            attackTimerReset = Time.ToFrames(31,2);//Time.ToFrames(0, minutes: 5);
             attackTimer = attackTimerReset;
             direction.X = rng.Next(0,2) == 1 ? 1 : -1;
             
@@ -99,7 +99,11 @@ namespace SpaceInvaders.Entities.Bosses {
             // Attack #3 // Mothership PTSD
             ///////////////
             if (attackTimer < Time.ToFrames(5, minutes: 4) && attackTimer > Time.ToFrames(40, minutes: 3) && attackTimer % 30 == 0) {
-                MainGame.newEnemyBullet(rightHand, new(0 - 1 * waveBulletOffsetRight, 3.3f), bulletType, damage: 3, healBoss: true, bossBullet: true);
+                MainGame.newEnemyBullet(
+                    rightHand,
+                    new(0 - 1 * waveBulletOffsetRight, 3.3f),
+                    bulletType,
+                    damage: 3, healBoss: true, bossBullet: true);
 
                 waveBulletOffsetRight++;
                 if (waveBulletOffsetRight == 5) {
@@ -108,7 +112,11 @@ namespace SpaceInvaders.Entities.Bosses {
             }
 
             if (attackTimer < Time.ToFrames(10, minutes: 4) && attackTimer > Time.ToFrames(40, minutes: 3) && attackTimer % 30 == 0) {
-                MainGame.newEnemyBullet(leftHand, new(0 + 0.5f * waveBulletOffsetLeft, 2.3f), bulletType, damage: 3, healBoss: true, bossBullet: true);
+                MainGame.newEnemyBullet(
+                    leftHand,
+                    new(0 + 0.5f * waveBulletOffsetLeft, 2.3f),
+                    bulletType,
+                    damage: 3, healBoss: true, bossBullet: true);
 
                 waveBulletOffsetLeft++;
                 if (waveBulletOffsetLeft == 7) {
@@ -134,17 +142,86 @@ namespace SpaceInvaders.Entities.Bosses {
             }
 
             ///////////////
-            // Attack #4 // Side to side
+            // Attack #4 // Side to side w/ targeted shooting
             ///////////////
-            if (attackTimer <= Time.ToFrames(30, minutes: 3) && attackTimer >= Time.ToFrames(seconds: 30, minutes: 2) && attackTimer % 60 == 0) {
-                for (int i = 0; i < 4; i++)
-                MainGame.newEnemyBullet(new Vector2(16 * i + (16 * bulletOffset), 16), new(0, 3.5f), bulletType, healBoss: true, bossBullet: true);
+            if (attackTimer <= Time.ToFrames(30, minutes: 3) && attackTimer >= Time.ToFrames(seconds: 0, minutes: 3) && attackTimer % 60 == 0) {
+                Globals.disableEnemyShooting = true;
+                for (int i = 0; i < 6; i++) {
+                    MainGame.newEnemyBullet(
+                        new Vector2(16 * i + (16*4 * bulletOffset), -8),
+                        new(0, 3.2f),
+                        bulletType,
+                        healBoss: true, bossBullet: true, damage: 2);
+                }
+
+                bulletOffset++;
+                if (bulletOffset == 2) { bulletOffset = 0; }
+            }
+            if (attackTimer <= Time.ToFrames(seconds: 20, minutes: 3) && attackTimer >= Time.ToFrames(seconds: 0, minutes: 3) && attackTimer % 30 == 0) {
+                MainGame.newEnemyBullet(
+                    center,
+                    new((playerPos.X - center.X) / 50, (playerPos.Y - center.Y) / 50),
+                    bulletType,
+                    healBoss: true, bossBullet: true, damage: 3);
+            }
+
+            if (attackTimer == Time.ToFrames(seconds: 30, minutes: 2)) {
+                Globals.disableEnemyShooting = false;
+            }
+
+            ///////////////
+            // Attack #5 // Rain
+            ///////////////
+            if (attackTimer <= Time.ToFrames(seconds: 45, minutes: 2) && attackTimer >= Time.ToFrames(seconds: 35, minutes: 2) && attackTimer % 10 == 0) {
+                int slot = rng.Next(0,10);
+                Globals.disableEnemyShooting = true;
+                MainGame.newEnemyBullet(
+                    new Vector2(16 * slot, -8),
+                    new(0, 3),
+                    bulletType,
+                    healBoss: true, bossBullet: true, damage: 3);
+            }
+            if (attackTimer == Time.ToFrames(seconds: 35, minutes: 2)) {
+                Globals.disableEnemyShooting = false;
+            }
+
+            ///////////////
+            // Attack #6 // Heal Hell
+            ///////////////
+            if (attackTimer <= Time.ToFrames(seconds: 30, minutes: 2) && attackTimer >= Time.ToFrames(seconds: 0, minutes: 2) && attackTimer % 80 == 0) {
+                Globals.disableEnemyShooting = true;
+
+                for (int i = 0; i < 9; i++) {
+                    float speed = rng.Next(2, 4) * (float)rng.NextDouble();
+                    if (speed <= 1.05f) { speed = 2 + (float)rng.NextDouble(); }
+                    MainGame.newEnemyBullet(new(8 + 16 * i, -8), new(0, speed), bulletType, bossBullet: true, healBoss: true, damage: 0);
+                }
+            }
+            if (attackTimer == Time.ToFrames(0, minutes: 2)) {
+                Globals.disableEnemyShooting = false;
+            }
+
+            ///////////////
+            // Attack #7 // Long boi
+            ///////////////
+
+            if (attackTimer <= Time.ToFrames(seconds: 50, minutes: 1) && attackTimer >= Time.ToFrames(seconds: 50, minutes: 0) && attackTimer % 90 == 0) {
+                MainGame.newEnemyBullet(new Vector2(0 + (16 * bulletOffset), -8), new(0, 3f), bulletType, bossBullet: true, damage: 2);
+                MainGame.newEnemyBullet(new Vector2(32 + (16 * bulletOffset), -8), new(0, 3f), bulletType, bossBullet: true, damage: 2);
+                MainGame.newEnemyBullet(new Vector2(64 + (16 * bulletOffset), -8), new(0, 3f), bulletType, bossBullet: true, damage: 2);
+                MainGame.newEnemyBullet(new Vector2(96 + (16 * bulletOffset), -8), new(0, 3f), bulletType, bossBullet: true, damage: 2);
+                MainGame.newEnemyBullet(new Vector2(128 + (16 * bulletOffset), -8), new(0, 3f), bulletType, bossBullet: true, damage: 2);
 
                 bulletOffset++;
                 if (bulletOffset == 2) { bulletOffset = 0; }
             }
 
 
+            ///////////////
+            // Attack #7 // Long boi [END]
+            ///////////////
+
+            // Movement code (stolen Lilith code because I'm lazy)
             if (spawnTimer > 1) { return; }
             position += velocity * direction;
 
@@ -172,6 +249,7 @@ namespace SpaceInvaders.Entities.Bosses {
 
             hitbox.Location = position.ToPoint() + hitboxOffset;
             center = position + hitbox.Size.ToVector2() * new Vector2(0.5f, 1);
+            
             attackTimer--;
             if (attackTimer == 0) {
                 attackTimer = attackTimerReset;
