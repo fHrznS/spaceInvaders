@@ -853,10 +853,10 @@ namespace SpaceInvaders.Scenes {
             if (currentBoss.Count > 0) {
                 spriteBatch.Draw(
                     Sprites.bossbar[0],
-                    new Vector2(0,192-18),
+                    new Vector2(8,192-18),
                     new Rectangle(
                         0,0,
-                        (int)(160 * ((float)currentBoss.Last().health / currentBoss.Last().maxHealth)), 12
+                        (int)(144 * ((float)currentBoss.Last().health / currentBoss.Last().maxHealth)), 12
                     ),
                     Color.White * 0.6f);
                 spriteBatch.Draw(Sprites.bossbar[1], new Vector2(0, 192 - 18), Color.White * 0.6f);
