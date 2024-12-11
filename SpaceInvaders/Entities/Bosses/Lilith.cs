@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceInvaders.Entities.Bullets;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
 
@@ -34,7 +35,7 @@ namespace SpaceInvaders.Entities.Bosses {
             attackTimer--;
             if (attackTimer <= Time.ToFrames(seconds: 58) && attackTimer >= Time.ToFrames(seconds: 51) && attackTimer % 80 == 0) {
                 for (int i = 0; i < 6; i++) {
-                    MainGame.newEnemyBullet(
+                    MainGame.newEnemyBullet<Bullet>(
                         position: new(
                             -16 + 32 * i + 16 * offsetBulltet,
                             Globals.screenHeight + 16),
@@ -48,56 +49,56 @@ namespace SpaceInvaders.Entities.Bosses {
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 54) && attackTimer >= Time.ToFrames(seconds: 51) && attackTimer % 30 == 0) {
-                MainGame.newEnemyBullet(center, new(rng.Next(-2,3) * (float)rng.NextDouble() , 2), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(rng.Next(-2,3) * (float)rng.NextDouble() , 2), bulletType, bossBullet: true);
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 47) && attackTimer >= Time.ToFrames(seconds: 42) && attackTimer % 15 == 0) {
-                MainGame.newEnemyBullet(center, new(1.2f * direction.X, 1.4f), bulletType, bossBullet: true);
-                MainGame.newEnemyBullet(center, new(0.35f * direction.X, 1.4f), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(1.2f * direction.X, 1.4f), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0.35f * direction.X, 1.4f), bulletType, bossBullet: true);
 
 
-                MainGame.newEnemyBullet(center, new(1.2f * -direction.X, 1.4f), bulletType, bossBullet: true);
-                MainGame.newEnemyBullet(center, new(0.35f * -direction.X, 1.4f), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(1.2f * -direction.X, 1.4f), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0.35f * -direction.X, 1.4f), bulletType, bossBullet: true);
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 40) && attackTimer >= Time.ToFrames(seconds: 35) && attackTimer % 10 == 0) {
-                MainGame.newEnemyBullet(center,
+                MainGame.newEnemyBullet<Bullet>(center,
                     new(rng.Next(-4,4) * (float)rng.NextDouble(), 2.7f),
                     bulletType, bossBullet: true);
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 38) && attackTimer >= Time.ToFrames(seconds: 20) && attackTimer % 60 == 0) {
-                MainGame.newEnemyBullet(center,
+                MainGame.newEnemyBullet<Bullet>(center,
                     new(0, 2f),
                     bulletType, bossBullet: true);
-                MainGame.newEnemyBullet(center,
+                MainGame.newEnemyBullet<Bullet>(center,
                     new(-1.5f, 2f),
                     bulletType, bossBullet: true);
-                MainGame.newEnemyBullet(center,
+                MainGame.newEnemyBullet<Bullet>(center,
                     new(1.5f, 2f),
                     bulletType, bossBullet: true);
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 32) && attackTimer >= Time.ToFrames(seconds: 20) && attackTimer % 10 == 0) {
-                MainGame.newEnemyBullet(center, new(0.4f * direction.X, 1), bulletType, bossBullet: true);
-                MainGame.newEnemyBullet(center, new(0.4f * -direction.X, 1), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0.4f * direction.X, 1), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0.4f * -direction.X, 1), bulletType, bossBullet: true);
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 18) && attackTimer >= Time.ToFrames(seconds: 10) && attackTimer % 20 == 0) {
-                MainGame.newEnemyBullet(center, new(0.4f * direction.X, 1), bulletType, bossBullet: true);
-                MainGame.newEnemyBullet(center, new(0.4f * -direction.X, 1), bulletType, bossBullet: true);
-                MainGame.newEnemyBullet(center, new(rng.Next(-2, 3) * (float)rng.NextDouble(), 2), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0.4f * direction.X, 1), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0.4f * -direction.X, 1), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(rng.Next(-2, 3) * (float)rng.NextDouble(), 2), bulletType, bossBullet: true);
             }
 
             if (attackTimer < Time.ToFrames(seconds: 7) && attackTimer % 30 == 0) {
 
-                MainGame.newEnemyBullet(center, new(1.2f * direction.X, 1.4f), bulletType, bossBullet: true);
-                MainGame.newEnemyBullet(center, new(0.35f * direction.X, 1.4f), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(1.2f * direction.X, 1.4f), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0.35f * direction.X, 1.4f), bulletType, bossBullet: true);
 
-                MainGame.newEnemyBullet(center, new(0, 1.4f), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0, 1.4f), bulletType, bossBullet: true);
 
-                MainGame.newEnemyBullet(center, new(1.2f * -direction.X, 1.4f), bulletType, bossBullet: true);
-                MainGame.newEnemyBullet(center, new(0.35f * -direction.X, 1.4f), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(1.2f * -direction.X, 1.4f), bulletType, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0.35f * -direction.X, 1.4f), bulletType, bossBullet: true);
             }
 
             if (attackTimer == 0) {

@@ -17,8 +17,6 @@ namespace SpaceInvaders {
         private KeyboardState input;
         private KeyboardState previousInput;
 
-        private bool loadGame = false;
-
         enum GameStates {
             MainMenu,
             Settings,

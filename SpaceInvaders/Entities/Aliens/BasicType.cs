@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using SpaceInvaders.Utils;
+using SpaceInvaders.Entities.Bullets;
 
 namespace SpaceInvaders.Entities.Aliens {
     internal class BasicAlien : Alien {
@@ -53,7 +54,7 @@ namespace SpaceInvaders.Entities.Aliens {
 
             if (shootTimer == 0) {
                 if (canShoot && !Globals.disableEnemyShooting) {
-                    Scenes.MainGame.newEnemyBullet(position, new(0, 2), type, damage: 1);
+                    Scenes.MainGame.newEnemyBullet<Bullet>(position, new(0, 2), type, damage: 1);
                 }
                 shootTimer = shootTimerReset;
             }

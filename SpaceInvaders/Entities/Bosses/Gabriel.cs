@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceInvaders.Entities.Bullets;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
 
@@ -26,16 +27,16 @@ namespace SpaceInvaders.Entities.Bosses {
             attackTimer--;
 
             if (attackTimer <= Time.ToFrames(seconds: 17) && attackTimer >= Time.ToFrames(seconds: 14) && attackTimer % 20 == 0) {
-                MainGame.newEnemyBullet(center, new Vector2(rng.Next(-2,2)*((float)rng.NextDouble()), 1), 2, bossBullet:true);
+                MainGame.newEnemyBullet<Bullet>(center, new Vector2(rng.Next(-2,2)*((float)rng.NextDouble()), 1), 2, bossBullet:true);
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 9) && attackTimer >= Time.ToFrames(seconds: 6) && attackTimer % 60 == 0) {
-                MainGame.newEnemyBullet(center, new Vector2(-0.5f  * ((float)rng.NextDouble() + 0.2f), 1.5f), 2, bossBullet: true);
-                MainGame.newEnemyBullet(center, new Vector2(0.5f   * ((float)rng.NextDouble() + 0.2f), 1.5f), 2, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new Vector2(-0.5f  * ((float)rng.NextDouble() + 0.2f), 1.5f), 2, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new Vector2(0.5f   * ((float)rng.NextDouble() + 0.2f), 1.5f), 2, bossBullet: true);
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 3) && attackTimer % 30 == 0) {
-                MainGame.newEnemyBullet(center, new Vector2(rng.Next(-2, 2) * ((float)rng.NextDouble()), 2.5f), 2, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new Vector2(rng.Next(-2, 2) * ((float)rng.NextDouble()), 2.5f), 2, bossBullet: true);
             }
 
             if (attackTimer == 0) {

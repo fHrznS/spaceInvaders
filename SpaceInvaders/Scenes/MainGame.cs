@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using SpaceInvaders.Entities.Bullets;
 
 namespace SpaceInvaders.Scenes {
     enum GameState {
@@ -37,7 +38,7 @@ namespace SpaceInvaders.Scenes {
         private int powerboxSummonTimer = 0;
 
         static List<Bullet> bullets = new();
-        static List<Bullet> enemyBullets = new();
+        static List<BasicBullet> enemyBullets = new();
         static bool
             playerBulletDeleted = false,
             enemyBulletDeleted = false;
@@ -475,14 +476,14 @@ namespace SpaceInvaders.Scenes {
 
             // Player Bullets
             foreach (Bullet bullet in bullets) {
-                bullet.Update();
+                bullet.Update(player.position);
                 if (playerBulletDeleted) { break; }
             }
 
             // Enemy Bullets
             int removedBullets = 0;
             for (int i = 0; i < enemyBullets.Count - removedBullets; i++) {
-                enemyBullets[i].Update();
+                enemyBullets[i].Update(player.position);
                 if (enemyBulletDeleted) { 
                     enemyBulletDeleted = false;
                     i--;
@@ -775,12 +776,41 @@ namespace SpaceInvaders.Scenes {
 
         // Code to spawn new bullet
         static internal void newPlayerBullet(int xPosition, Vector2 direction, int damage) {
-            bullets.Add(new(position: new(xPosition, 160), new(2, 8), direction: direction, Sprites.bullets[0], id, damage));
+            Bullet bullet = new Bullet();
+            bullet.NewBullet(position: new(xPosition, 160), new(2, 8), direction: direction, Sprites.bullets[0], id, damage);
+            bullets.Add(bullet);
             id++;
         }
-        static internal void newEnemyBullet(Vector2 position, Vector2 direction, int type, bool bossBullet = false, bool healBoss = false, int damage = 1) {
+        static internal void newEnemyBullet<T>(Vector2 position, Vector2 direction, int type, bool bossBullet = false, bool healBoss = false, int damage = 1) where T: BasicBullet, new() {
+            BasicBullet bullet = new T();
+
             if (!bossBullet) {
-                enemyBullets.Add(new(
+                bullet.NewBullet(
+                    position: position,
+                    hitboxSize: new(6, 6),
+                    direction: direction,
+                    Sprites.bullets[type],
+                    id,
+                    damage,
+                    evil: true
+                );
+            } else {
+                bullet.NewBullet(
+                    position: position,
+                    hitboxSize: new(6, 6),
+                    direction: direction,
+                    Sprites.bossBullets[type],
+                    id,
+                    damage,
+                    healBoss: healBoss,
+                    evil: true
+                );
+            }
+            enemyBullets.Add(bullet);
+
+            /*
+            if (!bossBullet) {
+                enemyBullets.Add(new T(
                     position: position,
                     hitboxSize: new(6, 6),
                     direction: direction,
@@ -798,7 +828,7 @@ namespace SpaceInvaders.Scenes {
                     damage,
                     healBoss: healBoss,
                     evil: true));
-            }
+            }*/
             id++;
         }
 

@@ -26,6 +26,9 @@
     <Folder Include="Content\BossBullets\" />
     <Folder Include="Content\Particles\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Entities\Bullets\BasicBullet.cs" />
+  </ItemGroup>
   <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
     <Message Text="Restoring dotnet tools" Importance="High" />
     <Exec Command="dotnet tool restore" />
