@@ -80,7 +80,7 @@ namespace SpaceInvaders.Scenes {
             // Set all variables to default
             player.sprite = Content.Load<Texture2D>("ShipSprites/normal");
             player.position = new Vector2(72, 160);
-            player.hitbox = new(1, 4, 14, 8);
+            player.hitbox = new(1, 4, 14, 6);
 
             // Define Background
             background = new(Content.Load<Texture2D>("Background"));
@@ -855,7 +855,7 @@ namespace SpaceInvaders.Scenes {
             foreach (Bullet bullet in bullets) {
                 bullet.Draw(spriteBatch);
             }
-            foreach (Bullet bullet in enemyBullets) {
+            foreach (BasicBullet bullet in enemyBullets) {
                 bullet.Draw(spriteBatch);
             }
 

@@ -17,12 +17,12 @@ namespace SpaceInvaders.Entities.Bullets {
             this.healBoss = healBoss;
         }
         internal override void Update(Vector2 playerPos) {
-            direction.X = playerPos.X - position.X;
-            if (direction.X > 5) {
-                direction.X = 5;
+            direction.X = playerPos.X - position.X + 5;
+            if (direction.X > 0.8f) {
+                direction.X = 0.8f;
             }
-            if (direction.X < -5) {
-                direction.X = -5;
+            if (direction.X < -0.8f) {
+                direction.X = -0.8f;
             }
 
             position += direction;
