@@ -4,7 +4,7 @@ using SpaceInvaders.Scenes;
 
 namespace SpaceInvaders.Entities.Bullets {
     internal class Bullet : BasicBullet {
-        public override void NewBullet(Vector2 position, Point hitboxSize, Vector2 direction, Texture2D sprite, int id, int damage, bool healBoss = false, bool evil = false) {
+        public override void NewBullet(Vector2 position, Point hitboxSize, Vector2 direction, Texture2D sprite, int id, int damage, int multID, bool healBoss = false, bool evil = false) {
             this.sprite = sprite;
             this.position = new(position.X + 7, position.Y);
 
@@ -15,6 +15,7 @@ namespace SpaceInvaders.Entities.Bullets {
 
             isEvil = evil;
             this.healBoss = healBoss;
+            this.multID = multID;
         }
 
         internal override void Update(Vector2 playerPos) {
@@ -23,9 +24,9 @@ namespace SpaceInvaders.Entities.Bullets {
 
             // Do we delete?
             if (position.Y < -10 && !isEvil) {
-                MainGame.deleteBullet(id, evil: false);
+                MainGame.deleteBullet(id, multID, evil: false);
             } else if ((position.Y > 230 || position.Y < -32) && isEvil) {
-                MainGame.deleteBullet(id, evil: true);
+                MainGame.deleteBullet(id, multID, evil: true);
             }
         }
     }

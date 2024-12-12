@@ -53,10 +53,10 @@ namespace SpaceInvaders.Scenes
                 }
             }
 
-            if (input.IsKeyDown(Controls.moveRight)) {
+            if (input.IsKeyDown(Controls.P1moveRight)) {
                 selectedOption = Options.Easy;
             }
-            else if (input.IsKeyDown(Controls.moveLeft)) {
+            else if (input.IsKeyDown(Controls.P1moveLeft)) {
                 selectedOption = Options.Start;
             }
 
@@ -78,7 +78,7 @@ namespace SpaceInvaders.Scenes
 
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
             if (!Globals.isLoading) {
-                spriteBatch.DrawString(text,"Press " + Controls.shoot.ToString() + " to confirm choice", new Vector2(5, 742), Color.White);
+                spriteBatch.DrawString(text,"Press " + Controls.P1shoot.ToString() + " to confirm choice", new Vector2(5, 742), Color.White);
             }
         }
     }

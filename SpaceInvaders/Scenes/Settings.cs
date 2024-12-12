@@ -44,16 +44,16 @@ namespace SpaceInvaders.Scenes {
             if (changeControl) {
                 if (input.GetPressedKeyCount() != 0) {
                     if (controlSetting == ControlSetting.shoot) {
-                        Utils.Controls.shoot = input.GetPressedKeys()[0];
+                        Utils.Controls.P1shoot = input.GetPressedKeys()[0];
                     }
                     if (controlSetting == ControlSetting.pause) {
-                        Utils.Controls.pause = input.GetPressedKeys()[0];
+                        Utils.Controls.P1pause = input.GetPressedKeys()[0];
                     }
                     if (controlSetting == ControlSetting.left) {
-                        Utils.Controls.moveLeft = input.GetPressedKeys()[0];
+                        Utils.Controls.P1moveLeft = input.GetPressedKeys()[0];
                     }
                     if (controlSetting == ControlSetting.right) {
-                        Utils.Controls.moveRight = input.GetPressedKeys()[0];
+                        Utils.Controls.P1moveRight = input.GetPressedKeys()[0];
                     }
 
                     changeControl = false;
@@ -64,7 +64,7 @@ namespace SpaceInvaders.Scenes {
 
 
             if (settingChosen == Setting.None) {
-                if (input.IsKeyDown(Utils.Controls.shoot) && input != previousInput) {
+                if (input.IsKeyDown(Utils.Controls.P1shoot) && input != previousInput) {
                     previousInput = input;
                     settingChosen = settingHovered;
                 }
@@ -105,7 +105,7 @@ namespace SpaceInvaders.Scenes {
                 controlSetting = ControlSetting.left;
             }
 
-            if (input.IsKeyDown(Utils.Controls.shoot)) {
+            if (input.IsKeyDown(Utils.Controls.P1shoot)) {
                 changeControl = true;
             }
         }
@@ -116,19 +116,19 @@ namespace SpaceInvaders.Scenes {
                 spriteBatch.DrawString(text, settingHovered == Setting.Audio ? "* Audio" : "Audio", new(5,26), Color.White);
             } else if (settingChosen == Setting.Controls) {
                 spriteBatch.DrawString(text, 
-                    controlSetting == ControlSetting.shoot ? "* Shoot: " + Utils.Controls.shoot.ToString() : "Shoot: " + Utils.Controls.shoot.ToString(),
+                    controlSetting == ControlSetting.shoot ? "* Shoot: " + Utils.Controls.P1shoot.ToString() : "Shoot: " + Utils.Controls.P1shoot.ToString(),
                     new(5, 0), Color.White);
 
                 spriteBatch.DrawString(text,
-                    controlSetting == ControlSetting.pause ? "* Pause: " + Utils.Controls.pause.ToString() : "Pause: " + Utils.Controls.pause.ToString(),
+                    controlSetting == ControlSetting.pause ? "* Pause: " + Utils.Controls.P1pause.ToString() : "Pause: " + Utils.Controls.P1pause.ToString(),
                     new(5, 26), Color.White);
 
                 spriteBatch.DrawString(text,
-                    controlSetting == ControlSetting.left ? "* Left: " + Utils.Controls.moveLeft.ToString() : "Left: " + Utils.Controls.moveLeft.ToString(),
+                    controlSetting == ControlSetting.left ? "* Left: " + Utils.Controls.P1moveLeft.ToString() : "Left: " + Utils.Controls.P1moveLeft.ToString(),
                     new(5, 26*2), Color.White);
 
                 spriteBatch.DrawString(text,
-                    controlSetting == ControlSetting.right ? "* Right: " + Utils.Controls.moveRight.ToString() : "Right: " + Utils.Controls.moveRight.ToString(),
+                    controlSetting == ControlSetting.right ? "* Right: " + Utils.Controls.P1moveRight.ToString() : "Right: " + Utils.Controls.P1moveRight.ToString(),
                     new(5, 26 * 3), Color.White);
             }
         }

@@ -34,10 +34,10 @@ namespace SpaceInvaders.Scenes {
         }
 
         public void HighResDraw(SpriteBatch spriteBatch) {
-            spriteBatch.DrawString(text, "Controls:\nMove Left: " + Controls.moveLeft +
-                "\nMove Right: " + Controls.moveRight +
-                "\nShoot: " + Controls.shoot +
-                "\nPause: " + Controls.pause, new(4,4), Color.White);
+            spriteBatch.DrawString(text, "Controls:\nMove Left: " + Controls.P1moveLeft +
+                "\nMove Right: " + Controls.P1moveRight +
+                "\nShoot: " + Controls.P1shoot +
+                "\nPause: " + Controls.P1pause, new(4,4), Color.White);
             spriteBatch.DrawString(text, "Powerboxes:\n\n- Heal\n\n\n- More Bullets\n\n\n- Faster Bullets\n\n\n- Split Bullets", new(0, 143), Color.White);
         }
     }

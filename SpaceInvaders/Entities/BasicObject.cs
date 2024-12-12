@@ -13,5 +13,6 @@ namespace SpaceInvaders.Entities {
         public Vector2 direction;
         public Rectangle hitbox;
         public int id;
+        public int multID;
     }
 }

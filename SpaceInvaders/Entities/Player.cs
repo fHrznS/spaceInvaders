@@ -45,30 +45,53 @@ namespace SpaceInvaders.Entities {
         }
 
         void playerMovement() {
-            if (MainGame.input.IsKeyDown(Controls.moveLeft) && position.X > 5) {
-                position.X -= 2;
-            }
+            if (multID == 0) {
+                if (MainGame.input.IsKeyDown(Controls.P1moveLeft) && position.X > 5) {
+                    position.X -= 2;
+                }
 
-            if (MainGame.input.IsKeyDown(Controls.moveRight) && position.X < Globals.screenWidth - 21) {
-                position.X += 2;
+                if (MainGame.input.IsKeyDown(Controls.P1moveRight) && position.X < Globals.screenWidth - 21) {
+                    position.X += 2;
+                }
+            } else if (multID == 1) {
+                if (MainGame.input.IsKeyDown(Keys.J) && position.X > 5) {
+                    position.X -= 2;
+                }
+
+                if (MainGame.input.IsKeyDown(Keys.L) && position.X < Globals.screenWidth - 21) {
+                    position.X += 2;
+                }
             }
         }
 
         void canShoot() {
-            if (MainGame.input == MainGame.previousInput) { return; }
+            //if (MainGame.input == MainGame.previousInput) { return; }
 
-            // Can the player shoot?
-            if (MainGame.input.IsKeyDown(Controls.shoot) && Bullet.bulletCount != maxBullets) {
-                if (maxBullets - Bullet.bulletCount >= 2 && splitBullet) {
-                    MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour);
-                    MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour);
-                    Bullet.bulletCount++;
-                    SFX.shootSounds[0].Play();
-                } else {
-                    MainGame.newPlayerBullet((int)position.X, new Vector2(0, bulletSpeed), 1 + bulletArmour);
-                    SFX.shootSounds[0].Play();
+            if (multID == 0) {
+                // Can the player shoot?
+                if (MainGame.input.IsKeyDown(Controls.P1shoot) && !MainGame.previousInput.IsKeyDown(Controls.P1shoot) && MainGame.P1bullets.Count != maxBullets) {
+                    if (maxBullets - MainGame.P1bullets.Count >= 2 && splitBullet) {
+                        MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 0);
+                        MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 0);
+                        SFX.shootSounds[0].Play();
+                    } else {
+                        MainGame.newPlayerBullet((int)position.X, new Vector2(0, bulletSpeed), 1 + bulletArmour, 0);
+                        SFX.shootSounds[0].Play();
+                    }
                 }
-                Bullet.bulletCount++;
+            }
+            else if (multID == 1) {
+                // Can the player shoot?
+                if (MainGame.input.IsKeyDown(Keys.K) && MainGame.P2bullets.Count != maxBullets) {
+                    if (maxBullets - MainGame.P2bullets.Count >= 2 && splitBullet) {
+                        MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 1);
+                        MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 1);
+                        SFX.shootSounds[0].Play();
+                    } else {
+                        MainGame.newPlayerBullet((int)position.X, new Vector2(0, bulletSpeed), 1 + bulletArmour, 1);
+                        SFX.shootSounds[0].Play();
+                    }
+                }
             }
         }
 

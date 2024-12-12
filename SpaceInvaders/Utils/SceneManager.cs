@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace SpaceInvaders.Utils {
     internal class SceneManager {
@@ -19,6 +20,10 @@ namespace SpaceInvaders.Utils {
 
         public IScene currentScene() {
             return scenes.Peek();
+        }
+
+        public IScene peekDownTo(int depth) {
+            return scenes.Take(depth).Last();
         }
     }
 }

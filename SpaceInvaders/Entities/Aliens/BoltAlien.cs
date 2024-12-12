@@ -5,11 +5,12 @@ using System;
 
 namespace SpaceInvaders.Entities.Aliens {
     internal class BoltAlien : Alien {
-        public BoltAlien(int alienType, Vector2 startPosition, Rectangle hitbox, int id) {
+        public BoltAlien(int alienType, Vector2 startPosition, Rectangle hitbox, int id, int multID) {
             this.id = id;
             type = alienType;
             position = startPosition;
             hitboxOffset = hitbox.Location;
+            this.multID = multID;
 
             this.hitbox = new Rectangle(position.ToPoint() + hitboxOffset, hitbox.Size);
             direction = new(0, 1);

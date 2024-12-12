@@ -21,8 +21,6 @@ namespace SpaceInvaders.Entities {
         internal bool isImmune = false;
         internal Point hitboxOffset;
 
-        public static int count = 0;
-
         internal abstract void Update(GameTime gameTime);
 
         internal abstract void Draw(SpriteBatch spriteBatch);

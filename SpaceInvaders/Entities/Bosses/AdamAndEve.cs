@@ -64,23 +64,23 @@ namespace SpaceInvaders.Entities.Bosses {
             adamShootTimer--;
 
             if (adamShootTimer % Time.ToFrames(5) == 0) {
-                MainGame.newEnemyBullet<Bullet>(AdamCenter, new Vector2(-0.8f, 2), adamBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(AdamCenter, new Vector2(-0.3f, 1.8f), adamBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(AdamCenter, new Vector2(0.3f, 1.8f), adamBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(AdamCenter, new Vector2(0.8f, 2), adamBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(AdamCenter, new Vector2(1.5f, 2.2f), adamBullet, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(AdamCenter, new Vector2(-0.8f, 2), adamBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(AdamCenter, new Vector2(-0.3f, 1.8f), adamBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(AdamCenter, new Vector2(0.3f, 1.8f), adamBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(AdamCenter, new Vector2(0.8f, 2), adamBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(AdamCenter, new Vector2(1.5f, 2.2f), adamBullet, multID, bossBullet: true);
             }
 
             if (adamShootTimer % Time.ToFrames(2) == 0) {
-                MainGame.newEnemyBullet<Bullet>(AdamCenter, new(rng.Next(-1,3) * (float)rng.NextDouble(), 3), adamBullet, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(AdamCenter, new(rng.Next(-1,3) * (float)rng.NextDouble(), 3), adamBullet, multID, bossBullet: true);
             }
 
             if (adamShootTimer % Time.ToFrames(3) == 0) {
-                MainGame.newEnemyBullet<Bullet>(new Vector2(0 + (16 * adamBulletXOffset), -8), new(0, 3.5f), adamBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(new Vector2(32 + (16 * adamBulletXOffset), -8), new(0, 3.5f), adamBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(new Vector2(64 + (16 * adamBulletXOffset), -8), new(0, 3.5f), adamBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(new Vector2(96 + (16 * adamBulletXOffset), -8), new(0, 3.5f), adamBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(new Vector2(128 + (16 * adamBulletXOffset), -8), new(0, 3.5f), adamBullet, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(0 + (16 * adamBulletXOffset), -8), new(0, 3.5f), adamBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(32 + (16 * adamBulletXOffset), -8), new(0, 3.5f), adamBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(64 + (16 * adamBulletXOffset), -8), new(0, 3.5f), adamBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(96 + (16 * adamBulletXOffset), -8), new(0, 3.5f), adamBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(128 + (16 * adamBulletXOffset), -8), new(0, 3.5f), adamBullet, multID, bossBullet: true);
             
                 if (adamBulletXOffset == 0) { adamBulletXOffset = 1; }
                 else { adamBulletXOffset = 0; }
@@ -94,18 +94,18 @@ namespace SpaceInvaders.Entities.Bosses {
             eveShootTimer--;
 
             if (eveShootTimer % Time.ToFrames(4) == 0) {
-                MainGame.newEnemyBullet<Bullet>(EveCenter, new(rng.Next(-4, 2) * (float)rng.NextDouble(), 3), eveBullet, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(EveCenter, new(rng.Next(-4, 2) * (float)rng.NextDouble(), 3), eveBullet, multID, bossBullet: true);
             }
 
             if (eveShootTimer < Time.ToFrames(10) && eveShootTimer % 30 == 0) {
-                MainGame.newEnemyBullet<Bullet>(EveCenter, new(rng.Next(-5, 5) * (float)rng.NextDouble(), 4), eveBullet, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(EveCenter, new(rng.Next(-5, 5) * (float)rng.NextDouble(), 4), eveBullet, multID, bossBullet: true);
             }
 
             if (eveShootTimer == 60) {
-                MainGame.newEnemyBullet<Bullet>(EveCenter, new(-1.5f, 2), eveBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(EveCenter, new(-0.5f, 2), eveBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(EveCenter, new(0.5f, 2), eveBullet, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(EveCenter, new(1.5f, 2), eveBullet, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(EveCenter, new(-1.5f, 2), eveBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(EveCenter, new(-0.5f, 2), eveBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(EveCenter, new(0.5f, 2), eveBullet, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(EveCenter, new(1.5f, 2), eveBullet, multID, bossBullet: true);
             }
 
             if (eveShootTimer == 0) {

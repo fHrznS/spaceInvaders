@@ -9,6 +9,8 @@ namespace SpaceInvaders.Utils {
         internal static bool invasionMode = false;
         internal static bool disableEnemySpawning = false;
 
+        internal static bool isMultiplayer = false;
+
         internal static bool debug = false;
         internal static int dbWave = 49; // 298
         internal static int dbBSpeed = -17; // -5 base

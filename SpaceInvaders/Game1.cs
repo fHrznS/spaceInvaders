@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
+using System.Collections.Generic;
 
 namespace SpaceInvaders {
     public class Game1 : Game {
@@ -11,6 +12,7 @@ namespace SpaceInvaders {
 
         private SceneManager sceneManager = new();
         private RenderTarget2D renderTarget;
+        private RenderTarget2D renderTarget2;
 
         private int screenScale = 4;
 
@@ -36,6 +38,7 @@ namespace SpaceInvaders {
 
             // Initialize renderTarget to allow for the pixel style.
             renderTarget = new(GraphicsDevice, Globals.screenWidth, Globals.screenHeight);
+            renderTarget2 = new(GraphicsDevice, Globals.screenWidth, Globals.screenHeight);
 
             // Set what the player sees be "screenScale" times bigger than what's rendered to renderTarget.
             _graphics.PreferredBackBufferWidth = Globals.screenWidth * screenScale;
@@ -53,12 +56,18 @@ namespace SpaceInvaders {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             sceneManager.currentScene().LoadContent();
+            if (Globals.isMultiplayer) {
+                sceneManager.peekDownTo(2).LoadContent();
+            }
         }
 
         protected override void Update(GameTime gameTime) {
             input = Keyboard.GetState();
 
             sceneManager.currentScene().Update(gameTime);
+            if (Globals.isMultiplayer) {
+                sceneManager.peekDownTo(2).Update(gameTime);
+            }
 
             // What scene control do we have?
             switch (gameState) {
@@ -79,7 +88,12 @@ namespace SpaceInvaders {
         }
 
         void loadMainGame() {
-            sceneManager.AddScene(new MainGame(Content));
+            if (Globals.isMultiplayer) {
+                sceneManager.AddScene(new MainGame(Content, 1));
+                sceneManager.AddScene(new MainGame(Content, 0));
+            } else {
+                sceneManager.AddScene(new MainGame(Content, 0));
+            }
             gameState = GameStates.MainGame;
             Globals.isLoading = true;
             LoadContent();
@@ -93,24 +107,41 @@ namespace SpaceInvaders {
                 loadMainGame();
             }
 
-            if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
+            if (input.IsKeyDown(Controls.P1shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
                 Globals.isLoading = true;
                 Draw(new GameTime());
                 
                 Globals.isWorthy = true;
                 Globals.easyDifficulty = false;
+                Globals.isMultiplayer = false;
+                _graphics.PreferredBackBufferWidth = Globals.screenWidth * screenScale;
+                _graphics.ApplyChanges();
 
-            } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Easy) {
+                if (input.IsKeyDown(Keys.F1) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
+                    Globals.isLoading = true;
+                    Draw(new GameTime());
+
+                    Globals.isWorthy = true;
+                    Globals.easyDifficulty = false;
+                    Globals.isMultiplayer = true;
+                    _graphics.PreferredBackBufferWidth = Globals.screenWidth * screenScale * 2;
+                    _graphics.ApplyChanges();
+                }
+
+            } else if (input.IsKeyDown(Controls.P1shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Easy) {
                 Globals.isLoading = true;
                 Draw(new GameTime());
 
                 Globals.isWorthy = false;
                 Globals.easyDifficulty = true;
-            } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Settings) {
+                Globals.isMultiplayer = false;
+                _graphics.PreferredBackBufferWidth = Globals.screenWidth * screenScale;
+                _graphics.ApplyChanges();
+            } else if (input.IsKeyDown(Controls.P1shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Settings) {
                 sceneManager.AddScene(new Settings(Content));
                 gameState = GameStates.Settings;
                 LoadContent();
-            } else if (input.IsKeyDown(Controls.shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.HowTo) {
+            } else if (input.IsKeyDown(Controls.P1shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.HowTo) {
                 sceneManager.AddScene(new HowTo(Content));
                 gameState = GameStates.HowTo;
                 LoadContent();
@@ -131,6 +162,10 @@ namespace SpaceInvaders {
 
             if (input.IsKeyDown(Keys.Escape)) {
                 sceneManager.RemoveScene();
+                if (Globals.isMultiplayer) {
+                    sceneManager.RemoveScene();
+                }
+
                 LoadContent();
                 gameState = GameStates.MainMenu;
             }
@@ -173,6 +208,45 @@ namespace SpaceInvaders {
             sceneManager.currentScene().HighResDraw(_spriteBatch);
             
             _spriteBatch.End();
+
+            //
+            // If in multiplayer, draw 2nd screen
+            //
+
+            if (Globals.isMultiplayer) {
+
+                GraphicsDevice.SetRenderTarget(renderTarget2);
+
+                GraphicsDevice.Clear(Color.Black);
+
+                _spriteBatch.Begin();
+
+                sceneManager.peekDownTo(2).Draw(_spriteBatch);
+
+                _spriteBatch.End();
+
+                // Set Render Target back to main (what the user sees)
+                // And draw renderTarget to the screen scaled up with "PointClamp" to keep the pixelated look.
+                GraphicsDevice.SetRenderTarget(null);
+
+
+                _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
+
+                _spriteBatch.Draw(renderTarget2,
+                    new Rectangle(Globals.screenWidth * screenScale, 0,
+                        Globals.screenWidth * screenScale,
+                        Globals.screenHeight * screenScale),
+                    Color.White);
+                _spriteBatch.Draw(renderTarget,
+                new Rectangle(0, 0,
+                    Globals.screenWidth * screenScale,
+                    Globals.screenHeight * screenScale),
+                Color.White);
+                sceneManager.currentScene().HighResDraw(_spriteBatch);
+
+                _spriteBatch.End();
+            }
+
 
             base.Draw(gameTime);
         }

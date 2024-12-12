@@ -7,10 +7,11 @@ namespace SpaceInvaders.Entities.Aliens {
     internal class BasicAlien : Alien {
         bool canShoot;
 
-        public BasicAlien(int alienType, Vector2 startPosition, Rectangle hitbox, int id, bool free=false) {
+        public BasicAlien(int alienType, Vector2 startPosition, Rectangle hitbox, int id, int multID, bool free=false) {
             type = alienType;
             this.free = free;
             this.id = id;
+            this.multID = multID;
 
             shootTimerReset = rng.Next(Time.ToFrames(seconds: 2) * type, Time.ToFrames(4) * type);
             shootTimer = shootTimerReset;
@@ -54,7 +55,7 @@ namespace SpaceInvaders.Entities.Aliens {
 
             if (shootTimer == 0) {
                 if (canShoot && !Globals.disableEnemyShooting) {
-                    Scenes.MainGame.newEnemyBullet<Bullet>(position, new(0, 2), type, damage: 1);
+                    Scenes.MainGame.newEnemyBullet<Bullet>(position, new(0, 2), type, multID, damage: 1);
                 }
                 shootTimer = shootTimerReset;
             }

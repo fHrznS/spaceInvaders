@@ -22,9 +22,11 @@ namespace SpaceInvaders.Scenes {
 
     internal class MainGame : IScene {
         GameState gameState = GameState.Running;
+        internal int multiID = 0;
 
         static internal KeyboardState input;
         static internal KeyboardState previousInput;
+        static int repeatedRuns = 0;
         static ContentManager Content;
 
         Background background;
@@ -32,12 +34,14 @@ namespace SpaceInvaders.Scenes {
 
         Player player = new();
         List<Alien> aliens = new();
+        List<Alien> aliens2 = new();
         private List<ParticleObject> particleObjects = new();
         private List<BasicBoss> currentBoss = new();
         private List<Powerbox> powerboxes = new();
         private int powerboxSummonTimer = 0;
 
-        static List<Bullet> bullets = new();
+        public static List<Bullet> P1bullets = new();
+        public static List<Bullet> P2bullets = new();
         static List<BasicBullet> enemyBullets = new();
         static bool
             playerBulletDeleted = false,
@@ -69,8 +73,10 @@ namespace SpaceInvaders.Scenes {
 
         Random rng = new();
 
-        public MainGame(ContentManager contentManager) {
+        public MainGame(ContentManager contentManager, int multiID) {
             Content = contentManager;
+            this.multiID = multiID;
+            if (multiID == 1) { id += 100000; }
         }
 
 
@@ -81,14 +87,12 @@ namespace SpaceInvaders.Scenes {
             player.sprite = Content.Load<Texture2D>("ShipSprites/normal");
             player.position = new Vector2(72, 160);
             player.hitbox = new(1, 4, 14, 6);
+            player.multID = multiID;
 
             // Define Background
             background = new(Content.Load<Texture2D>("Background"));
-            
-            Alien.count = 0;
-            Bullet.bulletCount = 0;
 
-            bullets.Clear(); enemyBullets.Clear();
+            P1bullets.Clear(); P2bullets.Clear(); enemyBullets.Clear();
             playerBulletDeleted = false; enemyBulletDeleted = false;
             id = 0;
             
@@ -214,7 +218,7 @@ namespace SpaceInvaders.Scenes {
             finishedLoading = true;
             Globals.isLoading = false;
 
-            if (Globals.debug) {
+            if (Globals.debug && !Globals.isMultiplayer) {
                 wave = Globals.dbWave;
                 CheckGameCondition();
             } else if (Globals.easyDifficulty) {
@@ -223,7 +227,6 @@ namespace SpaceInvaders.Scenes {
             } else {
                 newEnemyBatch();
             }
-            previousInput = Keyboard.GetState();
         }
 
         void IScene.Update(GameTime gameTime) {
@@ -236,14 +239,14 @@ namespace SpaceInvaders.Scenes {
             }
 
             if (gameState == GameState.Paused) {
-                if (input.IsKeyDown(Controls.pause) && previousInput != input) {
+                if (input.IsKeyDown(Controls.P1pause) && previousInput != input) {
                     gameState = GameState.Running;
                     previousInput = input;
                 }
                 previousInput = input;
                 return;
             } else if (gameState == GameState.Running) {
-                if (input.IsKeyDown(Controls.pause) && previousInput != input) {
+                if (input.IsKeyDown(Controls.P1pause) && previousInput != input) {
                     gameState = GameState.Paused;
                     previousInput = input;
                 }
@@ -272,11 +275,17 @@ namespace SpaceInvaders.Scenes {
 
             playerBulletDeleted = false;
             enemyBulletDeleted = false;
+
+            repeatedRuns++;
+            if (repeatedRuns == 2 && Globals.isMultiplayer) {
+                previousInput = Keyboard.GetState();
+                repeatedRuns = 0;
+            }
         }
 
         void CheckGameCondition() {
             if (Globals.summonSecondBoss) {
-                aliens.Clear(); Alien.count = 0;
+                aliens.Clear();
             }
 
             if (!Globals.easyDifficulty && Globals.isWorthy && previousWave != wave) {
@@ -340,7 +349,7 @@ namespace SpaceInvaders.Scenes {
             }
 
             // Have all aliens been killed?
-            if (Alien.count == 0 && !Globals.stopSpawn) {
+            if (aliens.Count == 0 && aliens2.Count == 0 && !Globals.stopSpawn) {
                 if (wave >= finalWave + (Globals.isWorthy ? 100 : 0) && currentBoss.Count == 0) {
                     won = true;
                 } else {
@@ -353,52 +362,52 @@ namespace SpaceInvaders.Scenes {
                     
                     if (wave == 4) {
                         currentBoss.Add(new Zhyron(Sprites.bosses[0], wave));
-                        MediaPlayer.Play(Songs.bossSongs[0]);
+                        if ( !Globals.isMultiplayer ) MediaPlayer.Play(Songs.bossSongs[0]);
                     } else if (wave == 19) {
                         currentBoss.Add(new Seraphim(Sprites.bosses[1], wave));
-                        MediaPlayer.Play(Songs.bossSongs[1]);
+                        if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[1]);
                     } else if (wave == 39) {
                         currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
-                        MediaPlayer.Play(Songs.bossSongs[2]);
+                        if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[2]);
                     } else if (wave == 64) {
                         currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
-                        MediaPlayer.Play(Songs.bossSongs[3]);
+                        if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[3]);
                     } else if (wave == 99) {
                         currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave));
-                        MediaPlayer.Play(Songs.bossSongs[4]);
+                        if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[4]);
                     } else if (wave == 119) {
                         int boss = rng.Next(0,4);
                         if (boss == 0) {
                             currentBoss.Add(new Zhyron(Sprites.bosses[0], wave));
-                            MediaPlayer.Play(Songs.bossSongs[0]);
+                            if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[0]);
                         } else if (boss == 1) {
                             currentBoss.Add(new Seraphim(Sprites.bosses[1], wave));
-                            MediaPlayer.Play(Songs.bossSongs[1]);
+                            if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[1]);
                         } else if (boss == 2) {
                             currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
-                            MediaPlayer.Play(Songs.bossSongs[2]);
+                            if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[2]);
                         } else if (boss == 3) {
                             currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
-                            MediaPlayer.Play(Songs.bossSongs[3]);
+                            if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[3]);
                         }
                     } else if (wave == 159) {
                         int boss = rng.Next(0, 3);
                         if (boss == 0) {
                             currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
-                            MediaPlayer.Play(Songs.bossSongs[2]);
+                            if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[2]);
                         } else if (boss == 1) {
                             currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
-                            MediaPlayer.Play(Songs.bossSongs[3]);
+                            if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[3]);
                         } else if (boss == 2) {
                             currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave));
-                            MediaPlayer.Play(Songs.bossSongs[4]);
+                            if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[4]);
                         }
                     } else if (wave == 199) {
                         currentBoss.Add(new TheMothership(Sprites.bosses[5], wave));
-                        MediaPlayer.Play(Songs.bossSongs[5]);
+                        if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[5]);
                     } else if (wave == 299) {
                         currentBoss.Add(new Saigai(Sprites.bosses[6], wave));
-                        MediaPlayer.Play(Songs.bossSongs[6]);
+                        if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[6]);
                     } else if (wave == 399) {
                         currentBoss.Add(new Zhyron(Sprites.bosses[0], wave + 1000));
                     }
@@ -434,7 +443,7 @@ namespace SpaceInvaders.Scenes {
                     if (wave < 5) {
                         newEnemyBatch();
                     } else {
-                        while (Alien.count == 0 && !Globals.stopSpawn) {
+                        while (aliens.Count == 0 && !Globals.stopSpawn) {
                             newRandomEnemyBatch(maxWaveHeight);
                         }
                     }
@@ -474,6 +483,17 @@ namespace SpaceInvaders.Scenes {
 
             //Alien
             foreach (Alien alien in aliens) {
+                if (alien.multID != multiID) { continue; }
+
+                alien.Update(gameTime);
+                if (alien.position.Y >= 160) {
+                    player.health = 0;
+                }
+            }
+
+            foreach (Alien alien in aliens2) {
+                if (alien.multID != multiID) { continue; }
+
                 alien.Update(gameTime);
                 if (alien.position.Y >= 160) {
                     player.health = 0;
@@ -481,7 +501,15 @@ namespace SpaceInvaders.Scenes {
             }
 
             // Player Bullets
-            foreach (Bullet bullet in bullets) {
+            foreach (Bullet bullet in P1bullets) {
+                if (bullet.multID != multiID) { continue; }
+
+                bullet.Update(player.position);
+                if (playerBulletDeleted) { break; }
+            }
+            foreach (Bullet bullet in P2bullets) {
+                if (bullet.multID != multiID) { continue; }
+
                 bullet.Update(player.position);
                 if (playerBulletDeleted) { break; }
             }
@@ -489,6 +517,8 @@ namespace SpaceInvaders.Scenes {
             // Enemy Bullets
             int removedBullets = 0;
             for (int i = 0; i < enemyBullets.Count - removedBullets; i++) {
+                if (enemyBullets[i].multID != multiID) { continue; }
+
                 enemyBullets[i].Update(player.position);
                 if (enemyBulletDeleted) { 
                     enemyBulletDeleted = false;
@@ -519,18 +549,19 @@ namespace SpaceInvaders.Scenes {
 
             // Powerbox
             foreach (Powerbox powerbox in powerboxes) {
+                if (powerbox.multID != multiID) { continue; }
+
                 powerbox.Update();
             }
         }
         
         void CheckCollision() {
             // Is the bullet colliding with an Alien?
-            foreach (Bullet bullet in bullets) {
+            foreach (Bullet bullet in P1bullets) {
                 bool removeBullet = false;
                 foreach (Alien alien in aliens) {
-                    if (bullet.hitbox.Intersects(alien.hitbox) && !alien.isImmune) {
+                    if (bullet.hitbox.Intersects(alien.hitbox) && !alien.isImmune && alien.multID == bullet.multID) {
                         aliens.Remove(aliens.Find(x => x.id == alien.id)); // Little black magic here
-                        Alien.count--;
                         removeBullet = true;
                         particleObjects.Add(new(15, 1, 2, 20, 4, bullet.position, new(0, 0), Sprites.particles[0]));
                         break;
@@ -540,18 +571,18 @@ namespace SpaceInvaders.Scenes {
                 // If not colliding with Alien, boss collision?
                 if (removeBullet == false && currentBoss.Count != 0) {
                     if (currentBoss.Last().GetType() == typeof(AdamAndEve)) {
-                        if (bullet.hitbox.Intersects(currentBoss.Last().adamHitbox)) {
+                        if (bullet.hitbox.Intersects(currentBoss.Last().adamHitbox) && currentBoss.Last().multID == bullet.multID) {
                             currentBoss.Last().adamHealth -= bullet.damage;
                             particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
                             removeBullet = true;
-                        } else if (bullet.hitbox.Intersects(currentBoss.Last().eveHitbox)) {
+                        } else if (bullet.hitbox.Intersects(currentBoss.Last().eveHitbox) && currentBoss.Last().multID == bullet.multID) {
                             currentBoss.Last().eveHealth -= bullet.damage;
                             particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
                             removeBullet = true;
                         }
                     }
                     else {
-                        if (bullet.hitbox.Intersects(currentBoss.Last().hitbox)) {
+                        if (bullet.hitbox.Intersects(currentBoss.Last().hitbox) && currentBoss.Last().multID == bullet.multID) {
                             currentBoss.Last().health -= bullet.damage;
                             particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
                             removeBullet = true;
@@ -561,15 +592,56 @@ namespace SpaceInvaders.Scenes {
 
                 // If colliding delete bullet.
                 if (removeBullet) {
-                    bullets.Remove(bullets.Find(x => x.id == bullet.id));
-                    Bullet.bulletCount--;
+                    P1bullets.Remove(P1bullets.Find(x => x.id == bullet.id));
                     break;
                 }
             }
 
+            foreach (Bullet bullet in P2bullets) {
+                bool removeBullet = false;
+                foreach (Alien alien in aliens2) {
+                    if (bullet.hitbox.Intersects(alien.hitbox) && !alien.isImmune && alien.multID == bullet.multID) {
+                        aliens2.Remove(aliens2.Find(x => x.id == alien.id)); // Little black magic here
+                        removeBullet = true;
+                        particleObjects.Add(new(15, 1, 2, 20, 4, bullet.position, new(0, 0), Sprites.particles[0]));
+                        break;
+                    }
+                }
+
+                // If not colliding with Alien, boss collision?
+                if (removeBullet == false && currentBoss.Count != 0) {
+                    if (currentBoss.Last().GetType() == typeof(AdamAndEve)) {
+                        if (bullet.hitbox.Intersects(currentBoss.Last().adamHitbox) && currentBoss.Last().multID == bullet.multID) {
+                            currentBoss.Last().adamHealth -= bullet.damage;
+                            particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
+                            removeBullet = true;
+                        } else if (bullet.hitbox.Intersects(currentBoss.Last().eveHitbox) && currentBoss.Last().multID == bullet.multID) {
+                            currentBoss.Last().eveHealth -= bullet.damage;
+                            particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
+                            removeBullet = true;
+                        }
+                    } else {
+                        if (bullet.hitbox.Intersects(currentBoss.Last().hitbox) && currentBoss.Last().multID == bullet.multID) {
+                            currentBoss.Last().health -= bullet.damage;
+                            particleObjects.Add(new(30, 2, 2, 40, 10, bullet.position, new(0, 0), Sprites.particles[0]));
+                            removeBullet = true;
+                        }
+                    }
+                }
+
+                // If colliding delete bullet.
+                if (removeBullet) {
+                    P2bullets.Remove(P2bullets.Find(x => x.id == bullet.id));
+                    break;
+                }
+            }
+
+
             // Is enemy bullet colliding with player?
             int removedBullets = 0;
             for (int i = 0; i < enemyBullets.Count - removedBullets; i++) {
+                if (enemyBullets[i].multID != multiID) { continue; }
+
                 if (enemyBullets[i].hitbox.Intersects(player.hitbox) && !won) {
                     player.registerDamage(enemyBullets[i].damage);
                     if (enemyBullets[i].healBoss == true && player.invincibility == 0) {
@@ -587,6 +659,8 @@ namespace SpaceInvaders.Scenes {
 
             // Is a powerbox colliding with player?
             foreach (Powerbox powerbox in powerboxes) {
+                if (powerbox.multID != multiID) { continue; }
+
                 if (powerbox.hitbox.Intersects(player.hitbox)) {
                     if (powerbox.GetType() == typeof(HealBox)) {
                         if (player.health != 3) {
@@ -616,15 +690,15 @@ namespace SpaceInvaders.Scenes {
         void LostUpdate() {
             // Little "animation" that removes every enemy 1 by 1
             if (lostTimer == 0) {
-                if (lostTimerReset == 120) {
+                if (lostTimerReset == 120 && !Globals.isMultiplayer) {
                     Globals.gameLost = true;
                 }
 
                 if (aliens.Count != 0) {
                     aliens.Remove(aliens.Last());
                 }
-                if (bullets.Count != 0) {
-                    bullets.Remove(bullets.Last());
+                if (P1bullets.Count != 0) {
+                    P1bullets.Remove(P1bullets.Last());
                 }
                 if (enemyBullets.Count != 0) {
                     enemyBullets.Remove(enemyBullets.Last());
@@ -634,7 +708,7 @@ namespace SpaceInvaders.Scenes {
             }
 
             // When all entities are gone, wait extra then boot user to menu.
-            if (aliens.Count == 0 && bullets.Count == 0 && enemyBullets.Count == 0 && lostTimerReset != 120) {
+            if (aliens.Count == 0 && P1bullets.Count == 0 && enemyBullets.Count == 0 && lostTimerReset != 120) {
                 lostTimerReset = 120;
                 lostTimer = lostTimerReset;
             }
@@ -652,13 +726,20 @@ namespace SpaceInvaders.Scenes {
                     int gridSpot = y * 8 + x;
                     if (waves[wave][gridSpot] == ' ') { continue; }
 
-                    aliens.Add(new BasicAlien(int.Parse(waves[wave][gridSpot].ToString()), // Due to the first 5 waves only having 2 types, we can ignore the special types.
-                        new Vector2(16+16*x, heightOffset+16*y),
-                        new Rectangle(2,2,11,11),
-                        id));
-                    
-                    aliens.Last().sprite = Sprites.enemies[aliens.Last().type-1];
-                    Alien.count++;
+                    if (multiID == 0) {
+                        aliens.Add(new BasicAlien(int.Parse(waves[wave][gridSpot].ToString()), // Due to the first 5 waves only having 2 types, we can ignore the special types.
+                            new Vector2(16+16*x, heightOffset+16*y),
+                            new Rectangle(2,2,11,11),
+                            id, multiID));
+                        aliens.Last().sprite = Sprites.enemies[aliens.Last().type-1];
+                    } else if (multiID == 1) {
+                        aliens2.Add(new BasicAlien(int.Parse(waves[wave][gridSpot].ToString()), // Due to the first 5 waves only having 2 types, we can ignore the special types.
+                            new Vector2(16 + 16 * x, heightOffset + 16 * y),
+                            new Rectangle(2, 2, 11, 11),
+                            id, multiID));
+                        aliens2.Last().sprite = Sprites.enemies[aliens2.Last().type-1];
+                    }
+
                     id++;
                 }
             }
@@ -680,36 +761,43 @@ namespace SpaceInvaders.Scenes {
 
         void createEnemy(int xPos, int yPos, int type, bool free = false) {
             Vector2 spawnPos = new(16 + 16 * xPos, -16 - 16 * yPos);
+            Alien alien = new BasicAlien(1,new(0),new(0,0,0,0),0,2);
+            
             switch (type) {
                 case 1:
                 case 2:
-                    aliens.Add(new BasicAlien(type,
+                    alien = new BasicAlien(type,
                         spawnPos,//-64 + 16 * yPos),
                         new Rectangle(2, 2, 11, 11),
-                        id));
+                        id, multiID);
                     break;
                 case 3:
-                    aliens.Add(new BoltAlien(type,
+                    alien = new BoltAlien(type,
                     spawnPos, // new Vector2(16 + 16 * xPos, -64 + 16 * yPos),
                     new Rectangle(2, 2, 14, 15),
-                    id));
+                    id, multiID);
                     break;
                 case 4:
-                    aliens.Add(new ShellShock(type,
+                    alien = new ShellShock(type,
                     spawnPos,
                     new Rectangle(2, 2, 11, 11),
-                    id));
+                    id, multiID);
                     break;
                 case 5:
-                    aliens.Add(new SkyDiverAlien(type,
+                    alien = new SkyDiverAlien(type,
                     spawnPos,
                     new Rectangle(2, 2, 11, 11),
-                    id));
+                    id, multiID);
                     break;
             }
+            if (multiID == 0) {
+                aliens.Add(alien);
+                aliens.Last().sprite = Sprites.enemies[aliens.Last().type - 1];
+            } else if (multiID == 1) {
+                aliens2.Add(alien);
+                aliens2.Last().sprite = Sprites.enemies[aliens2.Last().type - 1];
+            }
 
-            aliens.Last().sprite = Sprites.enemies[aliens.Last().type - 1];
-            Alien.count++;
             id++;
         }
 
@@ -742,42 +830,44 @@ namespace SpaceInvaders.Scenes {
                         new(boxXPos, -16),
                         Sprites.powerboxes[0],
                         60,
-                        id));
+                        id, multiID));
                 } else if (boxToSummon == 2 && player.maxBullets < wave / 5) {
                     powerboxes.Add(new BulletBox(
                         new(boxXPos, -16),
                         Sprites.powerboxes[1],
                         20,
-                        id));
+                        id, multiID));
                 } else if (boxToSummon == 3 && player.maxBullets > 2 && !player.splitBullet) {
                     powerboxes.Add(new SplitBulletBox(
                         new(boxXPos, -16),
                         Sprites.powerboxes[3],
                         30,
-                        id));
+                        id, multiID));
                 } else if (boxToSummon == 4 && player.health > 1) {
                     powerboxes.Add(new ResistanceBox(
                         new(boxXPos, -16),
                         Sprites.powerboxes[4],
                         45,
-                        id));
+                        id, multiID));
                 } else if (boxToSummon == 5 && player.bulletArmour < wave / 50) {
                     powerboxes.Add(new SheildBreakerBox(
                         new(boxXPos, -24),
                         Sprites.powerboxes[5],
                         45,
-                        id));
+                        id, multiID));
                 } else if (player.bulletSpeed > - 5 - (wave / 4) && player.bulletSpeed > -16 ) {
                     powerboxes.Add(new BulletSpeedBox(
                         new(boxXPos, -16),
                         Sprites.powerboxes[2],
                         30,
-                        id));
+                        id, multiID));
                 }
                 id++;
             } 
             
             foreach (Powerbox powerbox in powerboxes) {
+                if (powerbox.multID != multiID) { continue; }
+
                 if (powerbox.position.Y > 192) {
                     powerboxes.Remove(powerboxes.Find(x => x.id == powerbox.id));
                     break;
@@ -787,13 +877,17 @@ namespace SpaceInvaders.Scenes {
 
 
         // Code to spawn new bullet
-        static internal void newPlayerBullet(int xPosition, Vector2 direction, int damage) {
+        static internal void newPlayerBullet(int xPosition, Vector2 direction, int damage, int multID) {
             Bullet bullet = new Bullet();
-            bullet.NewBullet(position: new(xPosition, 160), new(2, 8), direction: direction, Sprites.bullets[0], id, damage);
-            bullets.Add(bullet);
+            bullet.NewBullet(position: new(xPosition, 160), new(2, 8), direction: direction, Sprites.bullets[0], id, damage, multID);
+            if (multID == 0) {
+                P1bullets.Add(bullet);
+            } else {
+                P2bullets.Add(bullet);
+            }
             id++;
         }
-        static internal void newEnemyBullet<T>(Vector2 position, Vector2 direction, int type, bool bossBullet = false, bool healBoss = false, int damage = 1) where T: BasicBullet, new() {
+        static internal void newEnemyBullet<T>(Vector2 position, Vector2 direction, int type, int multID, bool bossBullet = false, bool healBoss = false, int damage = 1) where T: BasicBullet, new() {
             BasicBullet bullet = new T();
 
             if (!bossBullet) {
@@ -804,6 +898,7 @@ namespace SpaceInvaders.Scenes {
                     Sprites.bullets[type],
                     id,
                     damage,
+                    multID,
                     evil: true
                 );
             } else {
@@ -814,6 +909,7 @@ namespace SpaceInvaders.Scenes {
                     Sprites.bossBullets[type],
                     id,
                     damage,
+                    multID,
                     healBoss: healBoss,
                     evil: true
                 );
@@ -824,14 +920,19 @@ namespace SpaceInvaders.Scenes {
         }
 
         // Code to delete bullet
-        static internal void deleteBullet(int id, bool evil) {
+        static internal void deleteBullet(int id, int multID, bool evil) {
+            
             if (evil) {
                 enemyBullets.Remove(enemyBullets.Find(x => x.id == id));
                 enemyBulletDeleted = true;
             } else {
-                bullets.Remove(bullets.Find(x => x.id == id));
-                Bullet.bulletCount--;
-                playerBulletDeleted = true;
+                if (multID == 0) {
+                    P1bullets.Remove(P1bullets.Find(x => x.id == id));
+                    playerBulletDeleted = true;
+                } else if (multID == 1) {
+                    P2bullets.Remove(P2bullets.Find(x => x.id == id));
+                    playerBulletDeleted = true;
+                }
             }
         }
 
@@ -840,17 +941,32 @@ namespace SpaceInvaders.Scenes {
             spriteBatch.Draw(background.sprite, background.position, Color.White);
 
             foreach (Alien alien in aliens) {
+                if (alien.multID != multiID) { continue; }
                 alien.Draw(spriteBatch);
             }
-            
-            foreach (Bullet bullet in bullets) {
-                bullet.Draw(spriteBatch);
+            foreach (Alien alien in aliens2) {
+                if (alien.multID != multiID) { continue; }
+                alien.Draw(spriteBatch);
             }
+
+            foreach (Bullet bullet in P1bullets) {
+                if (multiID == 0) {
+                    bullet.Draw(spriteBatch);
+                }
+            }
+            foreach (Bullet bullet in P2bullets) {
+                if (multiID == 1) {
+                    bullet.Draw(spriteBatch);
+                }
+            }
+
             foreach (BasicBullet bullet in enemyBullets) {
+                if (bullet.multID != multiID) { continue; }
                 bullet.Draw(spriteBatch);
             }
 
             foreach (Powerbox powerbox in powerboxes) {
+                if (powerbox.multID != multiID) { continue; }
                 powerbox.Draw(spriteBatch);
             }
 
@@ -863,7 +979,7 @@ namespace SpaceInvaders.Scenes {
             foreach (ParticleObject particleObject in particleObjects) {
                 particleObject.Draw(spriteBatch);
             }
-            
+
             if (won) {
                 spriteBatch.DrawString(text, "YOU WON", new(0,0), Color.White);
             }

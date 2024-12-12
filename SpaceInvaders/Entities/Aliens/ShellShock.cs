@@ -7,10 +7,11 @@ namespace SpaceInvaders.Entities.Aliens {
     internal class ShellShock : Alien {
         bool canShoot;
 
-        public ShellShock(int alienType, Vector2 startPosition, Rectangle hitbox, int id, bool free=false) {
+        public ShellShock(int alienType, Vector2 startPosition, Rectangle hitbox, int id, int multID, bool free=false) {
             type = alienType;
             this.free = free;
             this.id = id;
+            this.multID = multID;
 
             shootTimerReset = rng.Next(120, 180);
             shootTimer = shootTimerReset;
@@ -53,9 +54,9 @@ namespace SpaceInvaders.Entities.Aliens {
 
             if (shootTimer == 0) {
                 if (canShoot && !Globals.disableEnemyShooting) {
-                    Scenes.MainGame.newEnemyBullet<Bullet>(position, new(0, 2f), type, damage: 1);
-                    Scenes.MainGame.newEnemyBullet<Bullet>(position, new(0.5f, 1.9f), type, damage: 1);
-                    Scenes.MainGame.newEnemyBullet<Bullet>(position, new(-0.5f, 1.9f), type, damage: 1);
+                    Scenes.MainGame.newEnemyBullet<Bullet>(position, new(0, 2f), type, multID, damage: 1);
+                    Scenes.MainGame.newEnemyBullet<Bullet>(position, new(0.5f, 1.9f), type, multID, damage: 1);
+                    Scenes.MainGame.newEnemyBullet<Bullet>(position, new(-0.5f, 1.9f), type, multID, damage: 1);
                 }
                 shootTimer = shootTimerReset;
             }
