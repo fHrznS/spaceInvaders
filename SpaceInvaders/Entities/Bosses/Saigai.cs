@@ -1,13 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceInvaders.Entities.Bullets;
-using SpaceInvaders.Entities.Powerboxes;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
 
 namespace SpaceInvaders.Entities.Bosses {
     internal class Saigai : BasicBoss {
-        int bulletType = 1;
+        int bulletTypeDeadly = 7;
+        int bulletTypeHealing = 8;
         bool firstMove = true;
         Vector2 velocity = new(0.05f, 0);
         int emptySlot;
@@ -50,18 +50,18 @@ namespace SpaceInvaders.Entities.Bosses {
             // Attack #1 // Lilith 4 bullet hell but slow
             ///////////////
             if (attackTimer <= Time.ToFrames(seconds: 55, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 40, minutes: 4) && attackTimer % 40 == 0) {
-                MainGame.newEnemyBullet<Bullet>(center, new(1.2f * direction.X, 1.4f), bulletType, healBoss: true, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(center, new(0.35f * direction.X, 1.4f), bulletType, healBoss: true, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(1.2f * direction.X, 1.4f), bulletTypeDeadly, healBoss: true, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0.35f * direction.X, 1.4f), bulletTypeDeadly, healBoss: true, bossBullet: true);
 
-                MainGame.newEnemyBullet<Bullet>(center, new(1.2f * -direction.X, 1.4f), bulletType, healBoss: true, bossBullet: true);
-                MainGame.newEnemyBullet<Bullet>(center, new(0.35f * -direction.X, 1.4f), bulletType, healBoss: true, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(1.2f * -direction.X, 1.4f), bulletTypeDeadly, healBoss: true, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(0.35f * -direction.X, 1.4f), bulletTypeDeadly, healBoss: true, bossBullet: true);
             }
             if (attackTimer <= Time.ToFrames(seconds: 45, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 35, minutes: 4) && attackTimer % 30 == 0) {
-                MainGame.newEnemyBullet<Bullet>(center, new(rng.Next(-2,3) * (float)rng.NextDouble() , 2), bulletType, healBoss: true, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(rng.Next(-2,3) * (float)rng.NextDouble() , 2), bulletTypeDeadly, healBoss: true, bossBullet: true);
             }
             
             if (attackTimer <= Time.ToFrames(seconds: 35, minutes: 4) && attackTimer >= Time.ToFrames(seconds: 30, minutes: 4) && attackTimer % 20 == 0) {
-                MainGame.newEnemyBullet<Bullet>(center, new(rng.Next(-2, 3) * (float)rng.NextDouble(), 2), bulletType, healBoss: true, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(center, new(rng.Next(-2, 3) * (float)rng.NextDouble(), 2), bulletTypeDeadly, healBoss: true, bossBullet: true);
             }
 
             ///////////////
@@ -90,7 +90,7 @@ namespace SpaceInvaders.Entities.Bosses {
                 if (emptySlot > 8) { emptySlot = 8; }
                 for (int i = 0; i < 9; i++) {
                     if (i == emptySlot) { continue; }
-                    MainGame.newEnemyBullet<Bullet>(new(8 + 16 * i, -8), new(0, 1.75f), bulletType, bossBullet: true, healBoss: true, damage: 2);
+                    MainGame.newEnemyBullet<Bullet>(new(8 + 16 * i, -8), new(0, 1.75f), bulletTypeDeadly, bossBullet: true, healBoss: true, damage: 2);
                 }
             } if (attackTimer == Time.ToFrames(20, minutes: 4)) {
                 Globals.disableEnemyShooting = false;
@@ -103,7 +103,7 @@ namespace SpaceInvaders.Entities.Bosses {
                 MainGame.newEnemyBullet<Bullet>(
                     rightHand,
                     new(0 - 1 * waveBulletOffsetRight, 3.3f),
-                    bulletType,
+                    bulletTypeDeadly,
                     damage: 3, healBoss: true, bossBullet: true);
 
                 waveBulletOffsetRight++;
@@ -116,7 +116,7 @@ namespace SpaceInvaders.Entities.Bosses {
                 MainGame.newEnemyBullet<Bullet>(
                     leftHand,
                     new(0 + 0.5f * waveBulletOffsetLeft, 2.3f),
-                    bulletType,
+                    bulletTypeDeadly,
                     damage: 3, healBoss: true, bossBullet: true);
 
                 waveBulletOffsetLeft++;
@@ -129,14 +129,14 @@ namespace SpaceInvaders.Entities.Bosses {
                 MainGame.newEnemyBullet<Bullet>(
                     position: leftHand,
                     direction: new Vector2((playerPos.X - leftHand.X) / 55, (playerPos.Y + 8 - leftHand.Y) / 55),
-                    bulletType,
+                    bulletTypeDeadly,
                     damage: 3,
                     healBoss: true,
                     bossBullet: true);
                 MainGame.newEnemyBullet<Bullet>(
                     position: rightHand,
                     direction: new((playerPos.X - rightHand.X) / 55, (playerPos.Y + 8 - rightHand.Y) / 55),
-                    bulletType,
+                    bulletTypeDeadly,
                     damage: 3,
                     healBoss: true,
                     bossBullet: true);
@@ -151,7 +151,7 @@ namespace SpaceInvaders.Entities.Bosses {
                     MainGame.newEnemyBullet<Bullet>(
                         new Vector2(16 * i + (16*4 * bulletOffset), -8),
                         new(0, 3.2f),
-                        bulletType,
+                        bulletTypeDeadly,
                         healBoss: true, bossBullet: true, damage: 2);
                 }
 
@@ -162,7 +162,7 @@ namespace SpaceInvaders.Entities.Bosses {
                 MainGame.newEnemyBullet<Bullet>(
                     center,
                     new((playerPos.X - center.X) / 50, (playerPos.Y - center.Y) / 50),
-                    bulletType,
+                    bulletTypeDeadly,
                     healBoss: true, bossBullet: true, damage: 3);
             }
 
@@ -179,7 +179,7 @@ namespace SpaceInvaders.Entities.Bosses {
                 MainGame.newEnemyBullet<Bullet>(
                     new Vector2(16 * slot, -8),
                     new(0, 3),
-                    bulletType,
+                    bulletTypeDeadly,
                     healBoss: true, bossBullet: true, damage: 3);
             }
             if (attackTimer == Time.ToFrames(seconds: 35, minutes: 2)) {
@@ -195,7 +195,7 @@ namespace SpaceInvaders.Entities.Bosses {
                 for (int i = 0; i < 9; i++) {
                     float speed = rng.Next(2, 4) * (float)rng.NextDouble();
                     if (speed <= 1.05f) { speed = 2 + (float)rng.NextDouble(); }
-                    MainGame.newEnemyBullet<Bullet>(new(8 + 16 * i, -8), new(0, speed), bulletType, bossBullet: true, healBoss: true, damage: 0);
+                    MainGame.newEnemyBullet<Bullet>(new(8 + 16 * i, -8), new(0, speed), bulletTypeHealing, bossBullet: true, healBoss: true, damage: 0);
                 }
             }
             if (attackTimer == Time.ToFrames(0, minutes: 2)) {
@@ -210,11 +210,11 @@ namespace SpaceInvaders.Entities.Bosses {
             if (attackTimer <= Time.ToFrames(seconds: 50, minutes: 1) && attackTimer >= Time.ToFrames(seconds: 50, minutes: 0) && attackTimer % 90 == 0) {
                 Globals.disableEnemyShooting = true;
                 
-                MainGame.newEnemyBullet<Bullet>(new Vector2(0 + (16 * bulletOffset), -8), new(0, 3f), bulletType, bossBullet: true, damage: 0);
-                MainGame.newEnemyBullet<Bullet>(new Vector2(32 + (16 * bulletOffset), -8), new(0, 3f), bulletType, bossBullet: true, damage: 0);
-                MainGame.newEnemyBullet<Bullet>(new Vector2(64 + (16 * bulletOffset), -8), new(0, 3f), bulletType, bossBullet: true, damage: 0);
-                MainGame.newEnemyBullet<Bullet>(new Vector2(96 + (16 * bulletOffset), -8), new(0, 3f), bulletType, bossBullet: true, damage: 0);
-                MainGame.newEnemyBullet<Bullet>(new Vector2(128 + (16 * bulletOffset), -8), new(0, 3f), bulletType, bossBullet: true, damage: 0);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(0 + (16 * bulletOffset), -8), new(0, 3f), bulletTypeHealing, bossBullet: true, damage: 0);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(32 + (16 * bulletOffset), -8), new(0, 3f), bulletTypeHealing, bossBullet: true, damage: 0);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(64 + (16 * bulletOffset), -8), new(0, 3f), bulletTypeHealing, bossBullet: true, damage: 0);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(96 + (16 * bulletOffset), -8), new(0, 3f), bulletTypeHealing, bossBullet: true, damage: 0);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(128 + (16 * bulletOffset), -8), new(0, 3f), bulletTypeHealing, bossBullet: true, damage: 0);
 
                 bulletOffset++;
                 if (bulletOffset == 2) { bulletOffset = 0; }
@@ -222,12 +222,12 @@ namespace SpaceInvaders.Entities.Bosses {
 
             // Homing bullets
             if (attackTimer <= Time.ToFrames(40, minutes: 1) && attackTimer >= Time.ToFrames(50) && attackTimer % 45 == 0) {
-                MainGame.newEnemyBullet<BulletHoming>(center, new Vector2(0, 1.4f), bulletType, bossBullet: true, healBoss: true);
+                MainGame.newEnemyBullet<BulletHoming>(center, new Vector2(0, 1.4f), bulletTypeDeadly, bossBullet: true, healBoss: true);
             }
 
             // Downwards bullet
             if (attackTimer <= Time.ToFrames(20, minutes: 1) && attackTimer >= Time.ToFrames(50) && attackTimer % 60 == 0) {
-                MainGame.newEnemyBullet<Bullet>(center, new Vector2(0, 2f), bulletType, bossBullet: true, healBoss: true);
+                MainGame.newEnemyBullet<Bullet>(center, new Vector2(0, 2f), bulletTypeDeadly, bossBullet: true, healBoss: true);
             }
 
             if (attackTimer <= Time.ToFrames(seconds: 0, minutes: 1) && attackTimer >= Time.ToFrames(seconds: 50) && attackTimer % 45 == 0) {
@@ -235,7 +235,7 @@ namespace SpaceInvaders.Entities.Bosses {
                 MainGame.newEnemyBullet<Bullet>(
                     new Vector2(16 * slot, -8),
                     new(0, 3),
-                    bulletType,
+                    bulletTypeDeadly,
                     bossBullet: true);
             }
             if (attackTimer == Time.ToFrames(seconds: 50)) {
@@ -256,7 +256,7 @@ namespace SpaceInvaders.Entities.Bosses {
                 MainGame.newEnemyBullet<Bullet>(
                     new Vector2(16 * slot, -8),
                     new(0, 3),
-                    bulletType,
+                    bulletTypeDeadly,
                     healBoss: true, bossBullet: true);
             }
             
@@ -267,7 +267,7 @@ namespace SpaceInvaders.Entities.Bosses {
                     if (i % 2 == 0) {
                         float speed = 3 * (float)rng.NextDouble();
                         if (speed <= 1.2f) { speed += 0.2f; }
-                        MainGame.newEnemyBullet<Bullet>(new(8 + 16 * i, -8), new(0, speed), bulletType, bossBullet: true, healBoss: true, damage: 0);
+                        MainGame.newEnemyBullet<Bullet>(new(8 + 16 * i, -8), new(0, speed), bulletTypeHealing, bossBullet: true, healBoss: true, damage: 0);
                     }
                 }
             }
@@ -276,7 +276,7 @@ namespace SpaceInvaders.Entities.Bosses {
                 MainGame.newEnemyBullet<BulletHoming>(
                     position: center,
                     direction: new Vector2((playerPos.X - leftHand.X) / 55, (playerPos.Y + 8 - leftHand.Y) / 55),
-                    bulletType,
+                    bulletTypeHealing,
                     healBoss: true,
                     bossBullet: true,
                     damage: 0);

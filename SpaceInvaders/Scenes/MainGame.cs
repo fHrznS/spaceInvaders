@@ -136,6 +136,8 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType5"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType6"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType7"));
+                Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType8"));
+                Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType9"));
 
                 // Load every boss sprite
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Zhyron"));
