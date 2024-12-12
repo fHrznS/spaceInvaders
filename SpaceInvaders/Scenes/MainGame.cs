@@ -152,6 +152,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type2"));
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type3"));
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type4"));
+                Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type5"));
 
                 // Load every particle sprite
                 Sprites.particles.Add(Content.Load<Texture2D>("Particles/TestParticle"));
@@ -406,8 +407,11 @@ namespace SpaceInvaders.Scenes {
                     if (wave >= 9) {
                         highestAlienType = 3;
                     }
-                    if (wave > 19) {
+                    if (wave > 29) {
                         highestAlienType = 4;
+                    }
+                    if (wave > 69) {
+                        highestAlienType = 5;
                     }
 
                     if (Globals.summonSecondBoss) {
@@ -696,6 +700,12 @@ namespace SpaceInvaders.Scenes {
                     new Rectangle(2, 2, 11, 11),
                     id));
                     break;
+                case 5:
+                    aliens.Add(new SkyDiverAlien(type,
+                    spawnPos,
+                    new Rectangle(2, 2, 11, 11),
+                    id));
+                    break;
             }
 
             aliens.Last().sprite = Sprites.enemies[aliens.Last().type - 1];
@@ -810,27 +820,6 @@ namespace SpaceInvaders.Scenes {
             }
             enemyBullets.Add(bullet);
 
-            /*
-            if (!bossBullet) {
-                enemyBullets.Add(new T(
-                    position: position,
-                    hitboxSize: new(6, 6),
-                    direction: direction,
-                    Sprites.bullets[type],
-                    id,
-                    damage,
-                    evil:true));
-            } else {
-                enemyBullets.Add(new(
-                    position: position,
-                    hitboxSize: new(6, 6),
-                    direction: direction,
-                    Sprites.bossBullets[type], // Black magic here
-                    id,
-                    damage,
-                    healBoss: healBoss,
-                    evil: true));
-            }*/
             id++;
         }
 

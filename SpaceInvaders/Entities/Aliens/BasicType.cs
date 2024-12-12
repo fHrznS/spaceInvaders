@@ -35,7 +35,7 @@ namespace SpaceInvaders.Entities.Aliens {
             if (timer == 0) {
                 if (free) {
                     if (position.X == 0 || position.X == 144) {
-                        direction.X *= 1;
+                        direction.X *= -1;
                         position.Y += 16 * direction.Y;
                     }
                 } else {
