@@ -164,6 +164,8 @@ namespace SpaceInvaders {
                 sceneManager.RemoveScene();
                 if (Globals.isMultiplayer) {
                     sceneManager.RemoveScene();
+                    _graphics.PreferredBackBufferWidth = Globals.screenWidth * screenScale;
+                    _graphics.ApplyChanges();
                 }
 
                 LoadContent();
@@ -243,6 +245,7 @@ namespace SpaceInvaders {
                     Globals.screenHeight * screenScale),
                 Color.White);
                 sceneManager.currentScene().HighResDraw(_spriteBatch);
+                sceneManager.peekDownTo(2).HighResDraw(_spriteBatch);
 
                 _spriteBatch.End();
             }

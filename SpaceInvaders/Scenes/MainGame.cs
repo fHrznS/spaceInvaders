@@ -26,7 +26,7 @@ namespace SpaceInvaders.Scenes {
 
         static internal KeyboardState input;
         static internal KeyboardState previousInput;
-        static int repeatedRuns = 0;
+        static internal KeyboardState P2previousInput;
         static ContentManager Content;
 
         Background background;
@@ -276,10 +276,10 @@ namespace SpaceInvaders.Scenes {
             playerBulletDeleted = false;
             enemyBulletDeleted = false;
 
-            repeatedRuns++;
-            if (repeatedRuns == 2 && Globals.isMultiplayer) {
+            if (multiID == 0) {
                 previousInput = Keyboard.GetState();
-                repeatedRuns = 0;
+            } else if (multiID == 1) {
+                P2previousInput = Keyboard.GetState();
             }
         }
 
@@ -1005,9 +1005,9 @@ namespace SpaceInvaders.Scenes {
                 return;
             }
             if (!won && !(player.health == 0)) {
-                spriteBatch.DrawString(text, (player.health + player.sheild).ToString(), new(0, 0), Color.White);
-                spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0, 38), Color.White);
-                spriteBatch.DrawString(text, worthyMessages[worthyMessageNumber], new(5, 192*4-51), Color.White * worthyText);
+                spriteBatch.DrawString(text, (player.health + player.sheild).ToString(), new(0 + (multiID == 1 ? 160*4 : 0), 0), Color.White);
+                spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0 + (multiID == 1 ? 160 * 4 : 0), 38), Color.White);
+                spriteBatch.DrawString(text, worthyMessages[worthyMessageNumber], new(5 + (multiID == 1 ? 160 * 4 : 0), 192*4-51), Color.White * worthyText);
             }
         }
     }

@@ -46,12 +46,22 @@ namespace SpaceInvaders.Entities {
 
         void playerMovement() {
             if (multID == 0) {
-                if (MainGame.input.IsKeyDown(Controls.P1moveLeft) && position.X > 5) {
-                    position.X -= 2;
-                }
+                if (Globals.isMultiplayer) {
+                    if (MainGame.input.IsKeyDown(Keys.A) && position.X > 5) {
+                        position.X -= 2;
+                    }
 
-                if (MainGame.input.IsKeyDown(Controls.P1moveRight) && position.X < Globals.screenWidth - 21) {
-                    position.X += 2;
+                    if (MainGame.input.IsKeyDown(Keys.D) && position.X < Globals.screenWidth - 21) {
+                        position.X += 2;
+                    }
+                } else {
+                    if (MainGame.input.IsKeyDown(Controls.P1moveLeft) && position.X > 5) {
+                        position.X -= 2;
+                    }
+
+                    if (MainGame.input.IsKeyDown(Controls.P1moveRight) && position.X < Globals.screenWidth - 21) {
+                        position.X += 2;
+                    }
                 }
             } else if (multID == 1) {
                 if (MainGame.input.IsKeyDown(Keys.J) && position.X > 5) {
@@ -65,11 +75,13 @@ namespace SpaceInvaders.Entities {
         }
 
         void canShoot() {
-            //if (MainGame.input == MainGame.previousInput) { return; }
+            if (MainGame.input == MainGame.previousInput && multID == 0) { return; }
+            if (MainGame.input == MainGame.P2previousInput && multID == 1) { return; }
 
             if (multID == 0) {
                 // Can the player shoot?
-                if (MainGame.input.IsKeyDown(Controls.P1shoot) && !MainGame.previousInput.IsKeyDown(Controls.P1shoot) && MainGame.P1bullets.Count != maxBullets) {
+                if ((Globals.isMultiplayer ? MainGame.input.IsKeyDown(Keys.S) : MainGame.input.IsKeyDown(Controls.P1shoot))
+                    && MainGame.P1bullets.Count != maxBullets) {
                     if (maxBullets - MainGame.P1bullets.Count >= 2 && splitBullet) {
                         MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 0);
                         MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 0);
