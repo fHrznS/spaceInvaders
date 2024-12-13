@@ -110,23 +110,12 @@ namespace SpaceInvaders {
             if (input.IsKeyDown(Controls.P1shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
                 Globals.isLoading = true;
                 Draw(new GameTime());
-                
+
                 Globals.isWorthy = true;
                 Globals.easyDifficulty = false;
                 Globals.isMultiplayer = false;
                 _graphics.PreferredBackBufferWidth = Globals.screenWidth * screenScale;
                 _graphics.ApplyChanges();
-
-                if (input.IsKeyDown(Keys.F1) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Start) {
-                    Globals.isLoading = true;
-                    Draw(new GameTime());
-
-                    Globals.isWorthy = true;
-                    Globals.easyDifficulty = false;
-                    Globals.isMultiplayer = true;
-                    _graphics.PreferredBackBufferWidth = Globals.screenWidth * screenScale * 2;
-                    _graphics.ApplyChanges();
-                }
 
             } else if (input.IsKeyDown(Controls.P1shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Easy) {
                 Globals.isLoading = true;
@@ -145,6 +134,16 @@ namespace SpaceInvaders {
                 sceneManager.AddScene(new HowTo(Content));
                 gameState = GameStates.HowTo;
                 LoadContent();
+            } else if (input.IsKeyDown(Controls.P1shoot) && Scenes.MainMenu.selectedOption == Scenes.MainMenu.Options.Multiplayer) {
+                Globals.isLoading = true;
+                Draw(new GameTime());
+
+                Globals.isWorthy = true;
+                Globals.easyDifficulty = false;
+                
+                Globals.isMultiplayer = true;
+                _graphics.PreferredBackBufferWidth = Globals.screenWidth * screenScale * 2;
+                _graphics.ApplyChanges();
             } else if (input.IsKeyDown(Keys.Escape)) {
                 Exit();
             }

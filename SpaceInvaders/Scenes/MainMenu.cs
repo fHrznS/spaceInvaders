@@ -12,6 +12,7 @@ namespace SpaceInvaders.Scenes
         public enum Options {
             Start,
             Easy,
+            Multiplayer,
             Settings,
             HowTo
         }
@@ -39,6 +40,8 @@ namespace SpaceInvaders.Scenes
 
             if (input.IsKeyDown(Keys.Down)) {
                 if (selectedOption == Options.Start) {
+                    selectedOption = Options.Multiplayer;
+                } else if (selectedOption == Options.Multiplayer) {
                     selectedOption = Options.Settings;
                 } else if (selectedOption == Options.Settings) {
                     selectedOption = Options.HowTo;
@@ -46,8 +49,10 @@ namespace SpaceInvaders.Scenes
             }
 
             if (input.IsKeyDown(Keys.Up)) {
-                if (selectedOption == Options.Settings) {
+                if (selectedOption == Options.Multiplayer) {
                     selectedOption = Options.Start;
+                } else if (selectedOption == Options.Settings) {
+                    selectedOption = Options.Multiplayer;
                 } else if (selectedOption == Options.HowTo) {
                     selectedOption = Options.Settings;
                 }
@@ -72,8 +77,9 @@ namespace SpaceInvaders.Scenes
             spriteBatch.DrawString(text, 
                 selectedOption == Options.Easy ? "* Easy" : (selectedOption == Options.Start ? "* Play" : "Play"), // My least favorite line in the program
                 new Vector2(2,0), Color.White);
-            spriteBatch.DrawString(text, selectedOption == Options.Settings ? "* Settings" : "Settings", new Vector2(2,24), Color.White);
-            spriteBatch.DrawString(text, selectedOption == Options.HowTo ? "* Help" : "Help", new Vector2(2,48), Color.White);
+            spriteBatch.DrawString(text, selectedOption == Options.Multiplayer? "* Multiplayer" : "Multiplayer", new Vector2(2,24), Color.White);
+            spriteBatch.DrawString(text, selectedOption == Options.Settings ? "* Settings" : "Settings", new Vector2(2,48), Color.White);
+            spriteBatch.DrawString(text, selectedOption == Options.HowTo ? "* Help" : "Help", new Vector2(2,72), Color.White);
         }
 
         void IScene.HighResDraw(SpriteBatch spriteBatch) {

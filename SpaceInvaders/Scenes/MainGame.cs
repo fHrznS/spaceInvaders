@@ -984,7 +984,7 @@ namespace SpaceInvaders.Scenes {
                 spriteBatch.DrawString(text, "YOU WON", new(0,0), Color.White);
             }
             if (player.health == 0) {
-                spriteBatch.DrawString(text, "LOST!", new(30, 3), Color.White);
+                spriteBatch.DrawString(text, "LOST!", new(30 + (Globals.isMultiplayer ? 12 : 0), 3), Color.White * 0.85f);
             }
 
             if (currentBoss.Count > 0) {
@@ -1004,10 +1004,14 @@ namespace SpaceInvaders.Scenes {
                 spriteBatch.DrawString(text, "PAUSED", new(3,3), Color.White);
                 return;
             }
-            if (!won && !(player.health == 0)) {
+            if ((!won && !(player.health == 0)) || Globals.isMultiplayer) {
                 spriteBatch.DrawString(text, (player.health + player.sheild).ToString(), new(0 + (multiID == 1 ? 160*4 : 0), 0), Color.White);
                 spriteBatch.DrawString(text, "Wave: " + (wave+1).ToString(), new(0 + (multiID == 1 ? 160 * 4 : 0), 38), Color.White);
                 spriteBatch.DrawString(text, worthyMessages[worthyMessageNumber], new(5 + (multiID == 1 ? 160 * 4 : 0), 192*4-51), Color.White * worthyText);
+            }
+
+            if (player.health == 0) {
+                spriteBatch.DrawString(text, "Press Esc to quit", new Vector2(2, Globals.screenHeight * 4 - 50), Color.White * 0.5f);
             }
         }
     }
