@@ -55,6 +55,14 @@ namespace SpaceInvaders {
         protected override void LoadContent() {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Load every Powerbox sprite
+            Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Heal"));
+            Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Bullet"));
+            Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSpeed"));
+            Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSplit"));
+            Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Resistance"));
+            Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/SheildBreaker"));
+
             sceneManager.currentScene().LoadContent();
             if (Globals.isMultiplayer) {
                 sceneManager.peekDownTo(2).LoadContent();

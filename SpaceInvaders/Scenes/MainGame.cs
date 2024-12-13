@@ -158,14 +158,6 @@ namespace SpaceInvaders.Scenes {
                 // Load every particle sprite
                 Sprites.particles.Add(Content.Load<Texture2D>("Particles/TestParticle"));
 
-                // Load every Powerbox sprite
-                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Heal"));
-                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Bullet"));
-                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSpeed"));
-                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSplit"));
-                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Resistance"));
-                Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/SheildBreaker"));
-
                 // Load every Bossbar sprite
                 Sprites.bossbar.Add(Content.Load<Texture2D>("Healthbar/Fill"));
                 Sprites.bossbar.Add(Content.Load<Texture2D>("Healthbar/Overlay"));
@@ -810,14 +802,16 @@ namespace SpaceInvaders.Scenes {
         void CheckPowerbox() {
             powerboxSummonTimer--;
 
+
             if (powerboxSummonTimer == 0) {
+                int maxMin = wave > 200 ? 1 : 0;
                 powerboxSummonTimer = rng.Next(
                     Time.ToFrames(
                         seconds: 0,
-                        minutes: 1),
+                        minutes: 1 - maxMin),
                     Time.ToFrames(
                         seconds: 30,
-                        minutes: 2)
+                        minutes: 2 - maxMin)
                 );
 
                 int minUpgrade = 1;
