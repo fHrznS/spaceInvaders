@@ -6,7 +6,7 @@ using SpaceInvaders.Utils;
 
 namespace SpaceInvaders.Entities.Bosses {
     internal class Gabriel : BasicBoss {
-        public Gabriel(Texture2D sprite, int wave) {
+        public Gabriel(Texture2D sprite, int wave, int multID) {
             this.sprite = sprite;
             position = new(56, 8);
             hitbox = new(11, 2, 26, 51);
@@ -21,6 +21,7 @@ namespace SpaceInvaders.Entities.Bosses {
             sourceRect = new(0, 0, 48, 64);
 
             Globals.invasionMode = true;
+            this.multID = multID;
         }
 
         internal override void Update(Vector2 playerPos) {

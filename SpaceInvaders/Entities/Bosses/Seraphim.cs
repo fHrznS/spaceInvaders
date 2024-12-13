@@ -6,7 +6,7 @@ using SpaceInvaders.Utils;
 
 namespace SpaceInvaders.Entities.Bosses {
     internal class Seraphim : BasicBoss {
-        public Seraphim(Texture2D sprite, int wave) {
+        public Seraphim(Texture2D sprite, int wave, int multID) {
             this.sprite = sprite;
             position = new(60,8);
             hitbox = new(4, 0, 32, 55);
@@ -18,6 +18,7 @@ namespace SpaceInvaders.Entities.Bosses {
             attackTimerReset = 60 * 35;
             attackTimer = attackTimerReset;
             sourceRect = new(0, 0, 40, 60);
+            this.multID = multID;
         }
 
         internal override void Update(Vector2 playerPos) {

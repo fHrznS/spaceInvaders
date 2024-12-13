@@ -11,7 +11,7 @@ namespace SpaceInvaders.Entities.Bosses {
         int bulletType = 3;
         Vector2 velocity = new(0.1f, 0);
 
-        public Lilith(Texture2D sprite, int wave) {
+        public Lilith(Texture2D sprite, int wave, int multID) {
             this.sprite = sprite;
             position = new(64, 8);
             hitbox = new(7, 0, 18, 23);
@@ -28,6 +28,7 @@ namespace SpaceInvaders.Entities.Bosses {
             direction = new(rng.Next(0,2) == 1 ? 1 : -1 , 0);
 
             Globals.stopSpawn = true;
+            this.multID = multID;
         }
 
         internal override void Update(Vector2 playerPos) {

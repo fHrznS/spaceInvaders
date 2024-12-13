@@ -18,7 +18,7 @@ namespace SpaceInvaders.Entities.Bosses {
 
         Vector2 rightHand = new(132, -8), leftHand = new(10, -8);
 
-        public Saigai(Texture2D sprite, int wave) {
+        public Saigai(Texture2D sprite, int wave, int multID) {
             this.sprite = sprite;
             sourceRect = new(0, 0, 32, 64);
             position = new(64, 8);
@@ -34,6 +34,7 @@ namespace SpaceInvaders.Entities.Bosses {
             direction.X = rng.Next(0,2) == 1 ? 1 : -1;
             
             emptySlot = rng.Next(0, 9);
+            this.multID = multID;
         }
 
         internal override void Update(Vector2 playerPos) {

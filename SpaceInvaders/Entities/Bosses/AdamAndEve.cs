@@ -14,7 +14,7 @@ namespace SpaceInvaders.Entities.Bosses {
 
         int adamBulletXOffset = 0;
 
-        public AdamAndEve(Texture2D sprite, int wave) {
+        public AdamAndEve(Texture2D sprite, int wave, int multID) {
             this.sprite = sprite;
             position = new(40, 8);
             hitbox = new(8, 4, 28, 45);
@@ -40,6 +40,7 @@ namespace SpaceInvaders.Entities.Bosses {
             sourceRect = new(0, 0, 80, 64);
 
             Globals.stopSpawn = true;
+            this.multID = multID;
         }
 
 

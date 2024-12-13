@@ -8,11 +8,12 @@ namespace SpaceInvaders.Entities.Bosses {
     internal class Zhyron : BasicBoss {
         int fallAttackOffset = 0;
 
-        public Zhyron(Texture2D sprite, int wave) {
+        public Zhyron(Texture2D sprite, int wave, int multID) {
             this.sprite = sprite;
             position = new(40, 5);
             center = new(position.X + 32, position.Y+24);
             hitbox = new(56,5,48,28);
+            this.multID = multID;
             
             maxHealth = 6 * (wave + 1);
             health = maxHealth;

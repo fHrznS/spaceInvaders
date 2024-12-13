@@ -361,55 +361,55 @@ namespace SpaceInvaders.Scenes {
                     }*/
                     
                     if (wave == 4) {
-                        currentBoss.Add(new Zhyron(Sprites.bosses[0], wave));
+                        currentBoss.Add(new Zhyron(Sprites.bosses[0], wave, multiID));
                         if ( !Globals.isMultiplayer ) MediaPlayer.Play(Songs.bossSongs[0]);
                     } else if (wave == 19) {
-                        currentBoss.Add(new Seraphim(Sprites.bosses[1], wave));
+                        currentBoss.Add(new Seraphim(Sprites.bosses[1], wave, multiID));
                         if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[1]);
                     } else if (wave == 39) {
-                        currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
+                        currentBoss.Add(new Gabriel(Sprites.bosses[2], wave, multiID));
                         if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[2]);
                     } else if (wave == 64) {
-                        currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
+                        currentBoss.Add(new Lilith(Sprites.bosses[3], wave, multiID));
                         if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[3]);
                     } else if (wave == 99) {
-                        currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave));
+                        currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave, multiID));
                         if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[4]);
                     } else if (wave == 119) {
                         int boss = rng.Next(0,4);
                         if (boss == 0) {
-                            currentBoss.Add(new Zhyron(Sprites.bosses[0], wave));
+                            currentBoss.Add(new Zhyron(Sprites.bosses[0], wave, multiID));
                             if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[0]);
                         } else if (boss == 1) {
-                            currentBoss.Add(new Seraphim(Sprites.bosses[1], wave));
+                            currentBoss.Add(new Seraphim(Sprites.bosses[1], wave, multiID));
                             if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[1]);
                         } else if (boss == 2) {
-                            currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
+                            currentBoss.Add(new Gabriel(Sprites.bosses[2], wave, multiID));
                             if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[2]);
                         } else if (boss == 3) {
-                            currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
+                            currentBoss.Add(new Lilith(Sprites.bosses[3], wave, multiID));
                             if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[3]);
                         }
                     } else if (wave == 159) {
                         int boss = rng.Next(0, 3);
                         if (boss == 0) {
-                            currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
+                            currentBoss.Add(new Gabriel(Sprites.bosses[2], wave, multiID));
                             if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[2]);
                         } else if (boss == 1) {
-                            currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
+                            currentBoss.Add(new Lilith(Sprites.bosses[3], wave, multiID));
                             if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[3]);
                         } else if (boss == 2) {
-                            currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave));
+                            currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave, multiID));
                             if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[4]);
                         }
                     } else if (wave == 199) {
-                        currentBoss.Add(new TheMothership(Sprites.bosses[5], wave));
+                        currentBoss.Add(new TheMothership(Sprites.bosses[5], wave, multiID));
                         if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[5]);
                     } else if (wave == 299) {
-                        currentBoss.Add(new Saigai(Sprites.bosses[6], wave));
+                        currentBoss.Add(new Saigai(Sprites.bosses[6], wave, multiID));
                         if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[6]);
                     } else if (wave == 399) {
-                        currentBoss.Add(new Zhyron(Sprites.bosses[0], wave + 1000));
+                        currentBoss.Add(new Zhyron(Sprites.bosses[0], wave + 1000, multiID));
                     }
 
                     // Most difficult enemy to spawn?
@@ -426,15 +426,15 @@ namespace SpaceInvaders.Scenes {
                     if (Globals.summonSecondBoss) {
                         int boss = rng.Next(0, 5);
                         if (boss == 0) {
-                            currentBoss.Add(new Zhyron(Sprites.bosses[0], wave));
+                            currentBoss.Add(new Zhyron(Sprites.bosses[0], wave, multiID));
                         } else if (boss == 1) {
-                            currentBoss.Add(new Seraphim(Sprites.bosses[1], wave));
+                            currentBoss.Add(new Seraphim(Sprites.bosses[1], wave, multiID));
                         } else if (boss == 2) {
-                            currentBoss.Add(new Gabriel(Sprites.bosses[2], wave));
+                            currentBoss.Add(new Gabriel(Sprites.bosses[2], wave, multiID));
                         } else if (boss == 3) {
-                            currentBoss.Add(new Lilith(Sprites.bosses[3], wave));
+                            currentBoss.Add(new Lilith(Sprites.bosses[3], wave, multiID));
                         } else if (boss == 4) {
-                            currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave));
+                            currentBoss.Add(new AdamAndEve(Sprites.bosses[4], wave, multiID));
                         }
                         Globals.summonSecondBoss = false;
                     }
@@ -694,13 +694,13 @@ namespace SpaceInvaders.Scenes {
                     Globals.gameLost = true;
                 }
 
-                if (aliens.Count != 0) {
+                if (aliens.Count != 0 && !Globals.isMultiplayer) {
                     aliens.Remove(aliens.Last());
                 }
-                if (P1bullets.Count != 0) {
+                if (P1bullets.Count != 0 && !Globals.isMultiplayer) {
                     P1bullets.Remove(P1bullets.Last());
                 }
-                if (enemyBullets.Count != 0) {
+                if (enemyBullets.Count != 0 && !Globals.isMultiplayer) {
                     enemyBullets.Remove(enemyBullets.Last());
                 }
 

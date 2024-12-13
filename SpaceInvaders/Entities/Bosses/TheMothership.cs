@@ -15,7 +15,7 @@ namespace SpaceInvaders.Entities.Bosses {
 
         Vector2 rightHand = new(132, 50), leftHand = new(10, 50);
 
-        public TheMothership(Texture2D sprite, int wave) {
+        public TheMothership(Texture2D sprite, int wave, int multID) {
             this.sprite = sprite;
             position = new(0,0);
             hitbox = new(0, 0, 160, 40);
@@ -32,6 +32,7 @@ namespace SpaceInvaders.Entities.Bosses {
             sourceRect = new(0, 0, 48, 64);
 
             Globals.invasionMode = true;
+            this.multID = multID;
         }
 
         internal override void Update(Vector2 playerPos) {
