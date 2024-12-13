@@ -12,6 +12,7 @@ namespace SpaceInvaders.Utils {
         static public List<Texture2D> particles = new(); // Particle Sprite
         static public List<Texture2D> powerboxes = new(); // Every enemy sprite
         static public List<Texture2D> bossbar = new(); // Bossbar sprites
+        static public List<Texture2D> backgrounds = new(); // Bossbar sprites
     }
 
     internal static class SFX {

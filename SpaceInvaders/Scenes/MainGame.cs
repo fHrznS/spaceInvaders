@@ -89,9 +89,6 @@ namespace SpaceInvaders.Scenes {
             player.hitbox = new(1, 4, 14, 6);
             player.multID = multiID;
 
-            // Define Background
-            background = new(Content.Load<Texture2D>("Background"));
-
             P1bullets.Clear(); P2bullets.Clear(); enemyBullets.Clear();
             playerBulletDeleted = false; enemyBulletDeleted = false;
             id = 0;
@@ -173,7 +170,13 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bossbar.Add(Content.Load<Texture2D>("Healthbar/Fill"));
                 Sprites.bossbar.Add(Content.Load<Texture2D>("Healthbar/Overlay"));
 
-                
+                // Load background images
+                Sprites.backgrounds.Add(Content.Load<Texture2D>("BGs/Layer1Background")); // Main cluster
+                Sprites.backgrounds.Add(Content.Load<Texture2D>("BGs/Layer2Background")); // Starlight Zone
+                Sprites.backgrounds.Add(Content.Load<Texture2D>("BGs/Layer3Background")); // Event Horizon
+                Sprites.backgrounds.Add(Content.Load<Texture2D>("BGs/Layer4Background")); // Edge of the universe
+                Sprites.backgrounds.Add(Content.Load<Texture2D>("BGs/Layer5Background")); // Singularity
+
                 // SFXs
                 // Die
                 SFX.deathSounds.Add(Content.Load<SoundEffect>("Sounds/SFX/Death"));
@@ -227,6 +230,8 @@ namespace SpaceInvaders.Scenes {
             } else {
                 newEnemyBatch();
             }
+            
+            background = new(wave);
         }
 
         void IScene.Update(GameTime gameTime) {
@@ -253,7 +258,7 @@ namespace SpaceInvaders.Scenes {
             }
 
             CheckGameCondition();
-            background.Update();
+            background.Update(wave + 1);
 
             // Has player died?
             if (player.health == 0) {
@@ -408,18 +413,18 @@ namespace SpaceInvaders.Scenes {
                     } else if (wave == 299) {
                         currentBoss.Add(new Saigai(Sprites.bosses[6], wave, multiID));
                         if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[6]);
-                    } else if (wave == 399) {
+                    } else if (wave == 449) {
                         currentBoss.Add(new Zhyron(Sprites.bosses[0], wave + 1000, multiID));
                     }
 
                     // Most difficult enemy to spawn?
-                    if (wave >= 9) {
+                    if (wave >= 14) {
                         highestAlienType = 3;
                     }
-                    if (wave > 29) {
+                    if (wave > 39) {
                         highestAlienType = 4;
                     }
-                    if (wave > 69) {
+                    if (wave > 79) {
                         highestAlienType = 5;
                     }
 
@@ -938,7 +943,7 @@ namespace SpaceInvaders.Scenes {
 
         void IScene.Draw(SpriteBatch spriteBatch) {
             if (gameState == GameState.Paused) { return; }
-            spriteBatch.Draw(background.sprite, background.position, Color.White);
+            background.Draw(spriteBatch);
 
             foreach (Alien alien in aliens) {
                 if (alien.multID != multiID) { continue; }
