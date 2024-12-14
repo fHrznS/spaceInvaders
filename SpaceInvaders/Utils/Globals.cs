@@ -8,6 +8,7 @@ namespace SpaceInvaders.Utils {
         internal static bool disableEnemyShooting = false;
         internal static bool invasionMode = false;
         internal static bool disableEnemySpawning = false;
+        internal static int highscore = -1;
 
         internal static bool isMultiplayer = false;
 

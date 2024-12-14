@@ -55,7 +55,7 @@ namespace SpaceInvaders.Scenes {
         int[] waveHeight = new int[5];
 
         static private int id = 0;
-        private int wave = 0;
+        internal int wave = 0;
         private int previousWave = 0; // Used for the secret boss as to not reset player stats every frame.
 
         private int lostTimer = 30, lostTimerReset = 30;
@@ -286,6 +286,10 @@ namespace SpaceInvaders.Scenes {
                 previousInput = Keyboard.GetState();
             } else if (multiID == 1) {
                 P2previousInput = Keyboard.GetState();
+            }
+
+            if (Globals.highscore < wave && !Globals.isMultiplayer) {
+                Globals.highscore = wave;
             }
         }
 

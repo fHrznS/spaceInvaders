@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SpaceInvaders.Utils;
+using System;
+using System.IO;
+using System.Text;
 
 namespace SpaceInvaders.Scenes
 {
@@ -30,6 +33,7 @@ namespace SpaceInvaders.Scenes
 
         void IScene.LoadContent() {
             text = Content.Load<SpriteFont>("Font");
+            
             MediaPlayer.Stop();
         }
 
@@ -85,6 +89,7 @@ namespace SpaceInvaders.Scenes
         void IScene.HighResDraw(SpriteBatch spriteBatch) {
             if (!Globals.isLoading) {
                 spriteBatch.DrawString(text,"Press " + Controls.P1shoot.ToString() + " to confirm choice", new Vector2(5, 742), Color.White);
+                spriteBatch.DrawString(text,"Highscore: Wave " + (Globals.highscore + 1).ToString(), new Vector2(5, 742-24), Color.White);
             }
         }
     }

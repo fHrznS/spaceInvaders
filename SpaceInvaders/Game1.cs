@@ -3,7 +3,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
+using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace SpaceInvaders {
     public class Game1 : Game {
@@ -19,6 +22,10 @@ namespace SpaceInvaders {
         private KeyboardState input;
         private KeyboardState previousInput;
 
+
+        private string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        private string filePath;
+        private bool hasLoaded = false;
         enum GameStates {
             MainMenu,
             Settings,
@@ -49,6 +56,8 @@ namespace SpaceInvaders {
             sceneManager.AddScene(new MainMenu(Content));
             gameState = GameStates.MainMenu;
 
+            filePath = Path.Combine(appData, "fHrznSpaceInvaders", "save.txt");
+
             base.Initialize();
         }
 
@@ -67,6 +76,26 @@ namespace SpaceInvaders {
             if (Globals.isMultiplayer) {
                 sceneManager.peekDownTo(2).LoadContent();
             }
+
+            if (hasLoaded) {
+                return;
+            }
+            try {
+                Globals.highscore = int.Parse(File.ReadAllText(filePath));
+            } catch (DirectoryNotFoundException) {
+                Globals.highscore = -1;
+            }
+            saveData();
+
+            hasLoaded = true;
+
+        }
+        void saveData() {
+            Directory.CreateDirectory(Path.Combine(appData, "fHrznSpaceInvaders"));
+            using (FileStream fs = File.Create(filePath)) {
+                byte[] buf = Encoding.ASCII.GetBytes(Globals.highscore.ToString());
+                fs.Write(buf, 0, Globals.highscore.ToString().Length);
+            };
         }
 
         protected override void Update(GameTime gameTime) {
@@ -153,14 +182,16 @@ namespace SpaceInvaders {
                 _graphics.PreferredBackBufferWidth = Globals.screenWidth * screenScale * 2;
                 _graphics.ApplyChanges();
             } else if (input.IsKeyDown(Keys.Escape)) {
+                saveData();
                 Exit();
             }
         }
 
         // Scene Control: Main Game
         void MainGame() {
-            if (Globals.gameLost == true) {
+            if (Globals.gameLost) {
                 Globals.gameLost = false;
+                saveData();
                 sceneManager.RemoveScene();
                 gameState = GameStates.MainMenu;
             }
