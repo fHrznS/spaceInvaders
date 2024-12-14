@@ -21,7 +21,7 @@ namespace SpaceInvaders.Entities.Bosses {
             hitbox.Location = position.ToPoint() + hitboxOffset;
             center = position + new Vector2(12, 30);
 
-            maxHealth = 150 * (wave + 1);
+            maxHealth = 120 * (wave + 1);
             health = maxHealth;
             bossSummonHealthBar = maxHealth - maxHealth / 10;
 
@@ -36,6 +36,8 @@ namespace SpaceInvaders.Entities.Bosses {
         }
 
         internal override void Update(Vector2 playerPos) {
+            Globals.disableEnemyShooting = true;
+
             ///////////////
             // Attack #1 // Lilith if she was difficult
             ///////////////
@@ -117,7 +119,49 @@ namespace SpaceInvaders.Entities.Bosses {
                     MainGame.newEnemyBullet<Bullet>(center, new(-0.5f, 1), bulletType, multID, bossBullet: true, damage: 3);
                     MainGame.newEnemyBullet<Bullet>(center, new(0.5f, 1), bulletType, multID, bossBullet: true, damage: 3);
                 } else if (variant == 3) {
-                    MainGame.newEnemyBullet<BulletHoming>(center, new(0, 1), bulletType, multID, bossBullet: true, damage: 3);
+                    MainGame.newEnemyBullet<BulletHoming>(center, new(0, 1), bulletType, multID, bossBullet: true);
+                }
+
+                variant++;
+
+                if (variant == 4) {
+                    variant = 0;
+                }
+            }
+
+            ///////////////
+            // Attack #5 // Break attack
+            ///////////////
+            if (attackTimer == Time.ToFrames(30, minutes: 0)) {
+                bulletOffset = 0;
+            }
+            if (attackTimer <= Time.ToFrames(30, minutes: 0) && attackTimer >= Time.ToFrames(20, minutes: 0) && attackTimer % 60 == 0) {
+                MainGame.newEnemyBullet<Bullet>(new Vector2(0 + (16 * bulletOffset), -8), new(0, 1.2f), bulletType, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(32 + (16 * bulletOffset), -8), new(0, 1.2f), bulletType, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(64 + (16 * bulletOffset), -8), new(0, 1.2f), bulletType, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(96 + (16 * bulletOffset), -8), new(0, 1.2f), bulletType, multID, bossBullet: true);
+                MainGame.newEnemyBullet<Bullet>(new Vector2(128 + (16 * bulletOffset), -8), new(0, 1.2f), bulletType, multID, bossBullet: true);
+
+                bulletOffset++;
+
+                if (bulletOffset == 2) {
+                    bulletOffset = 0;
+                }
+            }
+
+            ///////////////
+            // Attack #5 // Target practice
+            ///////////////
+            if (attackTimer <= Time.ToFrames(20) && attackTimer % 20 == 0) {
+                if (variant == 0) {
+                    MainGame.newEnemyBullet<Bullet>(center, new(-0.5f, 1), bulletType, multID, bossBullet: true, damage: 3);
+                    MainGame.newEnemyBullet<Bullet>(center, new(0.5f, 1), bulletType, multID, bossBullet: true, damage: 3);
+                } else if (variant == 1) {
+                    MainGame.newEnemyBullet<Bullet>(center, new(playerPos.X - position.X / 60, playerPos.Y - position.Y / 60), bulletType, multID, bossBullet: true, damage: 3);
+                } else if (variant == 3) {
+                    MainGame.newEnemyBullet<Bullet>(center, new(-0.75f, 1), bulletType, multID, bossBullet: true, damage: 3);
+                    MainGame.newEnemyBullet<Bullet>(center, new(playerPos.X - position.X / 40, playerPos.Y - position.Y / 40), bulletType, multID, bossBullet: true, damage: 3);
+                    MainGame.newEnemyBullet<Bullet>(center, new(0.75f, 1), bulletType, multID, bossBullet: true, damage: 3);
                 }
 
                 variant++;

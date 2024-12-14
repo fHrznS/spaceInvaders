@@ -8,6 +8,7 @@ namespace SpaceInvaders.Entities {
         int bgNum,
             currentBG;
         int transitionTimer = Time.ToFrames(15);
+        int endFade = 60 * 30;
         Texture2D newSprite;
 
         public Background(int wave) {
@@ -30,6 +31,10 @@ namespace SpaceInvaders.Entities {
 
             if (position.Y == 0) {
                 position.Y = -384;
+            }
+
+            if (endFade > 0 && wave >= 500) {
+                endFade--;
             }
 
             transition();
@@ -62,8 +67,12 @@ namespace SpaceInvaders.Entities {
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(newSprite, position, Color.White);
-            spriteBatch.Draw(sprite, position, Color.White * (transitionTimer / (float)Time.ToFrames(15)));
+            if (endFade < 60 * 30) {
+                spriteBatch.Draw(sprite, position, Color.White * (endFade / (float)Time.ToFrames(30)));
+            } else {
+                spriteBatch.Draw(newSprite, position, Color.White);
+                spriteBatch.Draw(sprite, position, Color.White * (transitionTimer / (float)Time.ToFrames(15)));
+            }
         }
     }
 }
