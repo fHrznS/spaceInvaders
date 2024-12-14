@@ -85,18 +85,6 @@
 /processorParam:TextureFormat=Color
 /build:BGs/Layer1Background.png
 
-#begin BGs/Layer1Background.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:BGs/Layer1Background.png
-
 #begin BGs/Layer2Background.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -156,6 +144,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:BossBullets/BulletType1.png
+
+#begin BossBullets/BulletType10.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BossBullets/BulletType10.png
 
 #begin BossBullets/BulletType2.png
 /importer:TextureImporter
@@ -276,6 +276,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:BossSprites/Gabriel.png
+
+#begin BossSprites/Judgement.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:BossSprites/Judgement.png
 
 #begin BossSprites/Lilith.png
 /importer:TextureImporter

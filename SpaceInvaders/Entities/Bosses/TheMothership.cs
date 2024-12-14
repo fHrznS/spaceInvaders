@@ -184,6 +184,11 @@ namespace SpaceInvaders.Entities.Bosses {
 
 
             attackTimer--;
+
+            if (attackTimer == 0) {
+                attackTimer = attackTimerReset;
+            }
+
             if (health < bossSummonHealthBar) {
                 Globals.summonSecondBoss = true;
                 bossSummonHealthBar -= maxHealth / 10;

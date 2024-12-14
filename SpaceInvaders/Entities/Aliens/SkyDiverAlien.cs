@@ -42,7 +42,7 @@ namespace SpaceInvaders.Entities.Aliens {
         }
 
         void offscreenBools() {
-            if (position.Y < 0) {
+            if (position.Y < -14) {
                 isImmune = true;
             } else {
                 isImmune = false;

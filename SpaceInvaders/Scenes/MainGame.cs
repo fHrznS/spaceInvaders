@@ -68,7 +68,14 @@ namespace SpaceInvaders.Scenes {
         private bool finishedLoading = false;
 
         private int worthyText = 0;
-        private string[] worthyMessages = { "Well done", "You're interesting", "It deems you worthy", "It wants to see you", "Edge of universes"};
+        private string[] worthyMessages = {
+            "Well done",
+            "You're interesting",
+            "It deems you worthy",
+            "It wants to see you",
+            "Edge of universes",
+            "No sounds",
+            "                       Hello" };
         private int worthyMessageNumber = 0;
 
         Random rng = new();
@@ -139,6 +146,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType7"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType8"));
                 Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType9"));
+                Sprites.bossBullets.Add(Content.Load<Texture2D>("BossBullets/BulletType10"));
 
                 // Load every boss sprite
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Zhyron"));
@@ -148,6 +156,7 @@ namespace SpaceInvaders.Scenes {
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/AdamAndEve"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/TheMothership"));
                 Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Saigai"));
+                Sprites.bosses.Add(Content.Load<Texture2D>("BossSprites/Judgement"));
                 // Load every enemy sprite
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type1"));
                 Sprites.enemies.Add(Content.Load<Texture2D>("AlienSprites/Type2"));
@@ -331,6 +340,16 @@ namespace SpaceInvaders.Scenes {
                     player.maxBullets = 5;
                     player.bulletArmour = 5;
                     worthyText = 150;
+                    worthyMessageNumber = 5;
+                }
+
+                if (wave == 449) {
+                    player.health = 3;
+                    player.sheild = 10;
+                    player.maxBullets = 8;
+                    player.bulletArmour = 5;
+                    worthyText = 60 * 5;
+                    worthyMessageNumber = 6;
                 }
                 player.updateSprite();
             }
@@ -406,7 +425,7 @@ namespace SpaceInvaders.Scenes {
                         currentBoss.Add(new Saigai(Sprites.bosses[6], wave, multiID));
                         if (!Globals.isMultiplayer) MediaPlayer.Play(Songs.bossSongs[6]);
                     } else if (wave == 449) {
-                        currentBoss.Add(new Zhyron(Sprites.bosses[0], wave + 1000, multiID));
+                        currentBoss.Add(new Judgement(Sprites.bosses[7], wave, multiID));
                     }
 
                     // Most difficult enemy to spawn?

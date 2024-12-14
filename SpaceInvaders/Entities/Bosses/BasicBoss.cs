@@ -38,7 +38,7 @@ namespace SpaceInvaders.Entities.Bosses {
  Lilith - Bullet Hell [DONE]
  Adam & Eve - 2 Bosses as 1 [DONE]
  The Mothership - Tons of HP, summons previous bosses. [DONE]
- Saigai - Just hard [WORKING]
+ Saigai - Just hard [DONE]
 
- Secret: Judgement - 1 shot bullet hell, tons of HP, summons old bosses.
+ Secret: Judgement - 1 shot bullet hell, tons of HP, summons old bosses. [WORKING]
 */

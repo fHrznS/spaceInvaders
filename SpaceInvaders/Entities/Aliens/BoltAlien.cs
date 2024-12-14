@@ -9,10 +9,11 @@ namespace SpaceInvaders.Entities.Aliens {
             this.id = id;
             type = alienType;
             position = startPosition;
-            hitboxOffset = hitbox.Location;
             this.multID = multID;
 
+            hitboxOffset = hitbox.Location;
             this.hitbox = new Rectangle(position.ToPoint() + hitboxOffset, hitbox.Size);
+            
             direction = new(0, 1);
 
             timerReset = 30;
@@ -33,7 +34,7 @@ namespace SpaceInvaders.Entities.Aliens {
         }
 
         void offscreenBools() {
-            if (position.Y < 0) {
+            if (position.Y < -14) {
                 isImmune = true;
             } else {
                 isImmune = false;
