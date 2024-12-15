@@ -1,22 +1,23 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using SpaceInvaders.Entities.Bullets;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
-using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SpaceInvaders.Entities {
     internal class Player : BasicObject {
         internal int health = 3;
         internal int maxBullets = 1;
         internal int bulletArmour = 0;
-        internal bool splitBullet = true;
+        internal bool splitBullet = false;
         internal int bulletSpeed = -5;
         internal int sheild = 0;
         internal int invincibility = 0;
 
+        List<SoundEffectInstance> shootSounds = new();
 
         public Rectangle sourceRect = new(0, 0, 16, 16);
 
@@ -26,6 +27,9 @@ namespace SpaceInvaders.Entities {
                 maxBullets = Globals.dbBCount;
                 bulletArmour = Globals.dbDamage;
             }
+
+            position = new Vector2(72, 160);
+            hitbox = new(1, 4, 14, 6);
         }
 
         internal void Update() {
@@ -75,6 +79,10 @@ namespace SpaceInvaders.Entities {
         }
 
         void canShoot() {
+            if (shootSounds.Count > 5) {
+                shootSounds.RemoveAt(0);
+            }
+
             if (MainGame.input == MainGame.previousInput && multID == 0) { return; }
             if (MainGame.input == MainGame.P2previousInput && multID == 1) { return; }
 
@@ -85,10 +93,16 @@ namespace SpaceInvaders.Entities {
                     if (maxBullets - MainGame.P1bullets.Count >= 2 && splitBullet) {
                         MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 0);
                         MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 0);
-                        SFX.shootSounds[0].Play();
+
+                        shootSounds.Add(SFX.shootSounds[0].CreateInstance());
+                        shootSounds.Last().Volume = Globals.sfxVolume;
+                        shootSounds.Last().Play();
                     } else {
                         MainGame.newPlayerBullet((int)position.X, new Vector2(0, bulletSpeed), 1 + bulletArmour, 0);
-                        SFX.shootSounds[0].Play();
+
+                        shootSounds.Add(SFX.shootSounds[0].CreateInstance());
+                        shootSounds.Last().Volume = Globals.sfxVolume;
+                        shootSounds.Last().Play();
                     }
                 }
             }
@@ -98,10 +112,16 @@ namespace SpaceInvaders.Entities {
                     if (maxBullets - MainGame.P2bullets.Count >= 2 && splitBullet) {
                         MainGame.newPlayerBullet((int)position.X, new Vector2(0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 1);
                         MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 1);
-                        SFX.shootSounds[0].Play();
+
+                        shootSounds.Add(SFX.shootSounds[0].CreateInstance());
+                        shootSounds.Last().Volume = Globals.sfxVolume;
+                        shootSounds.Last().Play();
                     } else {
                         MainGame.newPlayerBullet((int)position.X, new Vector2(0, bulletSpeed), 1 + bulletArmour, 1);
-                        SFX.shootSounds[0].Play();
+
+                        shootSounds.Add(SFX.shootSounds[0].CreateInstance());
+                        shootSounds.Last().Volume = Globals.sfxVolume;
+                        shootSounds.Last().Play();
                     }
                 }
             }

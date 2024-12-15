@@ -25,5 +25,8 @@ namespace SpaceInvaders.Utils {
         internal static bool easyDifficulty = false;
         internal static bool isWorthy = true;
         internal static Dictionary<string, int> SaveData = new Dictionary<string, int>();
+
+        internal static float sfxVolume = 1;
+        internal static float musicVolume = 1;
     }
 }

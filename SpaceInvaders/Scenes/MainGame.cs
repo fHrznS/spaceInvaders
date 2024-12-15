@@ -32,7 +32,7 @@ namespace SpaceInvaders.Scenes {
         Background background;
         public static SpriteFont text;
 
-        Player player = new();
+        Player player;
         List<Alien> aliens = new();
         List<Alien> aliens2 = new();
         private List<ParticleObject> particleObjects = new();
@@ -80,6 +80,8 @@ namespace SpaceInvaders.Scenes {
 
         int multiplayerControlsTimer = Time.ToFrames(5);
 
+        SoundEffectInstance hitSound, deathSound;
+
         Random rng = new();
 
         public MainGame(ContentManager contentManager, int multiID) {
@@ -92,11 +94,6 @@ namespace SpaceInvaders.Scenes {
         void IScene.LoadContent() {
             text = Content.Load<SpriteFont>("FontBig");
             
-            // Set all variables to default
-            player.sprite = Content.Load<Texture2D>("ShipSprites/normal");
-            player.position = new Vector2(72, 160);
-            player.hitbox = new(1, 4, 14, 6);
-            player.multID = multiID;
 
             P1bullets.Clear(); P2bullets.Clear(); enemyBullets.Clear();
             playerBulletDeleted = false; enemyBulletDeleted = false;
@@ -220,6 +217,19 @@ namespace SpaceInvaders.Scenes {
                 player.splitBullet = Globals.SaveData["SplitBullet"] == 1 ? true : false;
                 player.sheild = Globals.SaveData["Armour"];
             }
+
+            hitSound = SFX.hitSounds[0].CreateInstance();
+            hitSound.Volume = Globals.sfxVolume;
+
+            deathSound = SFX.deathSounds[0].CreateInstance();
+            deathSound.Volume = Globals.sfxVolume;
+
+            MediaPlayer.Volume = Globals.musicVolume;
+
+            // Set all variables to default
+            player = new();
+            player.sprite = Content.Load<Texture2D>("ShipSprites/normal");
+            player.multID = multiID;
 
             finishedLoading = true;
             Globals.isLoading = false;
