@@ -40,7 +40,7 @@ namespace SpaceInvaders {
         }
 
         protected override void Initialize() {
-            Window.Title = "Space Invaders   |  V0.7.0 Skull of Saigai";
+            Window.Title = "Space Invaders   |  V1.0.0 Aliens taking over";
 
             // Initialize renderTarget to allow for the pixel style.
             renderTarget = new(GraphicsDevice, Globals.screenWidth, Globals.screenHeight);
