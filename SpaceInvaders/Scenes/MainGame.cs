@@ -78,6 +78,8 @@ namespace SpaceInvaders.Scenes {
             "                       Hello" };
         private int worthyMessageNumber = 0;
 
+        int multiplayerControlsTimer = Time.ToFrames(5);
+
         Random rng = new();
 
         public MainGame(ContentManager contentManager, int multiID) {
@@ -291,6 +293,8 @@ namespace SpaceInvaders.Scenes {
             if (Globals.highscore < wave && !Globals.isMultiplayer) {
                 Globals.highscore = wave;
             }
+
+            multiplayerControlsTimer--;
         }
 
         void CheckGameCondition() {
@@ -1019,6 +1023,15 @@ namespace SpaceInvaders.Scenes {
                     ),
                     Color.White * 0.6f);
                 spriteBatch.Draw(Sprites.bossbar[1], new Vector2(0, 192 - 18), Color.White * 0.6f);
+            }
+
+            if (Globals.isMultiplayer) {
+                if (multiID == 0) {
+                    spriteBatch.DrawString(text, "ASD", new(50,192/2-24), Color.White * (multiplayerControlsTimer % 60 <= 30 ? 0 : 0.8f));
+                }
+                if (multiID == 1) {
+                    spriteBatch.DrawString(text, "JKL", new(50, 192 / 2 - 24), Color.White * (multiplayerControlsTimer % 60 <= 30 ? 0 : 0.8f));
+                }
             }
         }
         void IScene.HighResDraw(SpriteBatch spriteBatch) {

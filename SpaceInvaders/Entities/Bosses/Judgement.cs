@@ -176,6 +176,8 @@ namespace SpaceInvaders.Entities.Bosses {
 
             if (attackTimer == 0) {
                 attackTimer = attackTimerReset;
+                variant = 0;
+                bulletOffset = 0;
             }
 
             // Check if we should summon another boss.
