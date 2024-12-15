@@ -4,6 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SpaceInvaders.Utils {
     internal interface IScene {
+        /// <summary>
+        /// Skeleton for a scene
+        /// </summary>
+
         public void LoadContent();
         
         public void Update(GameTime gameTime);

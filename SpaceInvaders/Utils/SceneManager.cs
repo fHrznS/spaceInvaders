@@ -3,6 +3,10 @@ using System.Linq;
 
 namespace SpaceInvaders.Utils {
     internal class SceneManager {
+        /// <summary>
+        /// Scene manager to handle what scene(s) to load.
+        /// </summary>
+
         Stack<IScene> scenes = new();
 
         public void AddScene(IScene scene) {

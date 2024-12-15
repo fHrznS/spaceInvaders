@@ -9,6 +9,10 @@ using System.Linq;
 
 namespace SpaceInvaders.Entities {
     internal class Player : BasicObject {
+        /// <summary>
+        /// The player class. Has all player controls.
+        /// </summary>
+
         internal int health = 3;
         internal int maxBullets = 1;
         internal int bulletArmour = 0;

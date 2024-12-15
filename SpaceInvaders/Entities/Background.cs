@@ -4,6 +4,10 @@ using SpaceInvaders.Utils;
 
 namespace SpaceInvaders.Entities {
     internal class Background : BasicObject {
+        /// <summary>
+        /// Both the background class and background manager.
+        /// </summary>
+
         int subPixel;
         int bgNum,
             currentBG;

@@ -6,6 +6,11 @@ using System.Collections.Generic;
 
 namespace SpaceInvaders.Utils {
     public class ParticleObject {
+        /// <summary>
+        /// Particle system.
+        /// There's both the class for an individual particle and one for a collection of particles.
+        /// </summary>
+
         int particleId = 0;
         List<Particle> particles = new();
         List<int> particlesToDelete = new();

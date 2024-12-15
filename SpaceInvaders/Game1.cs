@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework.Input;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Utils;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
@@ -64,7 +63,7 @@ namespace SpaceInvaders {
         protected override void LoadContent() {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // Load every Powerbox sprite
+            // Load every Powerbox sprite (For How To menu game)
             Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Heal"));
             Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Bullet"));
             Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/BulletSpeed"));
@@ -72,6 +71,7 @@ namespace SpaceInvaders {
             Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/Resistance"));
             Sprites.powerboxes.Add(Content.Load<Texture2D>("Powerbox/SheildBreaker"));
 
+            // If in multiplayer load 2 games, elsewise only load 1.
             sceneManager.currentScene().LoadContent();
             if (Globals.isMultiplayer) {
                 sceneManager.peekDownTo(2).LoadContent();
@@ -80,6 +80,8 @@ namespace SpaceInvaders {
             if (hasLoaded) {
                 return;
             }
+
+            // Try and load save file, elsewise set to default and make a save file.
             try {
                 Globals.highscore = int.Parse(File.ReadAllText(filePath));
             } catch (DirectoryNotFoundException) {
@@ -91,6 +93,7 @@ namespace SpaceInvaders {
 
         }
         void saveData() {
+            // Create the directory and file and write player's highscore at AppData/Local/fHrznSpaceInvaders/save.txt
             Directory.CreateDirectory(Path.Combine(appData, "fHrznSpaceInvaders"));
             using (FileStream fs = File.Create(filePath)) {
                 byte[] buf = Encoding.ASCII.GetBytes(Globals.highscore.ToString());
@@ -212,6 +215,7 @@ namespace SpaceInvaders {
 
         }
 
+        // How To / Settings menu controls
         void SettingsAndHowToMenu() {
             if (input == previousInput) { return; }
 
@@ -294,7 +298,3 @@ namespace SpaceInvaders {
     }
 }
 
-
-// TODO:
-// 1. More bosses [On Hold]
-// 2. Music and sounds [@ Home]
