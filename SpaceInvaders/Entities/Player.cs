@@ -95,13 +95,13 @@ namespace SpaceInvaders.Entities {
                         MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 0);
 
                         shootSounds.Add(SFX.shootSounds[0].CreateInstance());
-                        shootSounds.Last().Volume = Globals.sfxVolume;
+                        shootSounds.Last().Volume = (float)Globals.sfxVolume;
                         shootSounds.Last().Play();
                     } else {
                         MainGame.newPlayerBullet((int)position.X, new Vector2(0, bulletSpeed), 1 + bulletArmour, 0);
 
                         shootSounds.Add(SFX.shootSounds[0].CreateInstance());
-                        shootSounds.Last().Volume = Globals.sfxVolume;
+                        shootSounds.Last().Volume = (float)Globals.sfxVolume;
                         shootSounds.Last().Play();
                     }
                 }
@@ -114,13 +114,13 @@ namespace SpaceInvaders.Entities {
                         MainGame.newPlayerBullet((int)position.X, new Vector2(-0.5f * bulletSpeed / -5, bulletSpeed), 1 + bulletArmour, 1);
 
                         shootSounds.Add(SFX.shootSounds[0].CreateInstance());
-                        shootSounds.Last().Volume = Globals.sfxVolume;
+                        shootSounds.Last().Volume = (float)Globals.sfxVolume;
                         shootSounds.Last().Play();
                     } else {
                         MainGame.newPlayerBullet((int)position.X, new Vector2(0, bulletSpeed), 1 + bulletArmour, 1);
 
                         shootSounds.Add(SFX.shootSounds[0].CreateInstance());
-                        shootSounds.Last().Volume = Globals.sfxVolume;
+                        shootSounds.Last().Volume = (float)Globals.sfxVolume;
                         shootSounds.Last().Play();
                     }
                 }

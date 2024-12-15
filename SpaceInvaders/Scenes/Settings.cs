@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SpaceInvaders.Utils;
+using System;
 
 namespace SpaceInvaders.Scenes {
     internal class Settings : IScene {
@@ -21,9 +22,16 @@ namespace SpaceInvaders.Scenes {
             pause
         }
 
+        private enum AudioSetting {
+            music,
+            sfx
+        }
+
         Setting settingChosen = Setting.None;
         Setting settingHovered = Setting.Controls;
         ControlSetting controlSetting = ControlSetting.shoot;
+        AudioSetting audioSetting = AudioSetting.sfx;
+
         KeyboardState input = Keyboard.GetState();
         KeyboardState previousInput;
         bool changeControl = false;
@@ -71,6 +79,8 @@ namespace SpaceInvaders.Scenes {
                 Main();
             } else if (settingChosen == Setting.Controls) {
                 Controls();
+            } else if (settingChosen == Setting.Audio) {
+                Audio();
             }
 
             previousInput = input;
@@ -110,6 +120,33 @@ namespace SpaceInvaders.Scenes {
             }
         }
 
+        void Audio() {
+            if (input == previousInput) { return; }
+
+            if (input.IsKeyDown(Keys.Down) && audioSetting == AudioSetting.sfx) {
+                audioSetting = AudioSetting.music;
+            }
+
+            if (input.IsKeyDown(Keys.Up) && audioSetting == AudioSetting.music) {
+                audioSetting = AudioSetting.sfx;
+            }
+
+            if (input.IsKeyDown(Keys.Left)) {
+                if (audioSetting == AudioSetting.sfx && Globals.sfxVolume != 0) {
+                    Globals.sfxVolume = Math.Round(Globals.sfxVolume - 0.1, 1);
+                } else if (audioSetting == AudioSetting.music && Globals.musicVolume != 0) {
+                    Globals.musicVolume = Math.Round(Globals.musicVolume - 0.1, 1);
+                }
+            }
+            if (input.IsKeyDown(Keys.Right)) {
+                if (audioSetting == AudioSetting.sfx && Globals.sfxVolume != 1) {
+                    Globals.sfxVolume = Math.Round(Globals.sfxVolume + 0.1, 1);
+                } else if (audioSetting == AudioSetting.music && Globals.musicVolume != 1) {
+                    Globals.musicVolume = Math.Round(Globals.musicVolume + 0.1, 1);
+                }
+            }
+        }
+
         public void Draw(SpriteBatch spriteBatch) {
             if (settingChosen == Setting.None) {
                 spriteBatch.DrawString(text, settingHovered == Setting.Controls ? "* Controls" : "Controls", new(5,0), Color.White);
@@ -130,6 +167,14 @@ namespace SpaceInvaders.Scenes {
                 spriteBatch.DrawString(text,
                     controlSetting == ControlSetting.right ? "* Right: " + Utils.Controls.P1moveRight.ToString() : "Right: " + Utils.Controls.P1moveRight.ToString(),
                     new(5, 26 * 3), Color.White);
+            } else if (settingChosen == Setting.Audio) {
+                spriteBatch.DrawString(text,
+                    audioSetting == AudioSetting.sfx ? "* Sound: " + Globals.sfxVolume * 10 : "Sound: " + Globals.sfxVolume * 10,
+                    new(5,0), Color.White);
+
+                spriteBatch.DrawString(text,
+                    audioSetting == AudioSetting.music ? "* Music: " + Globals.musicVolume * 10 : "Music: " + Globals.musicVolume * 10,
+                    new(5, 26), Color.White);
             }
         }
 

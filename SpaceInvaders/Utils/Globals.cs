@@ -26,7 +26,7 @@ namespace SpaceInvaders.Utils {
         internal static bool isWorthy = true;
         internal static Dictionary<string, int> SaveData = new Dictionary<string, int>();
 
-        internal static float sfxVolume = 1;
-        internal static float musicVolume = 1;
+        internal static double sfxVolume = 1;
+        internal static double musicVolume = 1;
     }
 }

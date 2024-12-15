@@ -219,12 +219,12 @@ namespace SpaceInvaders.Scenes {
             }
 
             hitSound = SFX.hitSounds[0].CreateInstance();
-            hitSound.Volume = Globals.sfxVolume;
+            hitSound.Volume = (float)Globals.sfxVolume;
 
             deathSound = SFX.deathSounds[0].CreateInstance();
-            deathSound.Volume = Globals.sfxVolume;
+            deathSound.Volume = (float)Globals.sfxVolume;
 
-            MediaPlayer.Volume = Globals.musicVolume;
+            MediaPlayer.Volume = (float)Globals.musicVolume;
 
             // Set all variables to default
             player = new();
